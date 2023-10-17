@@ -1,0 +1,65 @@
+[
+  {
+    "name": "PMUSER_FPJS_STATUS_STYLE_NONCE",
+    "value": "",
+    "description": "Used for security of the status page",
+    "hidden": false,
+    "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_INTEGRATION_VERSION",
+    "value": "",
+    "description": "Indicates the Fingerprint Akamai Integration's version",
+    "hidden": false,
+    "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_REQUEST_COOKIE",
+    "value": "",
+    "description": "Used to filter out cookies except _iidt",
+    "hidden": false,
+    "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_AGENT_LOADER_VERSION",
+    "value": "",
+    "description": "Corresponds to Pro Agent loader version, parsed from the query string",
+    "hidden": false,
+    "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_AGENT_REQ_PATH",
+    "value": "",
+    "description": "Points to Pro CDN servers",
+    "hidden": false,
+    "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_AGENT_VERSION",
+    "value": "3",
+    "description": "Corresponds to Pro Agent version, parsed from the query string",
+    "hidden": false,
+    "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_PUBLIC_API_KEY",
+    "value": "",
+    "description": "Generated via Fingerprint Dashboard",
+    "hidden": false,
+    "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_INGRESS_ENDPOINT",
+    "value": "api.fpjs.io",
+    "description": "Points to Fingerprint servers",
+    "hidden": false,
+    "sensitive": false
+  },
+  {
+    "name": "PMUSER_FPJS_PROXY_SECRET",
+    "value": "",
+    "description": "Generated via Fingerprint Dashboard",
+    "hidden": true,
+    "sensitive": false
+  }
+]
