@@ -1,1 +1,15 @@
+# Project artifacts
+/node_modules/
+
+# code coverage
+/coverage
+
+# Random excess stuff
+.DS_Store
 .idea/
+.vscode/
+yarn-error.log
+dist/
+
+# Environment
+.env

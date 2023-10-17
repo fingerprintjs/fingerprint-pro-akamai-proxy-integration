@@ -1,0 +1,25 @@
+{
+  "name": "fingerprint-pro-akamai-property-rules",
+  "version": "0.0.1",
+  "description": "Fingerprint Pro Akamai Integration Property Rules",
+  "author": "FingerprintJS, Inc (https://fingerprint.com)",
+  "license": "MIT",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.5",
+    "@commitlint/config-conventional": "^17.4.4",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^8.0.0",
+    "eslint": "^8.9.0",
+    "eslint-config-prettier": "^8.0.0",
+    "eslint-plugin-prettier": "^4.2.1"
+  }
+}
