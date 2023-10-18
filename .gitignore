@@ -13,3 +13,4 @@ dist/
 
 # Environment
 .env
+test-results
