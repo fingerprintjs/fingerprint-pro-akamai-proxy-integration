@@ -18,7 +18,7 @@ test.describe('Cookie filtering for ingress', () => {
     const result = await getTestResult(
       {
         testId,
-        endpoint: `/${env.workerPath}/${env.resultPath}`,
+        endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'POST',
       },
       request,
@@ -46,7 +46,7 @@ test.describe('Cookie filtering for ingress', () => {
     const result = await getTestResult(
       {
         testId,
-        endpoint: `/${env.workerPath}/${env.resultPath}`,
+        endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'POST',
       },
       request,

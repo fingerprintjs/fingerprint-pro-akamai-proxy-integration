@@ -1,7 +1,7 @@
 import { test } from 'playwright/test'
 import { env } from './utils/env'
 
-const statusEndpoint = `${env.testDomain}/${env.workerPath}/status`
+const statusEndpoint = `${env.testDomain}/${env.integrationPath}/status`
 
 test.use({
   ignoreHTTPSErrors: env.ignoreHTTPSErrors,

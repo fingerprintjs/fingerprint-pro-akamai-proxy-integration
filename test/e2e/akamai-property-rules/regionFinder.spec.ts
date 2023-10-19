@@ -16,7 +16,7 @@ test.describe('Region finder', () => {
     const result = await getTestResult(
       {
         testId,
-        endpoint: `/${env.workerPath}/${env.resultPath}`,
+        endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'GET',
       },
       request,
@@ -31,7 +31,7 @@ test.describe('Region finder', () => {
     const result = await getTestResult(
       {
         testId,
-        endpoint: `/${env.workerPath}/${env.resultPath}`,
+        endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'GET',
       },
       request,
@@ -46,7 +46,7 @@ test.describe('Region finder', () => {
     const result = await getTestResult(
       {
         testId,
-        endpoint: `/${env.workerPath}/${env.resultPath}`,
+        endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'GET',
       },
       request,
@@ -61,7 +61,7 @@ test.describe('Region finder', () => {
     const result = await getTestResult(
       {
         testId,
-        endpoint: `/${env.workerPath}/${env.resultPath}`,
+        endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'GET',
       },
       request,
