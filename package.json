@@ -4,7 +4,6 @@
   "description": "Fingerprint Pro Akamai Integration Property Rules",
   "author": "FingerprintJS, Inc (https://fingerprint.com)",
   "license": "MIT",
-  "type": "module",
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

@@ -38,7 +38,7 @@ const terraform = () => {
 
     fs.mkdirSync(path.relative(process.cwd(), 'dist/terraform/json'), {recursive: true})
 
-    import('./assets/variables.json', {assert: {type: 'json'}}).then(res => {
+    import('./assets/variables.json').then(res => {
         const variablesContent = JSON.stringify(res.default, null, 2)
         fs.writeFile(variablesPath, variablesContent, err => {
             if (err) {

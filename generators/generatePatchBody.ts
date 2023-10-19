@@ -1,7 +1,7 @@
-import rulesTemplate from '../assets/rulesTemplate.json' assert {type: 'json'}
-import rulePatch from '../assets/patch-body/patchBodyAddRule.json' assert {type: 'json'}
-import variablePatch from '../assets/patch-body/patchBodyAddVariable.json' assert {type: 'json'}
-import variables from '../assets/variables.json' assert {type: 'json'}
+import rulesTemplate from '../assets/rulesTemplate.json'
+import rulePatch from '../assets/patch-body/patchBodyAddRule.json'
+import variablePatch from '../assets/patch-body/patchBodyAddVariable.json'
+import variables from '../assets/variables.json'
 
 interface PatchBodyOptions {
     integrationPath?: string

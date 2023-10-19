@@ -1,4 +1,4 @@
-import rulesTemplate from '../assets/rulesTemplate.json' assert {type: 'json'}
+import rulesTemplate from '../assets/rulesTemplate.json'
 
 export default function generateTerraformPropertyRules() {
     let bodyString = JSON.stringify(rulesTemplate, null, 2)
