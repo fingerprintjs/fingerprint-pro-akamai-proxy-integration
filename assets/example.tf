@@ -3,6 +3,7 @@ resource "random_string" "fpjs_integration_path" {
   special = false
   lower = true
   upper = false
+  numeric = true
 }
 
 resource "random_string" "fpjs_agent_path" {
@@ -10,6 +11,7 @@ resource "random_string" "fpjs_agent_path" {
   special = false
   lower = true
   upper = false
+  numeric = true
 }
 
 resource "random_string" "fpjs_result_path" {
@@ -17,6 +19,7 @@ resource "random_string" "fpjs_result_path" {
   special = false
   lower = true
   upper = false
+  numeric = true
 }
 
 variable "fpjs_integration_path" {
@@ -52,9 +55,9 @@ variable "fpjs_proxy_secret" {
 }
 
 locals {
-  fpjs_integration_path = "${var.fpjs_integration_path != "" ? var.fpjs_integration_path : random_string.fpjs_integration_path.result}"
-  fpjs_agent_path = "${var.fpjs_agent_path != "" ? var.fpjs_agent_path : random_string.fpjs_agent_path.result}"
-  fpjs_result_path = "${var.fpjs_result_path != "" ? var.fpjs_result_path : random_string.fpjs_result_path.result}"
+  fpjs_integration_path = var.fpjs_integration_path != "" ? var.fpjs_integration_path : random_string.fpjs_integration_path.result
+  fpjs_agent_path = var.fpjs_agent_path != "" ? var.fpjs_agent_path : random_string.fpjs_agent_path.result
+  fpjs_result_path = var.fpjs_result_path != "" ? var.fpjs_result_path : random_string.fpjs_result_path.result
 }
 
 data "akamai_property_rules_template" "rules" {
