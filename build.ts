@@ -12,6 +12,8 @@ const args = arg({
     '--proxy-secret': String,
 })
 
+args['--type'] = args['--type'] ? args['--type'] : 'all'
+
 const patchBody = () => {
     const bodyContent = generatePatchBody({
         integrationPath: args["--integration-path"],
