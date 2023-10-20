@@ -1,4 +1,4 @@
-resource "random_string" "worker_path" {
+resource "random_string" "integration_path" {
   length = 8
   special = false
   lower = true
@@ -19,16 +19,11 @@ resource "random_string" "result_path" {
   upper = false
 }
 
-variable "proxy_secret" {
-  type = string
-  default = "abcd12345"
-}
-
 data "akamai_property_rules_template" "rules" {
-  template_file = abspath("${path.root}/rules/main.json")
+  template_file = abspath("${path.root}/rules/main.json") # Add fingerprint.json file to your rules children
   variables {
-    name  = "fpjs_worker_path"
-    value = random_string.worker_path.result
+    name  = "fpjs_integration_path"
+    value = random_string.integration_path.result
     type = "string"
   }
   variables {
@@ -43,7 +38,7 @@ data "akamai_property_rules_template" "rules" {
   }
   variables {
     name  = "fpjs_proxy_secret"
-    value = var.proxy_secret
+    value = "" # Replace value with your own Fingerprint Proxy Secret
     type = "string"
   }
 }

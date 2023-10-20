@@ -30,7 +30,7 @@ jobs:
           TEST_DOMAIN: ${{secrets.TEST_DOMAIN}}
           TEST_RESULT_DOMAIN: ${{secrets.TEST_RESULT_DOMAIN}}
           TEST_RESULT_PATH: ${{secrets.TEST_RESULT_PATH}}
-          WORKER_PATH: ${{secrets.WORKER_PATH}}
+          INTEGRATION_PATH: ${{secrets.INTEGRATION_PATH}}
           RESULT_PATH: ${{secrets.RESULT_PATH}}
           AGENT_PATH: ${{secrets.AGENT_PATH}}
           FPJS_API_KEY: ${{secrets.FPJS_API_KEY}}

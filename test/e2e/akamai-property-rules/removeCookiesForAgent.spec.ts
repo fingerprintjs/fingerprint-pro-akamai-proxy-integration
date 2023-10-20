@@ -18,7 +18,7 @@ test.describe('Remove cookies for agent', () => {
     const result = await getTestResult(
       {
         testId,
-        endpoint: `/${env.workerPath}/${env.agentPath}`,
+        endpoint: `/${env.integrationPath}/${env.agentPath}`,
         method: 'GET',
       },
       request,

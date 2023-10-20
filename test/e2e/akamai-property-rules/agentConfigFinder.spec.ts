@@ -16,7 +16,7 @@ test.describe('Agent Config Finder', () => {
     const result = await getTestResult(
       {
         testId,
-        endpoint: `/${env.workerPath}/${env.agentPath}`,
+        endpoint: `/${env.integrationPath}/${env.agentPath}`,
         method: 'GET',
       },
       request,

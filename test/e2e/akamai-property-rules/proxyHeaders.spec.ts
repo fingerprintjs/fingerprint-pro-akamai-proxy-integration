@@ -17,7 +17,7 @@ test.describe('Proxy headers', () => {
     const result = await getTestResult(
       {
         testId,
-        endpoint: `/${env.workerPath}/${env.resultPath}`,
+        endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'POST',
       },
       request,

@@ -204,7 +204,7 @@
             "matchCaseSensitive": false,
             "normalize": false,
             "values": [
-              "/${env.fpjs_worker_path}/${env.fpjs_agent_path}"
+              "/__integration_path__/__agent_path__"
             ]
           }
         }
@@ -337,7 +337,7 @@
             "behavior": "REGEX_REPLACE",
             "matchMultiple": false,
             "keepQueryString": true,
-            "matchRegex": "\\/${env.fpjs_worker_path}\\/${env.fpjs_result_path}",
+            "matchRegex": "\\/__integration_path__\\/__result_path__",
             "targetRegex": "/?ii=fingerprint-pro-akamai/{{user.PMUSER_FPJS_INTEGRATION_VERSION}}/ingress&{{builtin.AK_QUERY}}"
           }
         },
@@ -359,7 +359,7 @@
             "matchCaseSensitive": false,
             "normalize": false,
             "values": [
-              "/${env.fpjs_worker_path}/${env.fpjs_result_path}"
+              "/__integration_path__/__result_path__"
             ]
           }
         }
@@ -412,7 +412,7 @@
             "behavior": "REGEX_REPLACE",
             "matchMultiple": false,
             "keepQueryString": true,
-            "matchRegex": "\\/${env.fpjs_worker_path}\\/${env.fpjs_result_path}(.*)",
+            "matchRegex": "\\/__integration_path__\\/__result_path__(.*)",
             "targetRegex": "$1"
           }
         }
@@ -425,7 +425,7 @@
             "matchCaseSensitive": false,
             "normalize": false,
             "values": [
-              "/${env.fpjs_worker_path}/${env.fpjs_result_path}/*"
+              "/__integration_path__/__result_path__/*"
             ]
           }
         }
@@ -483,7 +483,7 @@
             "matchCaseSensitive": false,
             "normalize": false,
             "values": [
-              "/${env.fpjs_worker_path}/status"
+              "/__integration_path__/status"
             ]
           }
         }
@@ -525,7 +525,7 @@
         "valueSource": "EXPRESSION",
         "transform": "NONE",
         "variableName": "PMUSER_FPJS_PROXY_SECRET",
-        "variableValue": "${env.fpjs_proxy_secret}"
+        "variableValue": "__proxy_secret__"
       }
     },
     {
@@ -549,8 +549,8 @@
         "matchCaseSensitive": false,
         "normalize": false,
         "values": [
-          "/${env.fpjs_worker_path}",
-          "/${env.fpjs_worker_path}/*"
+          "/__integration_path__",
+          "/__integration_path__/*"
         ]
       }
     }
