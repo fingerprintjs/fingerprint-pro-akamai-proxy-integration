@@ -1,44 +1,82 @@
-resource "random_string" "integration_path" {
+resource "random_string" "fpjs_integration_path" {
   length = 8
   special = false
   lower = true
   upper = false
 }
 
-resource "random_string" "agent_path" {
+resource "random_string" "fpjs_agent_path" {
   length = 8
   special = false
   lower = true
   upper = false
 }
 
-resource "random_string" "result_path" {
+resource "random_string" "fpjs_result_path" {
   length = 8
   special = false
   lower = true
   upper = false
+}
+
+variable "fpjs_integration_path" {
+  type = string
+  validation {
+    condition = can(regex("(^$|^[a-zA-Z0-9-]+$)", var.fpjs_integration_path))
+    error_message = "Variable value must be a valid URL path"
+  }
+}
+
+variable "fpjs_agent_path" {
+  type = string
+  validation {
+    condition = can(regex("(^$|^[a-zA-Z0-9-]+$)", var.fpjs_agent_path))
+    error_message = "Variable value must be a valid URL path"
+  }
+}
+
+variable "fpjs_result_path" {
+  type = string
+  validation {
+    condition = can(regex("(^$|^[a-zA-Z0-9-]+$)", var.fpjs_result_path))
+    error_message = "Variable value must be a valid URL path"
+  }
+}
+
+variable "fpjs_proxy_secret" {
+  type = string
+  validation {
+    condition = can(regex("^([a-zA-Z0-9-])+$", var.fpjs_proxy_secret))
+    error_message = "Variable value must follow Fingerprint Proxy Secret pattern"
+  }
+}
+
+locals {
+  fpjs_integration_path = "${var.fpjs_integration_path != "" ? var.fpjs_integration_path : random_string.fpjs_integration_path.result}"
+  fpjs_agent_path = "${var.fpjs_agent_path != "" ? var.fpjs_agent_path : random_string.fpjs_agent_path.result}"
+  fpjs_result_path = "${var.fpjs_result_path != "" ? var.fpjs_result_path : random_string.fpjs_result_path.result}"
 }
 
 data "akamai_property_rules_template" "rules" {
   template_file = abspath("${path.root}/rules/main.json") # Add fingerprint.json file to your rules children
   variables {
     name  = "fpjs_integration_path"
-    value = random_string.integration_path.result
+    value = local.fpjs_integration_path
     type = "string"
   }
   variables {
     name  = "fpjs_agent_path"
-    value = random_string.agent_path.result
+    value = local.fpjs_agent_path
     type = "string"
   }
   variables {
     name  = "fpjs_result_path"
-    value = random_string.result_path.result
+    value = local.fpjs_result_path
     type = "string"
   }
   variables {
     name  = "fpjs_proxy_secret"
-    value = "" # Replace value with your own Fingerprint Proxy Secret
+    value = var.fpjs_proxy_secret
     type = "string"
   }
 }
