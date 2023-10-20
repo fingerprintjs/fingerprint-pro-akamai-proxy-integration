@@ -516,7 +516,7 @@
         "valueSource": "EXPRESSION",
         "transform": "NONE",
         "variableName": "PMUSER_FPJS_INTEGRATION_VERSION",
-        "variableValue": "0.0.1"
+        "variableValue": "__integration_version__"
       }
     },
     {
