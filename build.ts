@@ -53,7 +53,7 @@ const terraform = () => {
         }
     })
 
-    const terraformFilePath = path.relative(process.cwd(), 'assets/fingerprint.tf')
+    const terraformFilePath = path.relative(process.cwd(), 'assets/example.tf')
     const targetPath = path.relative(process.cwd(), 'dist/terraform/example.tf')
     fs.copyFile(terraformFilePath, targetPath, err => {
         if (err) {
