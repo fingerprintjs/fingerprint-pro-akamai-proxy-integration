@@ -1,0 +1,12 @@
+name: release
+on:
+  push:
+    branches:
+      - main
+jobs:
+  release-workflow:
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/release-typescript-project.yml@v1
+    with:
+      distFolderNeedForRelease: true
+    secrets:
+      GH_RELEASE_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
