@@ -1,3 +1,5 @@
+> :warning: **Work in progress**: This is a beta version of the library
+
 # Fingerprint Pro Akamai Integration Property Rules
 
 ## How to build property rules
