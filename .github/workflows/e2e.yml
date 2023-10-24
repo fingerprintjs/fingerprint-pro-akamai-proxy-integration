@@ -7,7 +7,7 @@ on:
 
 
 jobs:
-  build-and-deploy-and-test-e2e:
+  build-and-test-e2e:
     runs-on: ubuntu-20.04
     name: Build & Deploy & Test e2e
     steps:
@@ -31,11 +31,12 @@ jobs:
           RESULT_PATH: ${{secrets.RESULT_PATH}}
           AGENT_PATH: ${{secrets.AGENT_PATH}}
           FPJS_API_KEY: ${{secrets.FPJS_API_KEY}}
-      - name: Report Status
-        if: always()
-        uses: ravsamhq/notify-slack-action@0d9c6ff1de9903da88d24c0564f6e83cb28faca9
-        with:
-          status: ${{ job.status }}
-          notification_title: "Akamai E2E Test has {status_message}"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  report-status:
+    needs: build-and-test-e2e
+    if: always()
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/report-workflow-status.yml@v1
+    with:
+      notification_title: 'Akamai E2E Test: {status_message}'
+      job_status: ${{ needs.test-job.result }}
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
