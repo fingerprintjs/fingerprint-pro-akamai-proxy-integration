@@ -50,7 +50,7 @@ variable "fpjs_proxy_secret" {
   type = string
   validation {
     condition = can(regex("^([a-zA-Z0-9-])+$", var.fpjs_proxy_secret))
-    error_message = "Variable value must follow Fingerprint Proxy Secret pattern"
+    error_message = "Variable value must be obtained from Fingerprint dashboard"
   }
 }
 
