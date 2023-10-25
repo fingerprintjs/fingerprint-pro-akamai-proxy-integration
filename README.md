@@ -25,9 +25,11 @@
 The Fingerprint Akamai Integration Property Rules is the repository that contains property rules and variables for the Fingerprint Akamai proxy integration.
 
 ## Requirements
-- An Akamai property
+- An Akamai property with latest rule format
 
 > :warning: The Akamai integration is only available to Fingerprint customers on the Enterprise plan. Talk to our sales teams for more information.
+
+> :warning: If you are not using the latest rule format, please contact our support.
 
 
 ## How to install
