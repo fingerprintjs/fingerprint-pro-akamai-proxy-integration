@@ -25,9 +25,11 @@
 The Fingerprint Akamai Integration Property Rules is the repository that contains property rules and variables for the Fingerprint Akamai proxy integration.
 
 ## Requirements
-- An Akamai property
+- An Akamai property with latest rule format
 
 > :warning: The Akamai integration is only available to Fingerprint customers on the Enterprise plan. Talk to our sales teams for more information.
+
+> :warning: If you are not using the latest rule format, please contact our support.
 
 
 ## How to install
@@ -36,8 +38,41 @@ The Fingerprint Akamai Integration Property Rules is the repository that contain
 
 If you are using Terraform to maintain your infrastructure, then go to [the latest release](https://github.com/fingerprintjs/fingerprint-pro-akamai-integration-property-rules/releases/latest),
 you will find two files:
-1. Add `fingerprint-property-rules-for-terraform.json` file to the property's rules. You can find more info on this [here](https://techdocs.akamai.com/terraform/docs/set-up-property-provisioning#update-rules).
-2. Merge `fingerprint-property-variables-for-terraform.json` file with your property's variables file. You do this by modifying `rules.variables` path of your rules JSON.
+1. Add `fingerprint-property-rules-for-terraform.json` file to the property's rules. You can find below an example for the rules template:
+   ```json
+       // main.json
+      {
+       "rules": {
+         "name": "default",
+         "behaviors": [
+          ...
+         ],
+         "children": [
+            ... more children
+           "#include:fingerprint-property-rules-for-terraform.json" // <- ADDED THIS 
+         ],
+          ...
+       }
+     }
+   ```
+2. Merge `fingerprint-property-variables-for-terraform.json` file with your property's variables file. If you don't have a `variables` before, you can just add fingerprint variables. If not, you merge fingerprint variables with your existing variables. You can find below an example for the rules template:
+   ```json
+       // main.json
+      {
+       "rules": {
+         "name": "default",
+         "behaviors": [
+          ...
+         ],
+         "children": [
+            ...
+         ],
+         "variables": "#include:fingerprint-property-variables-for-terraform.json" // <- ADDED THIS (if it didn't exist before)
+          ...
+       }
+     }
+   ```
+
 3. Make changes to your property's Terraform configuration. 
    1. If you are using plain JSON file for rules and not using rules template, _please reach our support_.
    2. If you are using rules template, you need to specify 3 randomized values and the Fingerprint proxy secret. The 3 randomized paths are `fpjs_integration_path`, `fpjs_agent_path` and `fpjs_result_path`. You can use any valid URL paths for the 3 randomized values.
