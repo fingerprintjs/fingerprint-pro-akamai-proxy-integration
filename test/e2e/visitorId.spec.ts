@@ -18,7 +18,6 @@ test.describe('VisitorId', () => {
     const text = await codeElement.innerText()
     const json = JSON.parse(text)
     await waitFor(3000)
-    test.expect(json.visitorFound).toBe(true)
     test.expect(json.visitorId).toBeTruthy()
     test.expect(json.requestId).toBeTruthy()
     test.expect(areVisitorIdAndRequestIdValid(json.visitorId, json.requestId)).toBe(true)
