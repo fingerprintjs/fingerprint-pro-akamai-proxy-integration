@@ -35,8 +35,8 @@ const patchBody = () => {
 
 const terraform = () => {
     const bodyContent = generateTerraformPropertyRules()
-    const bodyPath = path.relative(process.cwd(), 'dist/terraform/json/fingerprint.json')
-    const variablesPath = path.relative(process.cwd(), 'dist/terraform/json/variables.json')
+    const bodyPath = path.relative(process.cwd(), 'dist/terraform/json/fingerprint-property-rules.json')
+    const variablesPath = path.relative(process.cwd(), 'dist/terraform/json/fingerprint-property-variables.json')
 
     fs.mkdirSync(path.relative(process.cwd(), 'dist/terraform/json'), {recursive: true})
 

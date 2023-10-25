@@ -122,12 +122,12 @@
       {
         "assets":[
           {
-            "path":"dist/terraform/json/fingerprint.json",
-            "label":"fingerprint-property-rules-for-terraform.json"
+            "path":"dist/terraform/json/fingerprint-property-rules.json",
+            "label":"terraform/fingerprint-property-rules.json"
           },
           {
-            "path":"dist/terraform/json/variables.json",
-            "label":"fingerprint-property-variables-for-terraform.json"
+            "path":"dist/terraform/json/fingerprint-property-variables.json",
+            "label":"terraform/fingerprint-property-variables.json"
           }
         ]
       }
