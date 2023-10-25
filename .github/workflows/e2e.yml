@@ -37,6 +37,6 @@ jobs:
     uses: fingerprintjs/dx-team-toolkit/.github/workflows/report-workflow-status.yml@v1
     with:
       notification_title: 'Akamai E2E Test: {status_message}'
-      job_status: ${{ needs.test-job.result }}
+      job_status: ${{ needs.build-and-test-e2e.result }}
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
