@@ -1,8 +1,8 @@
-name: release
+name: Release
+
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+
 jobs:
   release-workflow:
     uses: fingerprintjs/dx-team-toolkit/.github/workflows/release-typescript-project.yml@v1
