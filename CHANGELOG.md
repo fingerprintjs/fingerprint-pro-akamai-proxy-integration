@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/fingerprintjs/fingerprint-pro-akamai-integration-property-rules/compare/v1.0.0...v1.0.1) (2023-10-26)
+
+
+### Bug Fixes
+
+* **release:** release workflow should be manually triggered ([1a4f427](https://github.com/fingerprintjs/fingerprint-pro-akamai-integration-property-rules/commit/1a4f427d2dc5a2bc09bc4cb55b05cae9616c1576))
+
 ## 1.0.0 (2023-10-20)
 
 
