@@ -38,7 +38,7 @@ The Fingerprint Akamai Integration Property Rules is the repository that contain
 
 If you are using Terraform to maintain your infrastructure, then go to [the latest release](https://github.com/fingerprintjs/fingerprint-pro-akamai-integration-property-rules/releases/latest),
 you will find two files:
-1. Add `fingerprint-property-rules-for-terraform.json` file to the property's rules. You can find below an example for the rules template:
+1. Add `fingerprint-property-rules.json` file to the property's rules. You can find below an example for the rules template:
    ```json
        // main.json
       {
@@ -49,13 +49,13 @@ you will find two files:
          ],
          "children": [
             ... more children
-           "#include:fingerprint-property-rules-for-terraform.json" // <- ADDED THIS 
+           "#include:fingerprint-property-rules.json" // <- ADDED THIS 
          ],
           ...
        }
      }
    ```
-2. Merge `fingerprint-property-variables-for-terraform.json` file with your property's variables file. If you don't have a `variables` before, you can just add fingerprint variables. If not, you merge fingerprint variables with your existing variables. You can find below an example for the rules template:
+2. Merge `fingerprint-property-variables.json` file with your property's variables file. If you don't have a `variables` before, you can just add fingerprint variables. If not, you merge fingerprint variables with your existing variables. You can find below an example for the rules template:
    ```json
        // main.json
       {
@@ -67,7 +67,7 @@ you will find two files:
          "children": [
             ...
          ],
-         "variables": "#include:fingerprint-property-variables-for-terraform.json" // <- ADDED THIS (if it didn't exist before)
+         "variables": "#include:fingerprint-property-variables.json" // <- ADDED THIS (if it didn't exist before)
           ...
        }
      }
