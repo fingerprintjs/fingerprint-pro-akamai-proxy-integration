@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Extract Branch Name
         run: |
-          echo BRANCH_NAME=${echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}} >> $GITHUB_OUTPUT
+          echo BRANCH_NAME=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} >> $GITHUB_OUTPUT
       - name: Echo Branch Name
         run: |
           echo ${{ env.BRANCH_NAME }}
