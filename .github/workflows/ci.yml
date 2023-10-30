@@ -1,0 +1,17 @@
+name: CI
+on:
+  push:
+    branches:
+      - '**'
+      - '!main'
+
+jobs:
+  extract_branch:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Extract Branch Name
+        run: |
+          echo ::set-env name=BRANCH_NAME::${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+      - name: Echo Branch Name
+        run: |
+          echo ${{ env.BRANCH_NAME }}
