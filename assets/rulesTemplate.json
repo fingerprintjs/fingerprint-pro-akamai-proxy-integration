@@ -184,6 +184,12 @@
           }
         },
         {
+          "name": "downstreamCache",
+          "options": {
+            "behavior": "TUNNEL_ORIGIN"
+          }
+        },
+        {
           "name": "allowTransferEncoding",
           "options": {
             "enabled": true
@@ -434,6 +440,12 @@
             "honorSMaxage": true,
             "revalidationSettings": "",
             "honorProxyRevalidate": true
+          }
+        },
+        {
+          "name": "downstreamCache",
+          "options": {
+            "behavior": "TUNNEL_ORIGIN"
           }
         }
       ],
