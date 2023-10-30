@@ -6,12 +6,13 @@ on:
       - '!main'
 
 jobs:
-  extract_branch:
+  ci:
     runs-on: ubuntu-20.04
     steps:
       - name: Extract Branch Name
+        id: extract-branch
         run: |
           echo BRANCH_NAME=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} >> $GITHUB_OUTPUT
       - name: Echo Branch Name
         run: |
-          echo ${{ env.BRANCH_NAME }}
+          echo  ${{steps.extract-branch.outputs.BRANCH_NAME}}
