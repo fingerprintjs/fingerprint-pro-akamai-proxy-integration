@@ -9,8 +9,8 @@ test.use({
   ignoreHTTPSErrors: env.ignoreHTTPSErrors,
 })
 
-test.describe('Remove cookies for agent', () => {
-  test('No cookies for agent', async ({ page, request }) => {
+test.describe('Agent Request Cookies', () => {
+  test('Request Cookies must be removed when request made to Agent endpoint', async ({ page, request }) => {
     await page.context().addCookies([{ name: 'hello', value: 'world', path: '/', domain: getCookieDomainFromEnv() }])
     const testId = generateTestId()
     await page.goto(`${env.testDomain}?testId=${testId}`)

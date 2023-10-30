@@ -9,8 +9,8 @@ test.use({
   ignoreHTTPSErrors: env.ignoreHTTPSErrors,
 })
 
-test.describe('Cookie filtering for ingress', () => {
-  test('No cookies for ingress', async ({ page, request }) => {
+test.describe('Request Cookies filtered when POST request made to Result endpoint', () => {
+  test('Cookies headers must be empty if iidt Cookie not present', async ({ page, request }) => {
     await page.context().addCookies([{ name: 'hello', value: 'world', path: '/', domain: getCookieDomainFromEnv() }])
     const testId = generateTestId()
     await page.goto(`${env.testDomain}?testId=${testId}`)
@@ -25,7 +25,7 @@ test.describe('Cookie filtering for ingress', () => {
     )
     test.expect(result.request.headers['cookie']).toBe(undefined)
   })
-  test('Only iidt for ingress', async ({ page, request }) => {
+  test('iidt cookie must be the only cookie if present with others', async ({ page, request }) => {
     await page.context().addCookies([
       {
         name: '_iidt',
