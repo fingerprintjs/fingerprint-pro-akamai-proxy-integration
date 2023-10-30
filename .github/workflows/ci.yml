@@ -13,6 +13,20 @@ jobs:
         id: extract-branch
         run: |
           echo BRANCH_NAME=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} >> $GITHUB_OUTPUT
-      - name: Echo Branch Name
+      - name: Create Cloudflare DNS Record
         run: |
-          echo  ${{steps.extract-branch.outputs.BRANCH_NAME}}
+          curl --location --request POST 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records' \
+          --header 'Content-Type: application/json' \
+          --header 'X-Auth-Email: ${{ secrets.CF_AUTH_EMAIL }}' \
+          --header 'Authorization: Bearer ${{ secrets.CF_AUTH_TOKEN }}' \
+          --data-raw '{
+            "content": "${{steps.extract-branch.outputs.BRANCH_NAME}}.cfi-fingerprint.com.edgesuite.net",
+            "name": "${{steps.extract-branch.outputs.BRANCH_NAME}}.cfi-fingerprint.com",
+            "proxied": false,
+            "type": "CNAME",
+            "comment": "Akamai CI run for ${{steps.extract-branch.outputs.BRANCH_NAME}}",
+            "tags": [
+              "owner:akamai"
+            ],
+            "ttl": 3600
+          }'
