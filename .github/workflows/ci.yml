@@ -6,7 +6,7 @@ on:
       - '!main'
 
 jobs:
-  create-cloudflare-dns-record:
+  ci:
     runs-on: ubuntu-20.04
     steps:
       - name: Extract Branch Name
@@ -14,19 +14,9 @@ jobs:
         run: |
           echo BRANCH_NAME=$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/\W/-/g and s/-+$//g') >> $GITHUB_OUTPUT
       - name: Create Cloudflare DNS Record
-        run: |
-          curl --location --request POST 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records' \
-          --header 'Content-Type: application/json' \
-          --header 'X-Auth-Email: ${{ secrets.CF_AUTH_EMAIL }}' \
-          --header 'Authorization: Bearer ${{ secrets.CF_AUTH_TOKEN }}' \
-          --data-raw '{
-            "content": "${{steps.extract-branch.outputs.BRANCH_NAME}}.cfi-fingerprint.com.edgesuite.net",
-            "name": "${{steps.extract-branch.outputs.BRANCH_NAME}}.cfi-fingerprint.com",
-            "proxied": false,
-            "type": "CNAME",
-            "comment": "Akamai CI run for ${{steps.extract-branch.outputs.BRANCH_NAME}}",
-            "tags": [
-              "owner:akamai"
-            ],
-            "ttl": 3600
-          }'
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records'
+          method: 'POST'
+          customHeaders: '{"X-Auth-Email": "${{ secrets.CF_AUTH_EMAIL }}", "Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+          data: '{"content": "${{steps.extract-branch.outputs.BRANCH_NAME}}.cfi-fingerprint.com.edgesuite.net", "name": "${{steps.extract-branch.outputs.BRANCH_NAME}}.cfi-fingerprint.com", "proxied": false, "type": "CNAME", "comment": "Akamai CI run for ${{steps.extract-branch.outputs.BRANCH_NAME}}", "ttl": 3600, "tags": ["owner:akamai-integration-ci"]}'
