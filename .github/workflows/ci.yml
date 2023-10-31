@@ -10,7 +10,13 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.node-version'
+      - name: Install dependencies
+        run: yarn install
       - name: Extract Branch Name
         id: extract-branch
         run: |
@@ -33,10 +39,19 @@ jobs:
       - name: Create .edgerc file
         run: |
           echo "[papi]\nclient_secret = ${{ secrets.AK_CLIENT_SECRET }}\nhost = ${{ secrets.AK_HOST }}\naccess_token = ${{ secrets.AK_ACCESS_TOKEN }}\nclient_token = ${{ secrets.AK_CLIENT_TOKEN }}" >> ~/.edgerc
-      - name: Install Property Manager on Akamai Docker
-        uses: addnab/docker-run-action@v3
-        with:
-          options: -v $HOME/.edgerc:/root/.edgerc:ro
-          image: akamai/shell
-          run: akamai property-manager np -p ${{ steps.extract-branch.outputs.BRANCH_NAME }}.cfi-fingerprint.com --groupId ${{ secrets.AK_GROUP_ID }} --contractId ${{ secrets.AK_CONTRACT_ID }} --productId Site_Accel
-          
+      - name: Check Akamai Property can be created
+        id: check-akamai-property
+        continue-on-error: true
+        run: yarn ts-node scripts/checkPropertyCanBeCreated.ts
+        env:
+          AK_CONTRACT_ID: ${{secrets.AK_CONTRACT_ID}}
+          AK_GROUP_ID: ${{secrets.AK_GROUP_ID}}
+          BRANCH_NAME: ${{steps.extract-branch.outputs.BRANCH_NAME}}
+      - name: Create Akamai Property
+        if: steps.check-akamai-property.outcome == 'success'
+        id: create-akamai-property
+        run: yarn ts-node scripts/createProperty.ts
+        env:
+          AK_CONTRACT_ID: ${{secrets.AK_CONTRACT_ID}}
+          AK_GROUP_ID: ${{secrets.AK_GROUP_ID}}
+          BRANCH_NAME: ${{steps.extract-branch.outputs.BRANCH_NAME}}
