@@ -9,6 +9,8 @@ jobs:
   ci:
     runs-on: ubuntu-20.04
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Extract Branch Name
         id: extract-branch
         run: |
@@ -28,3 +30,13 @@ jobs:
           method: 'POST'
           customHeaders: '{"X-Auth-Email": "${{ secrets.CF_AUTH_EMAIL }}", "Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
           data: '{"content": "${{steps.extract-branch.outputs.BRANCH_NAME}}.cfi-fingerprint.com.edgesuite.net", "name": "${{steps.extract-branch.outputs.BRANCH_NAME}}.cfi-fingerprint.com", "proxied": false, "type": "CNAME", "comment": "Akamai CI run for ${{steps.extract-branch.outputs.BRANCH_NAME}}", "ttl": 3600, "tags": ["owner:akamai-integration-ci"]}'
+      - name: Create .edgerc file
+        run: |
+          echo "[papi]\nclient_secret = ${{ secrets.AK_CLIENT_SECRET }}\nhost = ${{ secrets.AK_HOST }}\naccess_token = ${{ secrets.AK_ACCESS_TOKEN }}\nclient_token = ${{ secrets.AK_CLIENT_TOKEN }}" >> ~/.edgerc
+      - name: Install Property Manager on Akamai Docker
+        uses: addnab/docker-run-action@v3
+        with:
+          options: -v $HOME/.edgerc:/root/.edgerc:ro
+          image: akamai/shell
+          run: akamai property-manager np -p ${{ steps.extract-branch.outputs.BRANCH_NAME }}.cfi-fingerprint.com --groupId ${{ secrets.AK_GROUP_ID }} --contractId ${{ secrets.AK_CONTRACT_ID }} --productId Site_Accel
+          
