@@ -36,14 +36,27 @@ jobs:
           method: 'POST'
           customHeaders: '{"X-Auth-Email": "${{ secrets.CF_AUTH_EMAIL }}", "Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
           data: '{"content": "${{steps.extract-branch.outputs.BRANCH_NAME}}.cfi-fingerprint.com.edgesuite.net", "name": "${{steps.extract-branch.outputs.BRANCH_NAME}}.cfi-fingerprint.com", "proxied": false, "type": "CNAME", "comment": "Akamai CI run for ${{steps.extract-branch.outputs.BRANCH_NAME}}", "ttl": 3600, "tags": ["owner:akamai-integration-ci"]}'
-      - name: Create .edgerc file
-        run: |
-          echo "[papi]\nclient_secret = ${{ secrets.AK_CLIENT_SECRET }}\nhost = ${{ secrets.AK_HOST }}\naccess_token = ${{ secrets.AK_ACCESS_TOKEN }}\nclient_token = ${{ secrets.AK_CLIENT_TOKEN }}" >> ~/.edgerc
       - name: Check Akamai Property can be created
         id: check-akamai-property
         continue-on-error: true
-        run: AK_CONTRACT_ID=${{secrets.AK_CONTRACT_ID}} AK_GROUP_ID=${{secrets.AK_GROUP_ID}} BRANCH_NAME=${{steps.extract-branch.outputs.BRANCH_NAME}} yarn ts-node scripts/checkPropertyCanBeCreated.ts
+        env:
+          BRANCH_NAME: '${{steps.extract-branch.outputs.BRANCH_NAME}}'
+          AK_HOST: '${{secrets.AK_HOST}}'
+          AK_CLIENT_TOKEN: '${{secrets.AK_CLIENT_TOKEN}}'
+          AK_CLIENT_SECRET: '${{secrets.AK_CLIENT_SECRET}}'
+          AK_ACCESS_TOKEN: '${{secrets.AK_ACCESS_TOKEN}}'
+          AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
+          AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
+        run: yarn ts-node scripts/checkPropertyCanBeCreated.ts
       - name: Create Akamai Property
         if: steps.check-akamai-property.outcome == 'success'
         id: create-akamai-property
-        run: AK_CONTRACT_ID=${{secrets.AK_CONTRACT_ID}} AK_GROUP_ID=${{secrets.AK_GROUP_ID}} BRANCH_NAME=${{steps.extract-branch.outputs.BRANCH_NAME}} yarn ts-node scripts/createProperty.ts
+        env:
+          BRANCH_NAME: '${{steps.extract-branch.outputs.BRANCH_NAME}}'
+          AK_HOST: '${{secrets.AK_HOST}}'
+          AK_CLIENT_TOKEN: '${{secrets.AK_CLIENT_TOKEN}}'
+          AK_CLIENT_SECRET: '${{secrets.AK_CLIENT_SECRET}}'
+          AK_ACCESS_TOKEN: '${{secrets.AK_ACCESS_TOKEN}}'
+          AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
+          AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
+        run: yarn ts-node scripts/createProperty.ts
