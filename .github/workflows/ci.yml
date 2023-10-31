@@ -12,7 +12,7 @@ jobs:
       - name: Extract Branch Name
         id: extract-branch
         run: |
-          echo BRANCH_NAME=$(${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/\W/-/g and s/-+$//g') >> $GITHUB_OUTPUT
+          echo BRANCH_NAME=$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/\W/-/g and s/-+$//g') >> $GITHUB_OUTPUT
       - name: Create Cloudflare DNS Record
         run: |
           curl --location --request POST 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records' \
