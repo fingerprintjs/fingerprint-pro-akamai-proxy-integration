@@ -60,3 +60,14 @@ jobs:
           AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
         run: yarn ts-node scripts/createProperty.ts
+      - name: Deploy Akamai Rules
+        id: deploy-rules
+        env:
+          BRANCH_NAME: '${{steps.extract-branch.outputs.BRANCH_NAME}}'
+          AK_HOST: '${{secrets.AK_HOST}}'
+          AK_CLIENT_TOKEN: '${{secrets.AK_CLIENT_TOKEN}}'
+          AK_CLIENT_SECRET: '${{secrets.AK_CLIENT_SECRET}}'
+          AK_ACCESS_TOKEN: '${{secrets.AK_ACCESS_TOKEN}}'
+          AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
+          AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
+        run: yarn ts-node scripts/deployRules.ts

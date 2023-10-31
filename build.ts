@@ -14,12 +14,19 @@ const args = arg({
 
 args['--type'] = args['--type'] ? args['--type'] : 'all'
 
-const patchBody = () => {
+export interface PatchBodyArgs {
+    integrationPath: string,
+    agentPath: string,
+    resultPath: string,
+    proxySecret: string,
+}
+
+export const patchBody = (_args?: PatchBodyArgs) => {
     const bodyContent = generatePatchBody({
-        integrationPath: args["--integration-path"],
-        agentPath: args["--agent-path"],
-        resultPath: args["--result-path"],
-        proxySecret: args["--proxy-secret"],
+        integrationPath: args["--integration-path"] ?? _args?.integrationPath,
+        agentPath: args["--agent-path"] ?? _args?.agentPath,
+        resultPath: args["--result-path"] ?? _args?.resultPath,
+        proxySecret: args["--proxy-secret"] ?? _args?.proxySecret,
     })
 
     fs.mkdirSync(path.relative(process.cwd(), 'dist/patch-body'), {recursive: true})
