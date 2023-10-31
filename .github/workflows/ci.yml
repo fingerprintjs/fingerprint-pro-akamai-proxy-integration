@@ -6,13 +6,13 @@ on:
       - '!main'
 
 jobs:
-  ci:
+  create-cloudflare-dns-record:
     runs-on: ubuntu-20.04
     steps:
       - name: Extract Branch Name
         id: extract-branch
         run: |
-          echo BRANCH_NAME=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} >> $GITHUB_OUTPUT
+          echo BRANCH_NAME=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/\W/-/g' >> $GITHUB_OUTPUT
       - name: Create Cloudflare DNS Record
         run: |
           curl --location --request POST 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records' \
