@@ -42,16 +42,8 @@ jobs:
       - name: Check Akamai Property can be created
         id: check-akamai-property
         continue-on-error: true
-        run: yarn ts-node scripts/checkPropertyCanBeCreated.ts
-        env:
-          AK_CONTRACT_ID: ${{secrets.AK_CONTRACT_ID}}
-          AK_GROUP_ID: ${{secrets.AK_GROUP_ID}}
-          BRANCH_NAME: ${{steps.extract-branch.outputs.BRANCH_NAME}}
+        run: AK_CONTRACT_ID=${{secrets.AK_CONTRACT_ID}} AK_GROUP_ID=${{secrets.AK_GROUP_ID}} BRANCH_NAME=${{steps.extract-branch.outputs.BRANCH_NAME}} yarn ts-node scripts/checkPropertyCanBeCreated.ts
       - name: Create Akamai Property
         if: steps.check-akamai-property.outcome == 'success'
         id: create-akamai-property
-        run: yarn ts-node scripts/createProperty.ts
-        env:
-          AK_CONTRACT_ID: ${{secrets.AK_CONTRACT_ID}}
-          AK_GROUP_ID: ${{secrets.AK_GROUP_ID}}
-          BRANCH_NAME: ${{steps.extract-branch.outputs.BRANCH_NAME}}
+        run: AK_CONTRACT_ID=${{secrets.AK_CONTRACT_ID}} AK_GROUP_ID=${{secrets.AK_GROUP_ID}} BRANCH_NAME=${{steps.extract-branch.outputs.BRANCH_NAME}} yarn ts-node scripts/createProperty.ts
