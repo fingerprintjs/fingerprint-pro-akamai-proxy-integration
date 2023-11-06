@@ -61,7 +61,7 @@ jobs:
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
         run: yarn ts-node scripts/createProperty.ts
       - name: Build Patch Body
-        run: yarn build --type patchBody --proxy-secret ${{ FPJS_PROXY_SECRET }}
+        run: yarn build --type patchBody --proxy-secret ${{ FPJS_PROXY_SECRET }} --integration-path worker --agent-path pxdownload --result-path pxresult
       - name: Deploy Akamai Rules
         id: deploy-rules
         env:
