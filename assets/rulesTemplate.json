@@ -184,6 +184,12 @@
           }
         },
         {
+          "name": "downstreamCache",
+          "options": {
+            "behavior": "TUNNEL_ORIGIN"
+          }
+        },
+        {
           "name": "allowTransferEncoding",
           "options": {
             "enabled": true
@@ -414,6 +420,32 @@
             "keepQueryString": true,
             "matchRegex": "\\/__integration_path__\\/__result_path__(.*)",
             "targetRegex": "$1"
+          }
+        },
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "CACHE_CONTROL_AND_EXPIRES",
+            "mustRevalidate": false,
+            "defaultTtl": "0s",
+            "cacheControlDirectives": "",
+            "enhancedRfcSupport": true,
+            "honorPrivate": true,
+            "honorMustRevalidate": true,
+            "cacheabilitySettings": "",
+            "honorNoStore": true,
+            "honorNoCache": true,
+            "expirationSettings": "",
+            "honorMaxAge": true,
+            "honorSMaxage": true,
+            "revalidationSettings": "",
+            "honorProxyRevalidate": true
+          }
+        },
+        {
+          "name": "downstreamCache",
+          "options": {
+            "behavior": "TUNNEL_ORIGIN"
           }
         }
       ],
