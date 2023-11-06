@@ -60,6 +60,8 @@ jobs:
           AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
         run: yarn ts-node scripts/createProperty.ts
+      - name: Build Patch Body
+        run: yarn build --type patchBody
       - name: Deploy Akamai Rules
         id: deploy-rules
         env:
