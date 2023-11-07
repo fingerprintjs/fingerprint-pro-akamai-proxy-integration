@@ -20,7 +20,8 @@
 # Fingerprint Pro Akamai Integration Property Rules
 
 [Fingerprint](https://fingerprint.com) is a device intelligence platform offering 99.5% accurate visitor identification.
-_Fingerprint Akamai Proxy Integration_ is responsible for proxying identification and agent-download requests between your website and Fingerprint through your Akamai infrastructure. The integration consists of a set of property rules you need to add to your Akamai property configuration. The property rules template is available in this repository.
+
+Fingerprint Akamai Proxy Integration is responsible for proxying identification and agent-download requests between your website and Fingerprint through your Akamai infrastructure. The integration consists of a set of property rules you need to add to your Akamai property configuration. The property rules template is available in this repository.
 
 ## 🚧 Requirements and expectations
 
@@ -32,9 +33,12 @@ _Fingerprint Akamai Proxy Integration_ is responsible for proxying identificatio
 
 ## How to install with Terraform
 
-> :warning:  This section assumes you use Terraform to manage your site infrastructure on Akamai and that your site uses the `latest` Akamai rule format. If your Akamai property uses a different rule format or a different deployment method, please contact our [support team](https://fingerprint.com/support/).
->
-> This is a quick overview of the installation setup. For detailed step-by-step instructions, see the [Akamai proxy integration guide in our documentation](https://dev.fingerprint.com/docs/akamai-proxy-integration#step-21--add-variable-blocks-to-your-rules-template).
+> :warning:  This section assumes you use Terraform to manage your site infrastructure on Akamai and that your site uses the `latest` Akamai rule format.
+> * If you do not use Terraform, see  [How to install without Terraform](#how-to-install-using-akamai-property-manager-api-without-terraform).
+> * If your Akamai property uses a different rule format, please contact our [support team](https://fingerprint.com/support/).
+
+
+This is a quick overview of the installation setup. For detailed step-by-step instructions, see the [Akamai proxy integration guide in our documentation](https://dev.fingerprint.com/docs/akamai-proxy-integration).
 
 1. Go to Fingerprint **Dashboard** > [**API Keys**](https://dashboard.fingerprint.com/api-keys) and click **Create Proxy Key** to create a proxy secret. You will use it later to authenticate your requests to Fingerprint APIs. 
 2. Add the following variable blocks to the Akamai property [Rules template](https://techdocs.akamai.com/terraform/docs/pm-ds-rules-template) in your Terraform configuration file. If you are using a plain JSON file instead of a rules template, reach out to our [support team](https://fingerprint.com/support/).
@@ -94,9 +98,9 @@ _Fingerprint Akamai Proxy Integration_ is responsible for proxying identificatio
     ```
 
 6. Run `terraform plan` to review your changes and `terraform apply` to deploy them.
-7. Configure your Fingerprint JS Agent using the paths defined in Step 2.
+7. Configure the Fingerprint [JS Agent](https://dev.fingerprint.com/docs/js-agent) on your website using the paths defined in Step 2.
 
-    ```javascript NPM package
+    ```javascript
     import * as FingerprintJS from '@fingerprintjs/fingerprintjs-pro'
     
     const fpPromise = FingerprintJS.load({
@@ -114,7 +118,6 @@ _Fingerprint Akamai Proxy Integration_ is responsible for proxying identificatio
 
 See the [Akamai proxy integration guide](https://dev.fingerprint.com/docs/akamai-proxy-integration#step-21--add-variable-blocks-to-your-rules-template) in our documentation for more details. 
 
-
 ### Building property rules locally
 
 You can clone this repository and build the property rules locally. 
@@ -130,14 +133,14 @@ The JSON files are equivalent to the JSON files available in the [latest release
 
 ## How to install using Akamai Property Manager API (without Terraform)
 
-You can close this repository and build the property rules locally into a single `body.json` object. You can then apply it as a patch update to your property configuration using Akamai [Property Manager API](https://techdocs.akamai.com/property-mgr/reference/api). This allows you to install the integration in an automated way even if you do not use Terraform.
+You can clone this repository and build the property rules locally into a single `body.json` file. You can then apply them as a patch update to your property configuration using Akamai [Property Manager API](https://techdocs.akamai.com/property-mgr/reference/api). This allows you to install the integration in an automated way even if you do not use Terraform.
 
 
 1. Run `yarn install`.
 2. Run `yarn build --type patchBody --integration-path YOUR_INTEGRATION_PATH_HERE --agent-path YOUR_AGENT_PATH_HERE --result-path YOUR_RESULT_PATH_HERE --proxy-secret YOUR_PROXY_SECRET_HERE`.
    * Use the same values you would use in [Step 2](#how-to-install-with-terraform) if you were installing with Terraform.
-   * This command generates a `dist/patch-body/body.json` file. This file includes all rules and property variables necessary for the integration.
-3. Use the 
+   * The command generates a `dist/patch-body/body.json` file. This file includes all rules and property variables necessary for the integration.
+3. Use the [Patch a property's rule tree](https://github.com/fingerprintjs/fingerprint-pro-akamai-integration-property-rules) endpoint of the Akamai Property Manager API to apply the generated JSON to your Akamai property.
   
 If you have any questions, reach out to our [support team](https://fingerprint.com/support). 
 
