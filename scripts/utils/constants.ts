@@ -1,2 +1,3 @@
-export const CI_DOMAIN = `${process.env.BRANCH_NAME}.cfi-fingerprint.com`;
-export const ORIGIN_DOMAIN = "origin-akamai.cfi-fingerprint.com";
+export const FPJS_CI_DOMAIN = `${process.env.FPJS_CI_DOMAIN}`;
+export const CI_DOMAIN = `${process.env.BRANCH_NAME}.${FPJS_CI_DOMAIN}`;
+export const ORIGIN_DOMAIN = `origin-akamai.${FPJS_CI_DOMAIN}`;
