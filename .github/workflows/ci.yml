@@ -51,6 +51,7 @@ jobs:
           AK_ACCESS_TOKEN: '${{secrets.AK_ACCESS_TOKEN}}'
           AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
+          FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
         run: yarn ts-node scripts/checkPropertyCanBeCreated.ts
       - name: Create Akamai Property
         if: steps.check-akamai-property.outcome == 'success'
@@ -63,6 +64,7 @@ jobs:
           AK_ACCESS_TOKEN: '${{secrets.AK_ACCESS_TOKEN}}'
           AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
+          FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
         run: yarn ts-node scripts/createProperty.ts
       - name: Build Patch Body
         run: yarn build --type patchBody --proxy-secret ${{secrets.FPJS_PROXY_SECRET}} --integration-path worker --agent-path pxdownload --result-path pxresult
@@ -76,4 +78,5 @@ jobs:
           AK_ACCESS_TOKEN: '${{secrets.AK_ACCESS_TOKEN}}'
           AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
+          FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
         run: yarn ts-node scripts/deployRules.ts
