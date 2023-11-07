@@ -4,6 +4,10 @@ on:
     branches:
       - '**'
       - '!main'
+    paths:
+      - 'assets/**'
+      - 'generators/**'
+      - 'build.ts'
 
 jobs:
   ci:
