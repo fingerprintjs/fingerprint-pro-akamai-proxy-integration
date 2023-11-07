@@ -228,18 +228,20 @@
             {
               "name": "modifyIncomingRequestHeader",
               "options": {
-                "action": "ADD",
-                "standardAddHeaderName": "OTHER",
-                "headerValue": "{{user.PMUSER_FPJS_PROXY_SECRET}}",
+                "action": "MODIFY",
+                "standardModifyHeaderName": "OTHER",
+                "newHeaderValue": "{{user.PMUSER_FPJS_PROXY_SECRET}}",
+                "avoidDuplicateHeaders": true,
                 "customHeaderName": "FPJS-Proxy-Secret"
               }
             },
             {
               "name": "modifyIncomingRequestHeader",
               "options": {
-                "action": "ADD",
-                "standardAddHeaderName": "OTHER",
-                "headerValue": "{{builtin.AK_HOST}}",
+                "action": "MODIFY",
+                "standardModifyHeaderName": "OTHER",
+                "newHeaderValue": "{{builtin.AK_HOST}}",
+                "avoidDuplicateHeaders": true,
                 "customHeaderName": "FPJS-Proxy-Forwarded-Host"
               }
             }
@@ -350,9 +352,10 @@
         {
           "name": "modifyIncomingRequestHeader",
           "options": {
-            "action": "ADD",
-            "standardAddHeaderName": "OTHER",
-            "headerValue": "{{builtin.AK_CLIENT_REAL_IP}}",
+            "action": "MODIFY",
+            "standardModifyHeaderName": "OTHER",
+            "newHeaderValue": "{{builtin.AK_CLIENT_REAL_IP}}",
+            "avoidDuplicateHeaders": true,
             "customHeaderName": "FPJS-Proxy-Client-IP"
           }
         }
