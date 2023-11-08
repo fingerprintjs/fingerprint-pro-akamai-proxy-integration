@@ -1,9 +1,12 @@
 name: CI Cleanup
 on:
-  delete:
+  pull_request:
+    types:
+      - closed
 
 jobs:
   cleanup:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-20.04
     steps:
       - name: Extract Branch Name
@@ -18,7 +21,7 @@ jobs:
           method: 'GET'
           customHeaders: '{"X-Auth-Email": "${{ secrets.CF_AUTH_EMAIL }}", "Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
       - name: Delete Cloudflare DNS Record
-        if: ${{ fromJson(steps.cloudflare-dns-check.outputs.response).result_info.total_count < 1 }}
+        if: ${{ fromJson(steps.cloudflare-dns-check.outputs.response).result_info.total_count > 0 }}
         uses: fjogeleit/http-request-action@v1
         with:
           url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records/${{ fromJson(steps.cloudflare-dns-check.outputs.response).result[0].id }}'
