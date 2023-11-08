@@ -33,7 +33,8 @@ Fingerprint Akamai Proxy Integration is responsible for proxying identification 
 
 ## How to install with Terraform
 
-> :warning:  This section assumes you use Terraform to manage your site infrastructure on Akamai and that your site uses the `latest` Akamai rule format.
+> [!NOTE]
+> This section assumes you use Terraform to manage your site infrastructure on Akamai and that your site uses the `latest` Akamai rule format.
 > * If you do not use Terraform, see  [How to install without Terraform](#how-to-install-using-akamai-property-manager-api-without-terraform).
 > * If your Akamai property uses a different rule format, please contact our [support team](https://fingerprint.com/support/).
 
