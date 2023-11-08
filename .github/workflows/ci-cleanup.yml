@@ -19,11 +19,11 @@ jobs:
         with:
           url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records?name=${{steps.extract-branch.outputs.BRANCH_NAME}}.${{secrets.FPJS_CI_DOMAIN}}&tags=owner:akamai-integration-ci'
           method: 'GET'
-          customHeaders: '{"X-Auth-Email": "${{ secrets.CF_AUTH_EMAIL }}", "Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
       - name: Delete Cloudflare DNS Record
         if: ${{ fromJson(steps.cloudflare-dns-check.outputs.response).result_info.total_count > 0 }}
         uses: fjogeleit/http-request-action@v1
         with:
           url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records/${{ fromJson(steps.cloudflare-dns-check.outputs.response).result[0].id }}'
           method: 'DELETE'
-          customHeaders: '{"X-Auth-Email": "${{ secrets.CF_AUTH_EMAIL }}", "Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
