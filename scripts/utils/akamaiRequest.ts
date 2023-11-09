@@ -12,6 +12,7 @@ export const akamaiRequest = async <ResponseBody = any>(authOptions: any,) => {
         eg.send((err, response, body) => {
             if (err) {
                 reject({error: err});
+                return
             }
             if (!err && response && response.status >= 200 && response.status < 300 && body) {
                 resolve({body: JSON.parse(body ?? '{}'), response});
