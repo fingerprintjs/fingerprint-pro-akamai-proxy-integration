@@ -102,7 +102,8 @@ const patchEdgeHostname = async (propertyId: string) => {
 
 const handler = async () => {
     try {
-        let {propertyId} = await getProperty();
+        const propertyResponse = await getProperty();
+        let propertyId = propertyResponse?.propertyId
         if (!propertyId) {
             propertyId = await createProperty();
         }
