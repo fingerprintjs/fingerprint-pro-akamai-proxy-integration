@@ -12,12 +12,12 @@ jobs:
       - name: Extract Branch Name
         id: extract-branch
         run: |
-          echo BRANCH_NAME=$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/\W/-/g and s/-+$//g') >> $GITHUB_OUTPUT
+          echo SUBDOMAIN=$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/[^a-zA-Z0-9]/-/g and s/-+$//g') >> $GITHUB_OUTPUT
       - name: Check If DNS Record Exists
         id: cloudflare-dns-check
         uses: fjogeleit/http-request-action@v1
         with:
-          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records?name=${{steps.extract-branch.outputs.BRANCH_NAME}}.${{secrets.FPJS_CI_DOMAIN}}&tags=owner:akamai-integration-ci'
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records?name=${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}&tags=owner:akamai-integration-ci'
           method: 'GET'
           customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
       - name: Delete Cloudflare DNS Record
