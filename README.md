@@ -17,228 +17,136 @@
   <img src="https://img.shields.io/discord/852099967190433792?style=logo&label=Discord&logo=Discord&logoColor=white" alt="Discord server">
 </a>
 
-> :warning: **Work in progress**: This is a beta version of the library
+> [!WARNING]
+> This integration is in Beta
 
 # Fingerprint Pro Akamai Integration Property Rules
 
 [Fingerprint](https://fingerprint.com) is a device intelligence platform offering 99.5% accurate visitor identification.
-The Fingerprint Akamai Integration Property Rules is the repository that contains property rules and variables for the Fingerprint Akamai proxy integration.
 
-## Requirements
-- An Akamai property with latest rule format
+Fingerprint Akamai Proxy Integration is responsible for proxying identification and agent-download requests between your website and Fingerprint through your Akamai infrastructure. The integration consists of a set of property rules you need to add to your Akamai property configuration. The property rules template is available in this repository.
 
-> :warning: The Akamai integration is only available to Fingerprint customers on the Enterprise plan. Talk to our sales teams for more information.
+## 🚧 Requirements and expectations
 
-> :warning: If you are not using the latest rule format, please contact our support.
+* **Integration in Beta**: Please report any issues to our support team.
+
+* **Limited to Enterprise plan**:   The Akamai Proxy Integration is accessible and exclusively supported for customers on the **Enterprise** Plan. Other customers are encouraged to use [Custom subdomain setup](https://dev.fingerprint.com/docs/custom-subdomain-setup) or [Cloudflare Proxy Integration](https://dev.fingerprint.com/docs/cloudflare-integration).
+
+* **Manual updates occasionally required**: The underlying data contract in the identification logic can change to keep up with browser updates. Using the Akamai Proxy Integration might require occasional manual updates on your side. Ignoring these updates will lead to lower accuracy or service disruption.
+
+## How to install with Terraform
+
+> [!NOTE]
+> This section assumes you use Terraform to manage your site infrastructure on Akamai and that your site uses the `latest` Akamai rule format.
+> * If you do not use Terraform, see  [How to install without Terraform](#how-to-install-using-akamai-property-manager-api-without-terraform).
+> * If your Akamai property uses a different rule format, please contact our [support team](https://fingerprint.com/support/).
 
 
-## How to install
+This is a quick overview of the installation setup. For detailed step-by-step instructions, see the [Akamai proxy integration guide in our documentation](https://dev.fingerprint.com/docs/akamai-proxy-integration).
 
-> :warning: If you are not using Terraform, please contact our support.
+1. Go to Fingerprint **Dashboard** > [**API Keys**](https://dashboard.fingerprint.com/api-keys) and click **Create Proxy Key** to create a proxy secret. You will use it later to authenticate your requests to Fingerprint APIs. 
+2. Add the following variable blocks to the Akamai property [Rules template](https://techdocs.akamai.com/terraform/docs/pm-ds-rules-template) in your Terraform configuration file. If you are using a plain JSON file instead of a rules template, reach out to our [support team](https://fingerprint.com/support/).
 
-If you are using Terraform to maintain your infrastructure, then go to [the latest release](https://github.com/fingerprintjs/fingerprint-pro-akamai-integration-property-rules/releases/latest),
-you will find two files:
-1. Add `fingerprint-property-rules.json` file to the property's rules. You can find below an example for the rules template:
-   ```json
-       // main.json
-      {
-       "rules": {
-         "name": "default",
-         "behaviors": [
-          ...
-         ],
-         "children": [
-            ... more children
-           "#include:fingerprint-property-rules.json" // <- ADDED THIS 
-         ],
-          ...
-       }
-     }
-   ```
-2. Merge `fingerprint-property-variables.json` file with your property's variables file. If you don't have a `variables` before, you can just add fingerprint variables. If not, you merge fingerprint variables with your existing variables. You can find below an example for the rules template:
-   ```json
-       // main.json
-      {
-       "rules": {
-         "name": "default",
-         "behaviors": [
-          ...
-         ],
-         "children": [
-            ...
-         ],
-         "variables": "#include:fingerprint-property-variables.json" // <- ADDED THIS (if it didn't exist before)
-          ...
-       }
-     }
-   ```
-
-3. Make changes to your property's Terraform configuration. 
-   1. If you are using plain JSON file for rules and not using rules template, _please reach our support_.
-   2. If you are using rules template, you need to specify 3 randomized values and the Fingerprint proxy secret. The 3 randomized paths are `fpjs_integration_path`, `fpjs_agent_path` and `fpjs_result_path`. You can use any valid URL paths for the 3 randomized values.
-      Go to the Fingerprint Dashboard [API Keys section](https://dashboard.fingerprint.com/api-keys) and press **+ Create Proxy Key** button to create the Fingerprint proxy secret.
-    ```hcl
+    ```tf
+    # main.tf
     data "akamai_property_rules_template" "rules" {
-      template_file = abspath("${path.root}/rules/main.json") # Assuming this is property's rules file
-      variables {
-        name  = "fpjs_integration_path"
-        value = "YOUR_INTEGRATION_PATH_HERE"
-        type = "string"
-      }
-      variables {
-        name  = "fpjs_agent_path"
-        value = "YOUR_AGENT_PATH_HERE"
-        type = "string"
-      }
-      variables {
-        name  = "fpjs_result_path"
-        value = "YOUR_RESULT_PATH_HERE"
-        type = "string"
-      }
-      variables {
-        name  = "fpjs_proxy_secret"
-        value = "YOUR_PROXY_SECRET_HERE"
-        type = "string"
-      }
-    }
-    ```
-    The best practice for these fields is to use HashiCorp's [random provider](https://registry.terraform.io/providers/hashicorp/random/latest/docs), to use `variable` blocks and `terraform.tfvars` file.
-    The full example looks like below:
-    ```hcl
-       # property.tf file
-        resource "random_string" "fpjs_integration_path" {
-          length = 8
-          special = false
-          lower = true
-          upper = false
-          numeric = true
-        }
-        
-        resource "random_string" "fpjs_agent_path" {
-          length = 8
-          special = false
-          lower = true
-          upper = false
-          numeric = true
-        }
-        
-        resource "random_string" "fpjs_result_path" {
-          length = 8
-          special = false
-          lower = true
-          upper = false
-          numeric = true
-        }
-        
-        variable "fpjs_integration_path" {
-          type = string
-          validation {
-            condition = can(regex("(^$|^[a-zA-Z0-9-]+$)", var.fpjs_integration_path))
-            error_message = "Variable value must be a valid URL path"
-          }
-        }
-        
-        variable "fpjs_agent_path" {
-          type = string
-          validation {
-            condition = can(regex("(^$|^[a-zA-Z0-9-]+$)", var.fpjs_agent_path))
-            error_message = "Variable value must be a valid URL path"
-          }
-        }
-        
-        variable "fpjs_result_path" {
-          type = string
-          validation {
-            condition = can(regex("(^$|^[a-zA-Z0-9-]+$)", var.fpjs_result_path))
-            error_message = "Variable value must be a valid URL path"
-          }
-        }
-        
-        variable "fpjs_proxy_secret" {
-          type = string
-          validation {
-            condition = can(regex("^([a-zA-Z0-9-])+$", var.fpjs_proxy_secret))
-            error_message = "Variable value must be obtained from Fingerprint dashboard"
-          }
-        }
-        
-        locals {
-          fpjs_integration_path = var.fpjs_integration_path != "" ? var.fpjs_integration_path : random_string.fpjs_integration_path.result
-          fpjs_agent_path = var.fpjs_agent_path != "" ? var.fpjs_agent_path : random_string.fpjs_agent_path.result
-          fpjs_result_path = var.fpjs_result_path != "" ? var.fpjs_result_path : random_string.fpjs_result_path.result
-        }
-        
-        data "akamai_property_rules_template" "rules" {
-          template_file = abspath("${path.root}/rules/main.json") # Assuming this is property's rules file
+          # Assuming this is property's rules file
+          template_file = "/rules/main.json" 
           variables {
             name  = "fpjs_integration_path"
-            value = local.fpjs_integration_path
+            value = "YOUR_INTEGRATION_PATH_HERE" # any random string that's a valid URL
             type = "string"
           }
           variables {
             name  = "fpjs_agent_path"
-            value = local.fpjs_agent_path
+            value = "YOUR_AGENT_PATH_HERE" # any random string that's a valid URL
             type = "string"
           }
           variables {
             name  = "fpjs_result_path"
-            value = local.fpjs_result_path
+            value = "YOUR_RESULT_PATH_HERE" # any random string that's a valid URL
             type = "string"
           }
           variables {
             name  = "fpjs_proxy_secret"
-            value = var.fpjs_proxy_secret
+            value = "YOUR_PROXY_SECRET_HERE" # Use the proxy secret from the previous step
             type = "string"
           }
-        }
+    }
     ```
-   ```hcl
-   # terraform.tfvars file
-    fpjs_integration_path = "<value_from_tfstate>"
-    fpjs_agent_path = "<value_from_tfstate>"
-    fpjs_result_path = "<value_from_tfstate>"
-    fpjs_proxy_secret = "<value_from_fingerprint_dashboard>"
+
+3. Go to this repository [latest releases](https://github.com/fingerprintjs/fingerprint-pro-akamai-integration-property-rules/releases/latest) and download these two JSON files:
+   * `terraform/fingerprint-property-rules.json`
+   * `terraform/fingerprint-property-variables.json`
+4. Add the files to the `rules` directory of your Terraform project.
+5. Reference the files inside your `rules/main.json` file:
+
+    ```json5
+    // rules/main.json
+    {
+      "rules": {
+        "name": "default",
+        "behaviors": [
+          // ...
+        ],
+        "children": [
+          //...
+          // Add the downloaded rules file as a child
+          "#include:fingerprint-property-rules.json" 
+        ],
+        // Add the downloaded variables file (or merge it with existing variables file)
+        "variables": "#include:fingerprint-property-variables.json"
+        // ...
+      }
+    }
     ```
-   Note: You can leave the randomized values (`fpjs_integration_path`, `fpjs_agent_path` and `fpjs_result_path`) empty at first. They are known after `terraform apply` is run. You can then find them in the `terraform.tfstate` file and replace in your `terraform.tfvars` file.
 
-4. Run `terraform plan` to check your changes. If it asks you to provide values for randomized values, press enter to leave empty. They will be generated automatically.
-5. Run `terraform apply` to apply changes. If it asks you to provide values for randomized values, press enter to leave empty. They will be generated automatically.
-6. After `terraform apply` is completed and the property is activated, the installation is complete. You can then get randomized values from `terraform.tfstate` file and replace them inside `terraform.tfvars` file. 
+6. Run `terraform plan` to review your changes and `terraform apply` to deploy them.
+7. Configure the Fingerprint [JS Agent](https://dev.fingerprint.com/docs/js-agent) on your website using the paths defined in Step 2.
 
-## How to use
+    ```javascript
+    import * as FingerprintJS from '@fingerprintjs/fingerprintjs-pro'
+    
+    const fpPromise = FingerprintJS.load({
+      apiKey: 'PUBLIC_API_KEY',
+      scriptUrlPattern: [
+        'https://yourwebsite.com/YOUR_INTEGRATION_PATH_HERE/YOUR_AGENT_PATH_HERE?apiKey=<apiKey>&version=<version>&loaderVersion=<loaderVersion>',
+        FingerprintJS.defaultScriptUrlPattern, // Fallback to default CDN in case of error
+      ],
+      endpoint: 
+        'https://yourwebsite.com/YOUR_INTEGRATION_PATH_HERE/YOUR_RESULT_PATH_HERE?region=us',
+        FingerprintJS.defaultEndpoint // Fallback to default endpoint in case of error
+      ],
+    });
+    ```
 
-Configure Pro Agent with corresponding randomized paths:
-```js
-const fpPromise = FingerprintJS.load({
-  apiKey: "<your_fingerprint_public_key>",
-  endpoint: [
-    "https://your-property.com/YOUR_INTEGRATION_PATH_HERE/YOUR_RESULT_PATH_HERE", // <- ADDED THIS
-    defaultEndpoint
-  ],
-  scriptUrlPattern: [
-    "https://your-property.com/YOUR_INTEGRATION_PATH_HERE/YOUR_AGENT_PATH_HERE?apiKey=<apiKey>&version=<version>&loaderVersion=<loaderVersion>",  // <- ADDED THIS
-    defaultScriptUrlPattern
-  ]
-})
-```
+See the [Akamai proxy integration guide](https://dev.fingerprint.com/docs/akamai-proxy-integration#step-21--add-variable-blocks-to-your-rules-template) in our documentation for more details. 
 
-## How to build property rules
+### Building property rules for Terraform locally
 
-This section shows how to generate rules locally. This can be useful for those who don't use Terraform, don't use rules template or who want to make changes to the rules before applying them.
-Please talk to Fingerprint support first if you need any help.
+If you prefer, you can clone this repository and build the property rules and variables locally.
 
-### For Terraform
+1. Run `yarn install`.
+2. Run `yarn build --type terraform`. It will generate the following files you can use in your Terraform configuration as described above.
 
-Run `yarn install`. Then run `yarn build --type terraform` to generate:
-- `dist/terraform/json/fingerprint.json`
-- `dist/terraform/json/variables.json`
-- `dist/terraform/example.tf`
+  - `dist/terraform/json/fingerprint.json`
+  - `dist/terraform/json/variables.json`
+  - `dist/terraform/example.tf`
 
-files. Use them in your existing Terraform configuration.
+The JSON files are equivalent to the JSON files available in the [latest releases](https://github.com/fingerprintjs/fingerprint-pro-akamai-integration-property-rules/releases/latest).
 
-### For Akamai Public API (HTTP Patch Body)
+## How to install using Akamai Property Manager API (without Terraform)
 
-Run `yarn install`. Then run `yarn build --type patchBody --integration-path YOUR_INTEGRATION_PATH_HERE --agent-path YOUR_AGENT_PATH_HERE --result-path YOUR_RESULT_PATH_HERE --proxy-secret YOUR_PROXY_SECRET_HERE`. This command generates `dist/patch-body/body.json`. This file includes all rules and property variables for the integration. Use Akamai's [public API](https://techdocs.akamai.com/property-mgr/reference/patch-property-version-rules) for applying it to your property.
+You can clone this repository and build the property rules locally into a single `body.json` file. You can then apply them as a patch update to your property configuration using Akamai [Property Manager API](https://techdocs.akamai.com/property-mgr/reference/api). This allows you to install the integration in an automated way even if you do not use Terraform.
+
+
+1. Run `yarn install`.
+2. Run `yarn build --type patchBody --integration-path YOUR_INTEGRATION_PATH_HERE --agent-path YOUR_AGENT_PATH_HERE --result-path YOUR_RESULT_PATH_HERE --proxy-secret YOUR_PROXY_SECRET_HERE`.
+   * Use the same values you would use in [Step 2](#how-to-install-with-terraform) if you were installing with Terraform.
+   * The command generates a `dist/patch-body/body.json` file. This file includes all rules and property variables necessary for the integration.
+3. Use the [Patch a property's rule tree](https://techdocs.akamai.com/property-mgr/reference/patch-property-version-rules) endpoint of the Akamai Property Manager API to apply the generated JSON to your Akamai property.
+  
+If you have any questions, reach out to our [support team](https://fingerprint.com/support). 
 
 ## License
 
