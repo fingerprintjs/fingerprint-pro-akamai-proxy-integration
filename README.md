@@ -17,6 +17,9 @@
   <img src="https://img.shields.io/discord/852099967190433792?style=logo&label=Discord&logo=Discord&logoColor=white" alt="Discord server">
 </a>
 
+> [!WARNING]
+> This integration is in Beta
+
 # Fingerprint Pro Akamai Integration Property Rules
 
 [Fingerprint](https://fingerprint.com) is a device intelligence platform offering 99.5% accurate visitor identification.
@@ -119,12 +122,12 @@ This is a quick overview of the installation setup. For detailed step-by-step in
 
 See the [Akamai proxy integration guide](https://dev.fingerprint.com/docs/akamai-proxy-integration#step-21--add-variable-blocks-to-your-rules-template) in our documentation for more details. 
 
-### Building property rules locally
+### Building property rules for Terraform locally
 
-You can clone this repository and build the property rules locally. 
+If you prefer, you can clone this repository and build the property rules and variables locally.
 
 1. Run `yarn install`.
-2. Run `yarn build --type terraform`. It will generate the following files you can use in your Terraform configuration:
+2. Run `yarn build --type terraform`. It will generate the following files you can use in your Terraform configuration as described above.
 
   - `dist/terraform/json/fingerprint.json`
   - `dist/terraform/json/variables.json`
@@ -141,7 +144,7 @@ You can clone this repository and build the property rules locally into a single
 2. Run `yarn build --type patchBody --integration-path YOUR_INTEGRATION_PATH_HERE --agent-path YOUR_AGENT_PATH_HERE --result-path YOUR_RESULT_PATH_HERE --proxy-secret YOUR_PROXY_SECRET_HERE`.
    * Use the same values you would use in [Step 2](#how-to-install-with-terraform) if you were installing with Terraform.
    * The command generates a `dist/patch-body/body.json` file. This file includes all rules and property variables necessary for the integration.
-3. Use the [Patch a property's rule tree](https://github.com/fingerprintjs/fingerprint-pro-akamai-integration-property-rules) endpoint of the Akamai Property Manager API to apply the generated JSON to your Akamai property.
+3. Use the [Patch a property's rule tree](https://techdocs.akamai.com/property-mgr/reference/patch-property-version-rules) endpoint of the Akamai Property Manager API to apply the generated JSON to your Akamai property.
   
 If you have any questions, reach out to our [support team](https://fingerprint.com/support). 
 
