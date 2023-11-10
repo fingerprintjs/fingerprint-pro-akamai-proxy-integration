@@ -38,7 +38,7 @@ jobs:
           url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records'
           method: 'POST'
           customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
-          data: '{"content": "${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}.edgesuite.net", "name": "${{steps.extract-branch.outputs.BRANCH_NAME}}.${{secrets.FPJS_CI_DOMAIN}}", "proxied": false, "type": "CNAME", "comment": "Akamai CI run for ${{steps.extract-branch.outputs.BRANCH_NAME}}", "ttl": 3600, "tags": ["owner:akamai-integration-ci"]}'
+          data: '{"content": "${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}.edgesuite.net", "name": "${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}", "proxied": false, "type": "CNAME", "comment": "Akamai CI run for ${{steps.extract-branch.outputs.SUBDOMAIN}}", "ttl": 3600, "tags": ["owner:akamai-integration-ci"]}'
       - name: Check Akamai Property can be created
         id: check-akamai-property
         continue-on-error: true
