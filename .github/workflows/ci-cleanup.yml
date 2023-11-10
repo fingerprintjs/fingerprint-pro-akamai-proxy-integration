@@ -13,6 +13,7 @@ jobs:
         id: extract-branch
         run: |
           echo SUBDOMAIN=$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/[^a-zA-Z0-9]+/-/g and s/-+$//g') >> $GITHUB_OUTPUT
+          echo $SUBDOMAIN | tr '[:upper:]' '[:lower:]' >> $GITHUB_OUTPUT
       - name: Check If DNS Record Exists
         id: cloudflare-dns-check
         uses: fjogeleit/http-request-action@v1
