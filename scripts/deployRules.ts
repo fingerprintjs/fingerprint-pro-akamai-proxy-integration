@@ -84,7 +84,7 @@ const clearVariables = async (propertyId: string, version: string) => {
         },
         body: JSON.stringify([
             {
-                "op": "replace",
+                "op": "add",
                 "path": "/rules/variables",
                 "value": []
             }
