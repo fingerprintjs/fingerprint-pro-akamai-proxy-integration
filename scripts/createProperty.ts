@@ -115,6 +115,7 @@ const handler = async () => {
         const cpcodeId = await createCPCode();
         await patchCpcode(propertyId, cpcodeId);
     } catch (e: any) {
+        console.error(e.error?.response?.data)
         console.error(e)
         process.exit(1);
     }
