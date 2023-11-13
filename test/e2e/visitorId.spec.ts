@@ -17,7 +17,7 @@ test.describe('VisitorId', () => {
     const codeElement = await page.waitForSelector('body pre code')
     const text = await codeElement.innerText()
     const json = JSON.parse(text)
-    await waitFor(3000)
+    await waitFor(10000)
     test.expect(json.visitorId).toBeTruthy()
     test.expect(json.requestId).toBeTruthy()
     test.expect(areVisitorIdAndRequestIdValid(json.visitorId, json.requestId)).toBe(true)

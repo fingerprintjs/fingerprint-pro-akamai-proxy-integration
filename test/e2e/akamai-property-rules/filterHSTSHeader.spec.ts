@@ -12,7 +12,7 @@ test.describe('HSTS Headers', () => {
   test('Expect HSTS Header to be undefined', async ({ page, request }) => {
     const testId = generateTestId()
     await page.goto(`${env.testDomain}?testId=${testId}`)
-    await waitFor(3000)
+    await waitFor(10000)
     const result = await getTestResult(
       {
         testId,

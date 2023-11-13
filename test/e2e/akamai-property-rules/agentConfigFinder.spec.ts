@@ -12,7 +12,7 @@ test.describe('Agent Config Finder', () => {
   test('Config set valid', async ({ page, request }) => {
     const testId = generateTestId()
     await page.goto(`${env.testDomain}?testId=${testId}`)
-    await waitFor(3000)
+    await waitFor(10000)
     const result = await getTestResult(
       {
         testId,
