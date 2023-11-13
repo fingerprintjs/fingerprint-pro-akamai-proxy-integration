@@ -1,7 +1,7 @@
 {
-  "name": "fingerprint-pro-akamai-property-rules",
+  "name": "fingerprint-pro-akamai-proxy-integration",
   "version": "0.1.0",
-  "description": "Fingerprint Pro Akamai Integration Property Rules",
+  "description": "Fingerprint Pro Akamai Proxy Integration",
   "author": "FingerprintJS, Inc (https://fingerprint.com)",
   "license": "MIT",
   "config": {

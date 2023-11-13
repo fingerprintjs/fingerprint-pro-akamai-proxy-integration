@@ -1,4 +1,4 @@
-# Contributing to Fingerprint Pro Akamai Property Rules Integration
+# Contributing to Fingerprint Pro Akamai Proxy Integration
 
 ## Working with code
 
@@ -14,7 +14,7 @@ For proposing changes, use the standard [pull request approach](https://docs.git
 ### How to build
 * After cloning the repository, run `yarn install` to install dependencies.
 
-* To build property rules please see the `How to build property rules` section in [README.md](https://github.com/fingerprintjs/fingerprint-pro-akamai-integration-property-rules#how-to-build-property-rules)
+* To build property rules please see the `How to build property rules` section in [README.md](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration#how-to-build-property-rules)
 
 ### Commit style
 
