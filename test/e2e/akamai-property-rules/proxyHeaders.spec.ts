@@ -13,7 +13,7 @@ test.describe('Proxy headers', () => {
   test('Proxy secret, client ip and forwarded header to be set', async ({ page, request }) => {
     const testId = generateTestId()
     await page.goto(`${env.testDomain}?testId=${testId}`)
-    await waitFor(3000)
+    await waitFor(10000)
     const result = await getTestResult(
       {
         testId,

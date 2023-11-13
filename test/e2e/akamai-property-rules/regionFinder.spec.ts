@@ -12,7 +12,7 @@ test.describe('Region finder', () => {
   test('for no region expect api.fpjs.io', async ({ page, request }) => {
     const testId = generateTestId()
     await page.goto(`${env.testDomain}?region&testId=${testId}`)
-    await waitFor(3000)
+    await waitFor(10000)
     const result = await getTestResult(
       {
         testId,
@@ -27,7 +27,7 @@ test.describe('Region finder', () => {
   test('for us region expect api.fpjs.io', async ({ page, request }) => {
     const testId = generateTestId()
     await page.goto(`${env.testDomain}?region=us&testId=${testId}`)
-    await waitFor(3000)
+    await waitFor(10000)
     const result = await getTestResult(
       {
         testId,
@@ -42,7 +42,7 @@ test.describe('Region finder', () => {
   test('for eu region expect eu.api.fpjs.io', async ({ page, request }) => {
     const testId = generateTestId()
     await page.goto(`${env.testDomain}?region=eu&testId=${testId}`)
-    await waitFor(3000)
+    await waitFor(10000)
     const result = await getTestResult(
       {
         testId,
@@ -57,7 +57,7 @@ test.describe('Region finder', () => {
   test('for ap region expect ap.api.fpjs.io', async ({ page, request }) => {
     const testId = generateTestId()
     await page.goto(`${env.testDomain}?region=ap&testId=${testId}`)
-    await waitFor(3000)
+    await waitFor(10000)
     const result = await getTestResult(
       {
         testId,
