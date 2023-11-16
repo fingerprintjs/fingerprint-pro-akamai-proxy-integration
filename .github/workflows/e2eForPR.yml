@@ -1,7 +1,7 @@
 name: Test e2e for PR
 
 on:
-  workflow_dispatch:
+  pull_request:
 
 jobs:
   build-and-test-e2e:
@@ -25,7 +25,7 @@ jobs:
       - name: Run test
         run:  yarn test:e2e
         env:
-          TEST_DOMAIN: '${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
+          TEST_DOMAIN: 'https://${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
           TEST_RESULT_DOMAIN: ${{secrets.TEST_RESULT_DOMAIN}}
           TEST_RESULT_PATH: ${{secrets.TEST_RESULT_PATH}}
           INTEGRATION_PATH: ${{secrets.INTEGRATION_PATH}}
