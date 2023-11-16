@@ -6,7 +6,7 @@ on:
 jobs:
   build-and-test-e2e:
     runs-on: ubuntu-20.04
-    name: Build & Deploy & Test e2e
+    name: Build & Deploy & Test e2e for PR
     steps:
       - uses: actions/checkout@v3
 
