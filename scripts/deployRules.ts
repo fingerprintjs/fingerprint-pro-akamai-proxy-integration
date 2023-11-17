@@ -101,9 +101,7 @@ const activateVersion = async (propertyId: string, version: string) => {
         body: JSON.stringify({
             propertyVersion: version,
             network: "PRODUCTION",
-            notifyEmails: [
-                "support+akamai-ci@fingerprint.com",
-            ],
+            notifyEmails: [process.env.NOTIFY_EMAIL_ADDRESS],
             acknowledgeAllWarnings: true,
             activationType: "ACTIVATE",
 
