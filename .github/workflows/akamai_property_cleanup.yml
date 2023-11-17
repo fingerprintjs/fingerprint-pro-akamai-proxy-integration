@@ -1,0 +1,33 @@
+name: Akamai Property Cleanup
+
+on:
+  schedule:
+    - cron: '30 1 * * *'
+  workflow_dispatch:
+
+
+jobs:
+  clear-akamai-properties:
+    runs-on: ubuntu-20.04
+    name: Clear Redundant Akamai Properties
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.node-version'
+      - name: Install dependencies
+        run: yarn install
+      - name: Run test
+        run: yarn ts-node scripts/clearProperties.ts
+        env:
+          AK_HOST: '${{secrets.AK_HOST}}'
+          AK_CLIENT_TOKEN: '${{secrets.AK_CLIENT_TOKEN}}'
+          AK_CLIENT_SECRET: '${{secrets.AK_CLIENT_SECRET}}'
+          AK_ACCESS_TOKEN: '${{secrets.AK_ACCESS_TOKEN}}'
+          AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
+          AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
+          FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
+          CF_ZONE_ID: '${{secrets.CF_ZONE_ID}}'
+          CF_AUTH_TOKEN: '${{secrets.CF_AUTH_TOKEN}}'
+          TEST_DOMAIN: '${{secrets.TEST_DOMAIN}}'
