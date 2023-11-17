@@ -25,12 +25,23 @@ const checkDNSRecordExists = async (domain: string) => {
 }
 
 const getActiveVersions = async (propertyId: string) => {
-    const {body: {activations: {items}}} = await akamaiRequest({
-        path: `/papi/v1/properties/${propertyId}/activations?contractId=${process.env.AK_CONTRACT_ID}&groupId=${process.env.AK_GROUP_ID}`,
+    const {body: {versions: {items}}} = await akamaiRequest({
+        path: `/papi/v1/properties/${propertyId}/versions?contractId=${process.env.AK_CONTRACT_ID}&groupId=${process.env.AK_GROUP_ID}`,
         method: 'GET',
     });
 
-    return items.filter(t => t.status === 'ACTIVE' && t.activationType === 'ACTIVATE');
+    const actionKeys = ['ACTIVE', 'PENDING', 'PENDING_DEACTIVATION', 'PENDING_CANCELLATION']
+    const versionsToDeactivate: any[] = [];
+    for (const item of items) {
+        if (actionKeys.includes(item.stagingStatus)) {
+            versionsToDeactivate.push({...item, network: 'STAGING'})
+        }
+        if (actionKeys.includes(item.productionStatus)) {
+            versionsToDeactivate.push({...item, network: 'PRODUCTION'})
+        }
+    }
+
+    return versionsToDeactivate;
 }
 
 const deActivateVersion = async (propertyId: string, {network, version}: {
@@ -65,7 +76,6 @@ const handler = async () => {
             const versionsToDeactivate = activations.map(t => ({
                 version: t.propertyVersion,
                 network: t.network,
-                activationId: t.activationId
             }));
             for (const activation of versionsToDeactivate) {
                 try {
@@ -74,13 +84,17 @@ const handler = async () => {
                         version: activation.version
                     });
                     console.log('SUCCESS:DEACTIVATE', `property(${property.propertyId}) version(${activation.version}) network(${activation.network})`);
-                } catch (_) {
+                } catch (e: any) {
+                    console.warn('ERROR:DEACTIVATE', e.error);
                 }
             }
-            try {
-                await deleteProperty(property.propertyId);
-                console.log('SUCCESS:DELETE', `property(${property.propertyId})`);
-            } catch (_) {
+            if (!versionsToDeactivate.length) {
+                try {
+                    await deleteProperty(property.propertyId);
+                    console.log('SUCCESS:DELETE', `property(${property.propertyId})`);
+                } catch (e: any) {
+                    console.warn('ERROR:DELETE', e.error);
+                }
             }
         }
     }
