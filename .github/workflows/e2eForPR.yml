@@ -2,6 +2,10 @@ name: Test e2e for PR
 
 on:
   pull_request:
+    paths:
+      - 'assets/**'
+      - 'generators/**'
+      - 'build.ts'
 
 jobs:
   build-and-test-e2e:
