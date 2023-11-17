@@ -469,64 +469,6 @@
       "comments": ""
     },
     {
-      "name": "Status Path",
-      "children": [],
-      "behaviors": [
-        {
-          "name": "setVariable",
-          "options": {
-            "valueSource": "GENERATE",
-            "transform": "NONE",
-            "variableName": "PMUSER_FPJS_STATUS_STYLE_NONCE",
-            "generator": "HEXRAND",
-            "numberOfBytes": 16
-          }
-        },
-        {
-          "name": "constructResponse",
-          "options": {
-            "enabled": true,
-            "responseCode": 200,
-            "forceEviction": false,
-            "ignorePurge": false,
-            "body": "<html lang='en-US'>\n<head>\n<meta charset='utf-8'/>\n<title>Fingerprint Pro Akamai Integration</title>\n<link rel='icon' type='image/x-icon' href='https://fingerprint.com/img/favicon.ico'>\n<style nonce='{{user.PMUSER_FPJS_STATUS_STYLE_NONCE}}'>\n  h1, span {\n    display: block;\n    padding-top: 1em;\n    padding-bottom: 1em;\n    text-align: center;\n  }\n</style>\n</head>\n<body>\n<h1>Fingerprint Pro Akamai Integration</h1>\n<span>Your Akamai Integration is deployed</span>\n<span>\nIntegration version: {{user.PMUSER_FPJS_INTEGRATION_VERSION}}\n</span>\n<span>\nPlease reach out our support via <a href='mailto:support@fingerprint.com'>support@fingerprint.com</a> if you have any issues\n</span>\n</body>\n</html>"
-          }
-        },
-        {
-          "name": "modifyOutgoingResponseHeader",
-          "options": {
-            "action": "ADD",
-            "standardAddHeaderName": "CONTENT_TYPE",
-            "headerValue": "text/html"
-          }
-        },
-        {
-          "name": "modifyOutgoingResponseHeader",
-          "options": {
-            "action": "ADD",
-            "standardAddHeaderName": "OTHER",
-            "headerValue": "default-src 'none'; img-src https://fingerprint.com; style-src 'nonce-{{user.PMUSER_FPJS_STATUS_STYLE_NONCE}}'",
-            "customHeaderName": "Content-Security-Policy"
-          }
-        }
-      ],
-      "criteria": [
-        {
-          "name": "path",
-          "options": {
-            "matchOperator": "MATCHES_ONE_OF",
-            "matchCaseSensitive": false,
-            "normalize": false,
-            "values": [
-              "/__integration_path__/status"
-            ]
-          }
-        }
-      ],
-      "criteriaMustSatisfy": "all",
-      "comments": ""
-    },
-    {
       "name": "Filter HSTS Header",
       "children": [],
       "behaviors": [
