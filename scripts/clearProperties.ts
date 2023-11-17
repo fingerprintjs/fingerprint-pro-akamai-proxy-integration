@@ -55,7 +55,7 @@ const deActivateVersion = async (propertyId: string, {network, version}: {
             network,
             propertyVersion: version,
             activationType: "DEACTIVATE",
-            notifyEmails: ['support+akamai@fingerprint.com'],
+            notifyEmails: [process.env.NOTIFY_EMAIL_ADDRESS],
             acknowledgeAllWarnings: true,
         })
     });

@@ -79,4 +79,5 @@ jobs:
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
           TEST_EDGE_WORKER_ID: ${{secrets.TEST_EDGE_WORKER_ID}}
+          NOTIFY_EMAIL_ADDRESS: ${{secrets.NOTIFY_EMAIL_ADDRESS}}
         run: yarn ts-node scripts/deployRules.ts

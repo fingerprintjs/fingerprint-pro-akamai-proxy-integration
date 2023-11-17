@@ -31,3 +31,4 @@ jobs:
           CF_ZONE_ID: '${{secrets.CF_ZONE_ID}}'
           CF_AUTH_TOKEN: '${{secrets.CF_AUTH_TOKEN}}'
           TEST_DOMAIN: '${{secrets.TEST_DOMAIN}}'
+          NOTIFY_EMAIL_ADDRESS: ${{secrets.NOTIFY_EMAIL_ADDRESS}}
