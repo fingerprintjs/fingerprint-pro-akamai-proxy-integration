@@ -1,6 +1,8 @@
 import {akamaiRequest} from "./utils/akamaiRequest";
 import {getProperty} from "./utils/getProperty";
 import {ORIGIN_DOMAIN} from "./utils/constants";
+import rulePatch from '../assets/patch-body/patchBodyAddRule.json'
+import {e2eRules} from "./e2eRules";
 
 const getLatestVersion = async (propertyId: string) => {
     const {body} = await akamaiRequest({
@@ -50,7 +52,7 @@ const patchOriginHostname = async (propertyId: string, version: string) => akama
     ])
 });
 
-const patchRemoveFingerprintRules = async(propertyId: string, version: string) => akamaiRequest({
+const patchRemoveFingerprintRules = async (propertyId: string, version: string) => akamaiRequest({
     path: `/papi/v1/properties/${propertyId}/versions/${version}/rules?contractId=${process.env.AK_CONTRACT_ID}&groupId=${process.env.AK_GROUP_ID}`,
     method: 'PATCH',
     headers: {
@@ -109,8 +111,11 @@ const activateVersion = async (propertyId: string, version: string) => {
     })
 }
 
+const createE2ERules = () => ({...rulePatch, value: e2eRules})
+
 import('../dist/patch-body/body.json').then((module) => {
-    const content = module.default as object;
+    const patchReqBody = module.default as object[];
+    patchReqBody.push(createE2ERules())
 
     const handler = async () => {
         try {
@@ -123,7 +128,7 @@ import('../dist/patch-body/body.json').then((module) => {
             } catch (_) {
                 // Ignore error if fingerprint rules not exists
             }
-            await patchAddFingerprintRules(propertyId, propertyVersion, JSON.stringify(content));
+            await patchAddFingerprintRules(propertyId, propertyVersion, JSON.stringify(patchReqBody));
             await activateVersion(propertyId, propertyVersion);
         } catch (e: any) {
             console.error(e.error)
