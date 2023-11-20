@@ -2,15 +2,35 @@ name: Test e2e for PR
 
 on:
   pull_request:
-    paths:
-      - 'assets/**'
-      - 'generators/**'
-      - 'build.ts'
 
 jobs:
+  check-changed-files:
+    runs-on: ubuntu-20.04
+    name: Check changed files
+    outputs:
+      CANT_PASS_WITHOUT_TESTS: ${{ steps.decision.outputs.CANT_PASS_WITHOUT_TESTS }}
+    steps:
+      - id: files
+        uses: jitterbit/get-changed-files@b17fbb00bdc0c0f63fcf166580804b4d2cdc2a42
+      - name: Make decision based on changed files
+        id: decision
+        run: |
+          cantPassWithoutTests=false
+          for changed_file in ${{ steps.files.outputs.all }}; do
+            if [[ ${changed_file} =~ ^(assets|generators)\/.+$ ]]; then
+              cantPassWithoutTests=true
+            fi
+            if [[ ${changed_file} =~ ^build\.ts$ ]]; then
+              cantPassWithoutTests=true
+            fi
+          done
+          echo $cantPassWithoutTests
+          echo CANT_PASS_WITHOUT_TESTS=${cantPassWithoutTests} >> $GITHUB_OUTPUT
   build-and-test-e2e:
     runs-on: ubuntu-20.04
-    name: Build & Deploy & Test e2e for PR
+    name: Test e2e for PR
+    needs: check-changed-files
+    if: needs['check-changed-files'].outputs.CANT_PASS_WITHOUT_TESTS == 'true'
     steps:
       - uses: actions/checkout@v3
 
