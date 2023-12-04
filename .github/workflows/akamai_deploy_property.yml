@@ -6,6 +6,8 @@ on:
           required: true
           type: string
     secrets:
+      FPJS_PROXY_SECRET:
+        required: true
       CF_ZONE_ID:
         required: true
       CF_AUTH_TOKEN:
