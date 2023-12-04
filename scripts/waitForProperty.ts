@@ -25,13 +25,11 @@ async function waitForProperty(url: string, waitMsBetweenRequests = 20_000) {
 }
 
 async function main() {
-  const subdomain = process.env.SUBDOMAIN;
+  const url = process.env.url;
 
-  if (!subdomain) {
-    throw new Error('SUBDOMAIN environment variable is not set');
+  if (!url) {
+    throw new Error('URL environment variable is not set');
   }
-
-  const url = `${subdomain}/worker/status`;
 
   await waitForProperty(url);
 }

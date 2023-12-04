@@ -48,7 +48,7 @@ jobs:
       - name: Wait for property
         run: ts-node scripts/waitForProperty.ts
         env:
-          SUBDOMAIN: 'https://${{steps.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
+          URL: https://${{steps.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}/${{secrets.INTEGRATION_PATH}}/status
 
   test-e2e:
     runs-on: ubuntu-20.04
