@@ -25,7 +25,7 @@ async function waitForProperty(url: string, waitMsBetweenRequests = 20_000) {
 }
 
 async function main() {
-  const url = process.env.url;
+  const url = process.env.URL;
 
   if (!url) {
     throw new Error('URL environment variable is not set');
