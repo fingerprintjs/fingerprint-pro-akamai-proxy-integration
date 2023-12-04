@@ -1,0 +1,85 @@
+name: Test e2e for PR
+
+on:
+  release:
+    types:
+      - published
+      # TODO Remove
+      - edited
+
+jobs:
+  get-subdomain:
+    runs-on: ubuntu-20.04
+    name: Get subdomain
+    outputs:
+        SUBDOMAIN: ${{ steps.extract-tag.outputs.SUBDOMAIN }}
+    steps:
+      - name: Extract Tag Name
+        id: extract-tag
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: |
+          echo SUBDOMAIN=$(echo ${{ github.event.release.tag_name }} | perl -pe 's/[^a-zA-Z0-9]+/-/g and s/-+$//g' | tr '[:upper:]' '[:lower:]') >> $GITHUB_OUTPUT
+
+  deploy-property:
+    name: Deploy Akamai property
+    needs:
+      - get-subdomain
+    uses: ./.github/workflows/akamai_deploy_property.yml
+    with:
+        SUBDOMAIN: ${{ needs.get-subdomain.outputs.SUBDOMAIN }}
+
+  wait-for-property:
+    name: Wait for Akamai property
+    needs:
+      - get-subdomain
+      - deploy-property
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.node-version'
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Wait for property
+        run: ts-node scripts/waitForProperty.ts
+        env:
+          SUBDOMAIN: 'https://${{steps.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
+
+  test-e2e:
+    runs-on: ubuntu-20.04
+    name: Test e2e for PR
+    needs:
+        - wait-for-property
+        - get-subdomain
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.node-version'
+      - name: Install dependencies
+        run: yarn install
+      - name: Install Playwright
+        run: npx playwright install
+      - name: Extract Tag Name
+        id: extract-tag
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: |
+          echo SUBDOMAIN=$(echo ${{ github.event.release.tag_name }} | perl -pe 's/[^a-zA-Z0-9]+/-/g and s/-+$//g' | tr '[:upper:]' '[:lower:]') >> $GITHUB_OUTPUT
+      - name: Run test
+        run:  yarn test:e2e
+        env:
+          TEST_DOMAIN: 'https://${{steps.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}/${{secrets.INTEGRATION_PATH}}/status'
+          TEST_RESULT_DOMAIN: ${{secrets.TEST_RESULT_DOMAIN}}
+          TEST_RESULT_PATH: ${{secrets.TEST_RESULT_PATH}}
+          INTEGRATION_PATH: ${{secrets.INTEGRATION_PATH}}
+          RESULT_PATH: ${{secrets.RESULT_PATH}}
+          AGENT_PATH: ${{secrets.AGENT_PATH}}
+          FPJS_API_KEY: ${{secrets.FPJS_API_KEY}}
