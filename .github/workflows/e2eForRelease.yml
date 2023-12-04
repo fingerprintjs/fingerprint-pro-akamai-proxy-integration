@@ -26,6 +26,7 @@ jobs:
     needs:
       - get-subdomain
     uses: ./.github/workflows/akamai_deploy_property.yml
+    secrets: inherit
     with:
         SUBDOMAIN: ${{ needs.get-subdomain.outputs.SUBDOMAIN }}
 
