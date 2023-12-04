@@ -28,6 +28,13 @@ jobs:
   deploy-property:
     runs-on: ubuntu-20.04
     steps:
+      - uses: actions/checkout@v3
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.node-version'
+      - name: Install dependencies
+        run: yarn install
       - name: Check If DNS Record Exists
         id: cloudflare-dns-check
         uses: fjogeleit/http-request-action@v1
