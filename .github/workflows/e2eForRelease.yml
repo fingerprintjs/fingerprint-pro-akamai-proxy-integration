@@ -21,6 +21,9 @@ jobs:
         run: |
           echo SUBDOMAIN=$(echo ${{ github.event.release.tag_name }} | perl -pe 's/[^a-zA-Z0-9]+/-/g and s/-+$//g' | tr '[:upper:]' '[:lower:]') >> $GITHUB_OUTPUT
 
+      - name: Output subdomain
+        run: echo ${{ steps.extract-tag.outputs.SUBDOMAIN }}
+
   deploy-property:
     name: Deploy Akamai property
     needs:
