@@ -6,6 +6,10 @@ on:
           required: true
           type: string
     secrets:
+      CF_ZONE_ID:
+        required: true
+      CF_AUTH_TOKEN:
+        required: true
       AK_HOST:
         required: true
       AK_CLIENT_TOKEN:
