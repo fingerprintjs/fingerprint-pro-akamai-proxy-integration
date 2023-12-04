@@ -83,3 +83,26 @@ jobs:
           RESULT_PATH: ${{secrets.RESULT_PATH}}
           AGENT_PATH: ${{secrets.AGENT_PATH}}
           FPJS_API_KEY: ${{secrets.FPJS_API_KEY}}
+
+  cleanup-property:
+    runs-on: ubuntu-20.04
+    name: Cleanup Akamai property
+    if: ${{ always() }}
+    needs:
+      - test-e2e
+      - get-subdomain
+    steps:
+      - name: Check If DNS Record Exists
+        id: cloudflare-dns-check
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records?name=${{steps.extract-tag.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}&tags=owner:akamai-integration-ci'
+          method: 'GET'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+      - name: Delete Cloudflare DNS Record
+        if: ${{ fromJson(steps.cloudflare-dns-check.outputs.response).result_info.total_count > 0 }}
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records/${{ fromJson(steps.cloudflare-dns-check.outputs.response).result[0].id }}'
+          method: 'DELETE'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
