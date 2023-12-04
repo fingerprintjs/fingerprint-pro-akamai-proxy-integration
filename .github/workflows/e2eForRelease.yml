@@ -56,7 +56,7 @@ jobs:
 
   test-e2e:
     runs-on: ubuntu-20.04
-    name: Test e2e for PR
+    name: Test e2e for release
     needs:
         - wait-for-property
         - get-subdomain
