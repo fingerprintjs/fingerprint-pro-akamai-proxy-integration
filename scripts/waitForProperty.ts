@@ -31,7 +31,7 @@ async function main() {
     throw new Error('URL environment variable is not set');
   }
 
-  await waitForProperty(url);
+  await waitForProperty(new URL(url).toString());
 }
 
 main().catch(error => {
