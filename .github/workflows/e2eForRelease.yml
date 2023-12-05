@@ -56,6 +56,7 @@ jobs:
         run: yarn ts-node scripts/waitForProperty.ts
         env:
           URL: 'https://${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}/${{secrets.INTEGRATION_PATH}}/status'
+          NODE_TLS_REJECT_UNAUTHORIZED: '0'
 
   test-e2e:
     runs-on: ubuntu-20.04
