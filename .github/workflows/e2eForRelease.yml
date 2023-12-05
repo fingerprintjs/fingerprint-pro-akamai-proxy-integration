@@ -55,7 +55,7 @@ jobs:
       - name: Wait for property
         run: yarn ts-node scripts/waitForProperty.ts
         env:
-          URL: https://${{steps.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}/${{secrets.INTEGRATION_PATH}}/status
+          URL: 'https://${{steps.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}/${{secrets.INTEGRATION_PATH}}/status'
 
   test-e2e:
     runs-on: ubuntu-20.04
