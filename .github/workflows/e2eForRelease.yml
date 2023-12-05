@@ -49,6 +49,9 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Output domain
+        run: echo https://${{steps.get-subdomain.outputs.SUBDOMAIN}}
+
       - name: Wait for property
         run: yarn ts-node scripts/waitForProperty.ts
         env:
