@@ -71,12 +71,6 @@ jobs:
         run: yarn install
       - name: Install Playwright
         run: npx playwright install
-      - name: Extract Tag Name
-        id: extract-tag
-        env:
-          TAG_NAME: ${{ github.event.release.tag_name }}
-        run: |
-          echo SUBDOMAIN=$(echo ${{ github.event.release.tag_name }} | perl -pe 's/[^a-zA-Z0-9]+/-/g and s/-+$//g' | tr '[:upper:]' '[:lower:]') >> $GITHUB_OUTPUT
       - name: Run test
         run:  yarn test:e2e
         env:
