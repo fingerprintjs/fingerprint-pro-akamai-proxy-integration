@@ -85,13 +85,6 @@ jobs:
       - name: Build
         run: yarn build --type terraform
 
-      - name: Prepare akamai credentials
-        run: |
-          echo [default] > ~/.edgerc
-          echo host = ${{secrets.AK_HOST}} >> ~/.edgerc
-          echo client_token = ${{secrets.AK_CLIENT_TOKEN}} >> ~/.edgerc
-          echo client_secret = ${{secrets.AK_CLIENT_SECRET}} >> ~/.edgerc
-
       - name: Deploy terraform
         working-directory: test/terraform
         env:
