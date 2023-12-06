@@ -13,6 +13,7 @@
     "test": "echo \"there are no tests planned\"",
     "test:dts": "echo \"there are no typechecks planned\"",
     "lint": "echo \"linter is not implemented yet\"",
+    "ts-node": "ts-node",
     "build": "ts-node build.ts",
     "test:e2e": "npx playwright test --workers=8 --max-failures=1",
     "prepare": "husky install"
