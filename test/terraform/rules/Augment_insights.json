@@ -1,0 +1,79 @@
+{
+  "children": [
+    {
+      "behaviors": [],
+      "comments": "Identify your main traffic segments so you can zoom in your traffic statistics like hits, bandwidth, offload, response codes, and errors.",
+      "name": "Traffic reporting",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "mPulse",
+          "options": {
+            "apiKey": "",
+            "bufferSize": "",
+            "configOverride": "",
+            "enabled": true,
+            "loaderVersion": "V12",
+            "requirePci": false,
+            "titleOptional": ""
+          }
+        }
+      ],
+      "comments": "Collect and analyze real-user data to monitor the performance of your website.",
+      "name": "mPulse RUM",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "edgeScape",
+          "options": {
+            "enabled": false
+          }
+        }
+      ],
+      "comments": "Receive data about a user's geolocation and connection speed in a request header. If you change cached content based on the values of the X-Akamai-Edgescape request header, contact your account representative.",
+      "criteria": [
+        {
+          "name": "requestType",
+          "options": {
+            "matchOperator": "IS",
+            "value": "CLIENT_REQ"
+          }
+        }
+      ],
+      "name": "Geolocation",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "report",
+          "options": {
+            "logAcceptLanguage": false,
+            "logCookies": "OFF",
+            "logCustomLogField": false,
+            "logEdgeIP": false,
+            "logHost": false,
+            "logReferer": false,
+            "logUserAgent": false,
+            "logXForwardedFor": false
+          }
+        }
+      ],
+      "comments": "Specify the level of detail you want to be logged in your Log Delivery Service reports. Log User-Agent Header to obtain detailed information in the Traffic by Browser and OS report.",
+      "name": "Log delivery",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "comments": "Control the settings related to monitoring and reporting. This gives you additional visibility into your traffic and audiences.",
+  "name": "Augment insights",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

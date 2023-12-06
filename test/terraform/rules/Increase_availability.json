@@ -1,0 +1,82 @@
+{
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "breakConnection",
+          "options": {
+            "enabled": true
+          }
+        }
+      ],
+      "comments": "Simulate an origin connection problem and test the site failover configuration on the CDN staging network.",
+      "criteria": [
+        {
+          "name": "contentDeliveryNetwork",
+          "options": {
+            "matchOperator": "IS",
+            "network": "STAGING"
+          }
+        },
+        {
+          "name": "requestHeader",
+          "options": {
+            "headerName": "breakconnection",
+            "matchCaseSensitiveValue": true,
+            "matchOperator": "IS_ONE_OF",
+            "matchWildcardName": false,
+            "matchWildcardValue": false,
+            "values": [
+              "Your-Secret-Here"
+            ]
+          }
+        }
+      ],
+      "name": "Simulate failover",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "failAction",
+          "options": {
+            "enabled": false
+          }
+        }
+      ],
+      "comments": "Specify how edge servers respond when the origin is not available.",
+      "criteria": [
+        {
+          "name": "originTimeout",
+          "options": {
+            "matchOperator": "ORIGIN_TIMED_OUT"
+          }
+        }
+      ],
+      "name": "Site failover",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "healthDetection",
+          "options": {
+            "maximumReconnects": 3,
+            "retryCount": 3,
+            "retryInterval": "10s"
+          }
+        }
+      ],
+      "comments": "Monitor the health of your origin by tracking unsuccessful IP connection attempts.",
+      "name": "Origin health",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "comments": "Control how to respond when your origin or third parties are slow or even down to minimize the negative impact on user experience.",
+  "name": "Increase availability",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

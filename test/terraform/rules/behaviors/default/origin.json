@@ -1,0 +1,19 @@
+{
+  "name": "origin",
+  "options": {
+    "cacheKeyHostname": "ORIGIN_HOSTNAME",
+    "compress": true,
+    "enableTrueClientIp": true,
+    "forwardHostHeader": "ORIGIN_HOSTNAME",
+    "httpPort": 80,
+    "httpsPort": 443,
+    "originCertificate": "",
+    "originSni": true,
+    "originType": "CUSTOMER",
+    "ports": "",
+    "trueClientIpClientSetting": false,
+    "trueClientIpHeader": "True-Client-IP",
+    "verificationMode": "PLATFORM_SETTINGS",
+    "hostname": "${env.origin_hostname}"
+  }
+}

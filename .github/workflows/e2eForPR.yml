@@ -26,10 +26,22 @@ jobs:
           done
           echo $cantPassWithoutTests
           echo CANT_PASS_WITHOUT_TESTS=${cantPassWithoutTests} >> $GITHUB_OUTPUT
-  build-and-test-e2e:
+  get-subdomain:
     runs-on: ubuntu-20.04
-    name: Test e2e for PR
-    needs: check-changed-files
+    name: Get subdomain
+    outputs:
+      SUBDOMAIN: ${{ steps.extract-branch.outputs.SUBDOMAIN }}
+    steps:
+      - name: Extract Branch Name
+        id: extract-branch
+        run: |
+          echo SUBDOMAIN=$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/[^a-zA-Z0-9]+/-/g and s/-+$//g' | tr '[:upper:]' '[:lower:]') >> $GITHUB_OUTPUT
+  test-patch-body:
+    runs-on: ubuntu-20.04
+    name: Test patch body
+    needs:
+        - check-changed-files
+        - get-subdomain
     if: needs['check-changed-files'].outputs.CANT_PASS_WITHOUT_TESTS == 'true'
     steps:
       - uses: actions/checkout@v3
@@ -42,14 +54,74 @@ jobs:
         run: yarn install
       - name: Install Playwright
         run: npx playwright install
-      - name: Extract Branch Name
-        id: extract-branch
-        run: |
-          echo SUBDOMAIN=$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/[^a-zA-Z0-9]+/-/g and s/-+$//g' | tr '[:upper:]' '[:lower:]') >> $GITHUB_OUTPUT
       - name: Run test
         run:  yarn test:e2e
         env:
-          TEST_DOMAIN: 'https://${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
+          TEST_DOMAIN: 'https://${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
+          TEST_RESULT_DOMAIN: ${{secrets.TEST_RESULT_DOMAIN}}
+          TEST_RESULT_PATH: ${{secrets.TEST_RESULT_PATH}}
+          INTEGRATION_PATH: ${{secrets.INTEGRATION_PATH}}
+          RESULT_PATH: ${{secrets.RESULT_PATH}}
+          AGENT_PATH: ${{secrets.AGENT_PATH}}
+          FPJS_API_KEY: ${{secrets.FPJS_API_KEY}}
+  test-terraform:
+    runs-on: ubuntu-20.04
+    name: Test terraform
+    needs:
+      - check-changed-files
+      - get-subdomain
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.node-version'
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v3
+      - name: Install dependencies
+        run: yarn install
+      - name: Install Playwright
+        run: npx playwright install
+
+      - name: Build
+        run: yarn build --type terraform
+
+      - name: Prepare akamai credentials
+        run: |
+          echo [default] > ~/.edgerc
+          echo host = ${{secrets.AK_HOST}} >> ~/.edgerc
+          echo client_token = ${{secrets.AK_CLIENT_TOKEN}} >> ~/.edgerc
+          echo client_secret = ${{secrets.AK_CLIENT_SECRET}} >> ~/.edgerc
+
+      - name: Prepare terraform variables
+        env:
+          DOMAIN: '${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
+        working-directory: test/terraform
+        run: |
+          echo group_name=${{ secrets.AK_GROUP_ID }} >> terraform.tfvars
+          echo domain=${{ env.DOMAIN }} >> terraform.tfvars
+          echo origin=origin-akamai.${{ secrets.FPJS_CI_DOMAIN }} >> terraform.tfvars
+          echo contact_email=${{ secrets.NOTIFY_EMAIL_ADDRESS }} >> terraform.tfvars
+          echo proxy_secret=${{ secrets.PROXY_SECRET }} >> terraform.tfvars
+          echo agent_path=${{ secrets.AGENT_PATH }} >> terraform.tfvars
+          echo result_path=${{ secrets.RESULT_PATH }} >> terraform.tfvars
+
+
+      - name: Deploy terraform
+        working-directory: test/terraform
+        run: |
+          terraform init
+          terraform apply -auto-approve
+
+      - uses: Wandalen/wretry.action@a163f62ae554a8f3cbe27b23db15b60c0ae2e93c
+        with:
+          command: yarn test:e2e
+          attempt_limit: 3
+          # Wait 4 minutes between attempts
+          attempt_delay: 240000
+        env:
+          TEST_DOMAIN: 'https://${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
           TEST_RESULT_DOMAIN: ${{secrets.TEST_RESULT_DOMAIN}}
           TEST_RESULT_PATH: ${{secrets.TEST_RESULT_PATH}}
           INTEGRATION_PATH: ${{secrets.INTEGRATION_PATH}}
