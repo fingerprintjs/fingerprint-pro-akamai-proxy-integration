@@ -4,10 +4,6 @@ import { generateTestId } from '../utils/generateTestId'
 import { waitFor } from '../utils/waitFor'
 import { getTestResult } from '../utils/getTestResult'
 
-test.use({
-  ignoreHTTPSErrors: env.ignoreHTTPSErrors,
-})
-
 test.describe('Region finder', () => {
   test('for no region expect api.fpjs.io', async ({ page, request }) => {
     const testId = generateTestId()

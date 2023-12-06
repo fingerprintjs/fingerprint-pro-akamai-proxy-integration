@@ -3,10 +3,6 @@ import { env } from './utils/env'
 
 const statusEndpoint = `${env.testDomain}/${env.integrationPath}/status`
 
-test.use({
-  ignoreHTTPSErrors: env.ignoreHTTPSErrors,
-})
-
 test.describe('Status Page', () => {
   test('is deployed', async ({ page }) => {
     await page.goto(statusEndpoint, {

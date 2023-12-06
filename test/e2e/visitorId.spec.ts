@@ -3,15 +3,9 @@ import { test } from 'playwright/test'
 import { waitFor } from './utils/waitFor'
 import { areVisitorIdAndRequestIdValid } from './utils/requestIdVisitorIdValidator'
 
-const rootEndpoint = `${env.testDomain}`
-
-test.use({
-  ignoreHTTPSErrors: env.ignoreHTTPSErrors,
-})
-
 test.describe('VisitorId', () => {
   test('get requestId and visitorId', async ({ page }) => {
-    await page.goto(rootEndpoint, {
+    await page.goto(env.testDomain, {
       waitUntil: 'networkidle',
     })
     const codeElement = await page.waitForSelector('body pre code')

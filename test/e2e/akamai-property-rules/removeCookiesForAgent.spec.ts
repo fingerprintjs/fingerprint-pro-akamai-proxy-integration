@@ -5,10 +5,6 @@ import { waitFor } from '../utils/waitFor'
 import { getTestResult } from '../utils/getTestResult'
 import { getCookieDomainFromEnv } from '../utils/getCookieDomainFromEnv'
 
-test.use({
-  ignoreHTTPSErrors: env.ignoreHTTPSErrors,
-})
-
 test.describe('Agent Request Cookies', () => {
   test('Request Cookies must be removed when request made to Agent endpoint', async ({ page, request }) => {
     await page.context().addCookies([{ name: 'hello', value: 'world', path: '/', domain: getCookieDomainFromEnv() }])

@@ -5,10 +5,6 @@ import { waitFor } from '../utils/waitFor'
 import { getTestResult } from '../utils/getTestResult'
 import { getCookieDomainFromEnv } from '../utils/getCookieDomainFromEnv'
 
-test.use({
-  ignoreHTTPSErrors: env.ignoreHTTPSErrors,
-})
-
 test.describe('Request Cookies filtered when POST request made to Result endpoint', () => {
   test('Cookies headers must be empty if iidt Cookie not present', async ({ page, request }) => {
     await page.context().addCookies([{ name: 'hello', value: 'world', path: '/', domain: getCookieDomainFromEnv() }])
