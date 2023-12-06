@@ -106,7 +106,7 @@ jobs:
           echo proxy_secret=${{ secrets.PROXY_SECRET }} >> terraform.tfvars
           echo agent_path=${{ secrets.AGENT_PATH }} >> terraform.tfvars
           echo result_path=${{ secrets.RESULT_PATH }} >> terraform.tfvars
-
+          cat terraform.tfvars
 
       - name: Deploy terraform
         working-directory: test/terraform
