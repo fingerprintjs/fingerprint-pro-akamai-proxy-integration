@@ -1,0 +1,166 @@
+{
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "dnsAsyncRefresh",
+          "options": {
+            "enabled": true,
+            "timeout": "1h"
+          }
+        },
+        {
+          "name": "timeout",
+          "options": {
+            "value": "5s"
+          }
+        },
+        {
+          "name": "readTimeout",
+          "options": {
+            "value": "120s"
+          }
+        }
+      ],
+      "comments": "Optimize the connection between edge and origin.",
+      "name": "Origin connectivity",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "http3",
+          "options": {
+            "enable": true
+          }
+        },
+        {
+          "name": "http2",
+          "options": {
+            "enabled": ""
+          }
+        },
+        {
+          "name": "allowTransferEncoding",
+          "options": {
+            "enabled": true
+          }
+        },
+        {
+          "name": "sureRoute",
+          "options": {
+            "enableCustomKey": false,
+            "enabled": true,
+            "forceSslForward": false,
+            "raceStatTtl": "30m",
+            "srDownloadLinkTitle": "",
+            "testObjectUrl": "/akamai/sureroute-test-object.html",
+            "toHostStatus": "INCOMING_HH",
+            "type": "PERFORMANCE"
+          }
+        }
+      ],
+      "comments": "Serve your website using modern and fast protocols.",
+      "name": "Protocol Optimizations",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "children": [
+        {
+          "behaviors": [
+            {
+              "name": "prefetch",
+              "options": {
+                "enabled": true
+              }
+            }
+          ],
+          "children": [
+            {
+              "behaviors": [
+                {
+                  "name": "prefetch",
+                  "options": {
+                    "enabled": false
+                  }
+                }
+              ],
+              "comments": "Disable prefetching for specific clients identifying themselves as bots and crawlers. This avoids requesting unnecessary resources from the origin.",
+              "criteria": [
+                {
+                  "name": "userAgent",
+                  "options": {
+                    "matchCaseSensitive": false,
+                    "matchOperator": "IS_ONE_OF",
+                    "matchWildcard": true,
+                    "values": [
+                      "*bot*",
+                      "*crawl*",
+                      "*spider*"
+                    ]
+                  }
+                }
+              ],
+              "name": "Bots",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            }
+          ],
+          "comments": "Define for which HTML pages prefetching should be enabled.",
+          "name": "Prefetching objects",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "behaviors": [
+            {
+              "name": "prefetchable",
+              "options": {
+                "enabled": true
+              }
+            }
+          ],
+          "comments": "Define which resources should be prefetched.",
+          "criteria": [
+            {
+              "name": "fileExtension",
+              "options": {
+                "matchCaseSensitive": false,
+                "matchOperator": "IS_ONE_OF",
+                "values": [
+                  "css",
+                  "js",
+                  "jpg",
+                  "jpeg",
+                  "jp2",
+                  "png",
+                  "gif",
+                  "svg",
+                  "svgz",
+                  "webp",
+                  "eot",
+                  "woff",
+                  "woff2",
+                  "otf",
+                  "ttf"
+                ]
+              }
+            }
+          ],
+          "name": "Prefetchable objects",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        }
+      ],
+      "name": "Prefetching",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "comments": "Control the settings related to improving the performance of delivering objects to your users.",
+  "name": "Accelerate Delivery",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

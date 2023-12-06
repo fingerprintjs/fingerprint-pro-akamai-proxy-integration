@@ -1,0 +1,12 @@
+{
+  "name": "cpCode",
+  "options": {
+    "value": {
+      "id": "${env.cp_code_id}",
+      "products": [
+        "${env.product_id}"
+      ],
+      "name": "${env.cp_code_name}"
+    }
+  }
+}

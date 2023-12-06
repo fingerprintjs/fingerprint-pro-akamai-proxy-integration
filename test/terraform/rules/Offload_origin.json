@@ -1,0 +1,397 @@
+{
+  "behaviors": [
+    {
+      "name": "caching",
+      "options": {
+        "behavior": "NO_STORE"
+      }
+    },
+    {
+      "name": "tieredDistribution",
+      "options": {
+        "enabled": true,
+        "tieredDistributionMap": "CH2"
+      }
+    },
+    {
+      "name": "validateEntityTag",
+      "options": {
+        "enabled": false
+      }
+    },
+    {
+      "name": "removeVary",
+      "options": {
+        "enabled": false
+      }
+    },
+    {
+      "name": "cacheError",
+      "options": {
+        "enabled": true,
+        "preserveStale": true,
+        "ttl": "10s"
+      }
+    },
+    {
+      "name": "cacheKeyQueryParams",
+      "options": {
+        "behavior": "INCLUDE_ALL_ALPHABETIZE_ORDER"
+      }
+    },
+    {
+      "name": "prefreshCache",
+      "options": {
+        "enabled": true,
+        "prefreshval": 90
+      }
+    },
+    {
+      "name": "downstreamCache",
+      "options": {
+        "allowBehavior": "LESSER",
+        "behavior": "ALLOW",
+        "sendHeaders": "CACHE_CONTROL",
+        "sendPrivate": false
+      }
+    }
+  ],
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "MAX_AGE",
+            "mustRevalidate": false,
+            "ttl": "7d"
+          }
+        }
+      ],
+      "comments": "Override the default caching behavior for CSS and JavaScript.",
+      "criteria": [
+        {
+          "name": "fileExtension",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "IS_ONE_OF",
+            "values": [
+              "css",
+              "js"
+            ]
+          }
+        }
+      ],
+      "name": "CSS and JavaScript",
+      "options": {},
+      "criteriaMustSatisfy": "any"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "MAX_AGE",
+            "mustRevalidate": false,
+            "ttl": "30d"
+          }
+        }
+      ],
+      "comments": "Override the default caching behavior for fonts.",
+      "criteria": [
+        {
+          "name": "fileExtension",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "IS_ONE_OF",
+            "values": [
+              "eot",
+              "woff",
+              "woff2",
+              "otf",
+              "ttf"
+            ]
+          }
+        }
+      ],
+      "name": "Fonts",
+      "options": {},
+      "criteriaMustSatisfy": "any"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "MAX_AGE",
+            "mustRevalidate": false,
+            "ttl": "30d"
+          }
+        }
+      ],
+      "comments": "Override the default caching behavior for images.",
+      "criteria": [
+        {
+          "name": "fileExtension",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "IS_ONE_OF",
+            "values": [
+              "jpg",
+              "jpeg",
+              "png",
+              "gif",
+              "webp",
+              "jp2",
+              "ico",
+              "svg",
+              "svgz"
+            ]
+          }
+        }
+      ],
+      "name": "Images",
+      "options": {},
+      "criteriaMustSatisfy": "any"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "MAX_AGE",
+            "mustRevalidate": false,
+            "ttl": "7d"
+          }
+        }
+      ],
+      "comments": "Override the default caching behavior for files. Files containing Personal Identified Information (PII) should require Edge authentication or not be cached at all.",
+      "criteria": [
+        {
+          "name": "fileExtension",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "IS_ONE_OF",
+            "values": [
+              "pdf",
+              "doc",
+              "docx",
+              "odt"
+            ]
+          }
+        }
+      ],
+      "name": "Files",
+      "options": {},
+      "criteriaMustSatisfy": "any"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "MAX_AGE",
+            "mustRevalidate": false,
+            "ttl": "7d"
+          }
+        }
+      ],
+      "comments": "Override the default caching behavior for other static objects.",
+      "criteria": [
+        {
+          "name": "fileExtension",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "IS_ONE_OF",
+            "values": [
+              "aif",
+              "aiff",
+              "au",
+              "avi",
+              "bin",
+              "bmp",
+              "cab",
+              "carb",
+              "cct",
+              "cdf",
+              "class",
+              "dcr",
+              "dtd",
+              "exe",
+              "flv",
+              "gcf",
+              "gff",
+              "grv",
+              "hdml",
+              "hqx",
+              "ini",
+              "mov",
+              "mp3",
+              "nc",
+              "pct",
+              "ppc",
+              "pws",
+              "swa",
+              "swf",
+              "txt",
+              "vbs",
+              "w32",
+              "wav",
+              "midi",
+              "wbmp",
+              "wml",
+              "wmlc",
+              "wmls",
+              "wmlsc",
+              "xsd",
+              "zip",
+              "pict",
+              "tif",
+              "tiff",
+              "mid",
+              "jxr",
+              "jar"
+            ]
+          }
+        }
+      ],
+      "name": "Other static objects",
+      "options": {},
+      "criteriaMustSatisfy": "any"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "NO_STORE"
+          }
+        },
+        {
+          "name": "cacheKeyQueryParams",
+          "options": {
+            "behavior": "IGNORE",
+            "exactMatch": true,
+            "parameters": [
+              "gclid",
+              "fbclid",
+              "utm_source",
+              "utm_campaign",
+              "utm_medium",
+              "utm_content"
+            ]
+          }
+        }
+      ],
+      "comments": "Override the default caching behavior for HTML pages cached on edge servers.",
+      "criteria": [
+        {
+          "name": "fileExtension",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "IS_ONE_OF",
+            "values": [
+              "html",
+              "htm",
+              "php",
+              "jsp",
+              "aspx",
+              "EMPTY_STRING"
+            ]
+          }
+        }
+      ],
+      "name": "HTML pages",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "cacheRedirect",
+          "options": {
+            "enabled": "false"
+          }
+        },
+        {
+          "name": "chaseRedirects",
+          "options": {
+            "enabled": false
+          }
+        }
+      ],
+      "comments": "Configure caching for HTTP redirects. The redirect is cached for the same TTL as a 200 response when this feature is enabled",
+      "name": "Redirects",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "cachePost",
+          "options": {
+            "enabled": false
+          }
+        }
+      ],
+      "comments": "Define when HTTP POST requests should be cached. You should enable it under a criteria match.",
+      "name": "POST responses",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "graphqlCaching",
+          "options": {
+            "enabled": false
+          }
+        }
+      ],
+      "comments": "Define when your GraphQL queries should be cached.",
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "/graphql"
+            ]
+          }
+        }
+      ],
+      "name": "GraphQL",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "downstreamCache",
+          "options": {
+            "behavior": "BUST"
+          }
+        }
+      ],
+      "comments": "Configure the default client caching behavior for uncacheable content at the edge.",
+      "criteria": [
+        {
+          "name": "cacheability",
+          "options": {
+            "matchOperator": "IS_NOT",
+            "value": "CACHEABLE"
+          }
+        }
+      ],
+      "name": "Uncacheable objects",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "comments": "Control the settings related to caching content at the edge and in the browser. As a result, fewer requests go to your origin, fewer bytes leave your data centers, and your assets are closer to your users.",
+  "name": "Offload origin",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

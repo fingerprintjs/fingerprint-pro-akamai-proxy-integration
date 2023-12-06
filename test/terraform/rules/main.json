@@ -1,0 +1,23 @@
+{
+  "rules": {
+    "name": "default",
+    "behaviors": [
+      "#include:behaviors/default/origin.json",
+      "#include:behaviors/default/cpcode.json"
+    ],
+    "children": [
+      "#include:Augment_insights.json",
+      "#include:Accelerate_Delivery.json",
+      "#include:Offload_origin.json",
+      "#include:Strengthen_security.json",
+      "#include:Increase_availability.json",
+      "#include:Minimize_payload.json",
+      "#include:fingerprint-property-rules.json"
+    ],
+    "variables": "#include:fingerprint-property-variables.json",
+    "comments": "The Default Rule template contains all the necessary and recommended features. Rules are evaluated from top to bottom and the last matching rule wins.",
+    "options": {
+      "is_secure": "${env.is_secure}"
+    }
+  }
+}
