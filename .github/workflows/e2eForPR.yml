@@ -102,6 +102,10 @@ jobs:
           TF_VAR_proxy_secret: ${{ secrets.PROXY_SECRET }}
           TF_VAR_agent_path: ${{ secrets.AGENT_PATH }}
           TF_VAR_result_path: ${{ secrets.RESULT_PATH }}
+          AKAMAI_ACCESS_TOKEN: ${{ secrets.AK_ACCESS_TOKEN }}
+          AKAMAI_CLIENT_SECRET: ${{ secrets.AK_CLIENT_SECRET }}
+          AKAMAI_CLIENT_TOKEN: ${{ secrets.AK_CLIENT_TOKEN }}
+          AKAMAI_HOST: ${{ secrets.AK_HOST }}
         run: |
           terraform init
           terraform apply -auto-approve
