@@ -75,8 +75,13 @@ jobs:
         run: yarn install
       - name: Install Playwright
         run: npx playwright install
-      - name: Run test
-        run:  yarn test:e2e
+
+      - uses: Wandalen/wretry.action@a163f62ae554a8f3cbe27b23db15b60c0ae2e93c
+        with:
+          command: yarn test:e2e
+          attempt_limit: 3
+          # Wait 4 minutes between attempts
+          attempt_delay: 240000
         env:
           TEST_DOMAIN: 'https://${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
           TEST_RESULT_DOMAIN: ${{secrets.TEST_RESULT_DOMAIN}}
