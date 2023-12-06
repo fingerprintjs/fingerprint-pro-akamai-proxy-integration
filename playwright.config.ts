@@ -6,7 +6,6 @@ dotenv.config()
 
 export default defineConfig({
   testDir: './test/e2e',
-  retries: 5,
   use: {
     ignoreHTTPSErrors: env.ignoreHTTPSErrors,
   },
