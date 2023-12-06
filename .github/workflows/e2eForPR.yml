@@ -89,7 +89,7 @@ jobs:
         working-directory: test/terraform
         env:
           TF_VAR_domain: '${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
-          TF_VAR_group_name: ${{ secrets.AK_GROUP_ID }}
+          TF_VAR_group_name: ${{ secrets.AK_GROUP_NAME }}
           TF_VAR_origin: origin-akamai.${{ secrets.FPJS_CI_DOMAIN }}
           TF_VAR_contact_email: ${{ secrets.NOTIFY_EMAIL_ADDRESS }}
           TF_VAR_proxy_secret: ${{ secrets.PROXY_SECRET }}
