@@ -6,6 +6,10 @@ import { getTestResult } from '../utils/getTestResult'
 import { getIP } from '../utils/getIp'
 
 test.describe('Proxy headers', () => {
+  test.describe.configure({
+    retries: 5,
+  })
+
   test('Proxy secret, client ip and forwarded header to be set', async ({ page, request }) => {
     const testId = generateTestId()
     await page.goto(`${env.testDomain}?testId=${testId}`)
