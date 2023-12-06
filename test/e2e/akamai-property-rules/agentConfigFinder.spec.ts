@@ -4,10 +4,6 @@ import { env } from '../utils/env'
 import { waitFor } from '../utils/waitFor'
 import { getTestResult } from '../utils/getTestResult'
 
-test.use({
-  ignoreHTTPSErrors: env.ignoreHTTPSErrors,
-})
-
 test.describe('Agent Config Finder', () => {
   test('Config set valid', async ({ page, request }) => {
     const testId = generateTestId()

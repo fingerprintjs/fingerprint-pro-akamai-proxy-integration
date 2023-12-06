@@ -5,10 +5,6 @@ import { waitFor } from '../utils/waitFor'
 import { getTestResult } from '../utils/getTestResult'
 import { getIP } from '../utils/getIp'
 
-test.use({
-  ignoreHTTPSErrors: env.ignoreHTTPSErrors,
-})
-
 test.describe('Proxy headers', () => {
   test('Proxy secret, client ip and forwarded header to be set', async ({ page, request }) => {
     const testId = generateTestId()
