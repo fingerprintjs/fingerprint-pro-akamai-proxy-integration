@@ -88,7 +88,7 @@ jobs:
       - name: Deploy terraform
         working-directory: test/terraform
         env:
-          TF_VAR_domain: '${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
+          TF_VAR_domain: '${{needs.get-subdomain.outputs.SUBDOMAIN}}-tf.${{secrets.FPJS_CI_DOMAIN}}'
           TF_VAR_group_name: ${{ secrets.AK_GROUP_NAME }}
           TF_VAR_origin: origin-akamai.${{ secrets.FPJS_CI_DOMAIN }}
           TF_VAR_contact_email: ${{ secrets.NOTIFY_EMAIL_ADDRESS }}
@@ -113,7 +113,7 @@ jobs:
           # Wait 4 minutes between attempts
           attempt_delay: 240000
         env:
-          TEST_DOMAIN: 'https://${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
+          TEST_DOMAIN: 'https://${{needs.get-subdomain.outputs.SUBDOMAIN}}-tf.${{secrets.FPJS_CI_DOMAIN}}'
           TEST_RESULT_DOMAIN: ${{secrets.TEST_RESULT_DOMAIN}}
           TEST_RESULT_PATH: ${{secrets.TEST_RESULT_PATH}}
           INTEGRATION_PATH: ${{secrets.INTEGRATION_PATH}}
