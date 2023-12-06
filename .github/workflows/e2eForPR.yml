@@ -81,8 +81,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3
       - name: Install dependencies
         run: yarn install
-      - name: Install Playwright
-        run: npx playwright install
 
       - name: Build
         run: yarn build --type terraform
@@ -107,6 +105,9 @@ jobs:
         run: |
           terraform init
           terraform apply -auto-approve
+
+      - name: Install Playwright
+        run: npx playwright install
 
       - uses: Wandalen/wretry.action@a163f62ae554a8f3cbe27b23db15b60c0ae2e93c
         with:
