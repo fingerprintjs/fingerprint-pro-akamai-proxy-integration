@@ -120,3 +120,7 @@ jobs:
           RESULT_PATH: ${{secrets.RESULT_PATH}}
           AGENT_PATH: ${{secrets.AGENT_PATH}}
           FPJS_API_KEY: ${{secrets.FPJS_API_KEY}}
+
+      - name: Destroy terraform
+        working-directory: test/terraform
+        run: terraform destroy -auto-approve
