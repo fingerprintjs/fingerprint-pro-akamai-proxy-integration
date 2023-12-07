@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-20.04
     name: Test terraform
     env:
-      SUBDOMAIN: '${{needs.get-subdomain.outputs.SUBDOMAIN}}-terraform-test.${{secrets.FPJS_CI_DOMAIN}}'
+      SUBDOMAIN: '${{needs.get-subdomain.outputs.SUBDOMAIN}}-tf-test.${{secrets.FPJS_CI_DOMAIN}}'
     needs:
       - check-changed-files
       - get-subdomain
