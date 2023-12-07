@@ -67,6 +67,8 @@ jobs:
   test-terraform:
     runs-on: ubuntu-20.04
     name: Test terraform
+    env:
+      SUBDOMAIN: '${{needs.get-subdomain.outputs.SUBDOMAIN}}-terraform.${{secrets.FPJS_CI_DOMAIN}}'
     needs:
       - check-changed-files
       - get-subdomain
@@ -86,7 +88,7 @@ jobs:
         id: cloudflare-dns-check
         uses: fjogeleit/http-request-action@v1
         with:
-          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records?name=${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records?name=${{env.SUBDOMAIN}}'
           method: 'GET'
           customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
 
@@ -97,7 +99,7 @@ jobs:
           url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records'
           method: 'POST'
           customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
-          data: '{"content": "${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}.edgesuite.net", "name": "${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}", "proxied": false, "type": "CNAME", "comment": "Akamai CI run for ${{needs.get-subdomain.outputs.SUBDOMAIN}}", "ttl": 3600, "tags": ["owner:akamai-integration-ci"]}'
+          data: '{"content": "${{env.SUBDOMAIN}}.edgesuite.net", "name": "${{env.SUBDOMAIN}}", "proxied": false, "type": "CNAME", "comment": "Akamai CI run for ${{needs.get-subdomain.outputs.SUBDOMAIN}}", "ttl": 3600, "tags": ["owner:akamai-integration-ci"]}'
 
       - name: Build
         run: yarn build --type terraform
@@ -105,7 +107,7 @@ jobs:
       - name: Deploy terraform
         working-directory: test/terraform
         env:
-          TF_VAR_domain: '${{needs.get-subdomain.outputs.SUBDOMAIN}}-terraform.${{secrets.FPJS_CI_DOMAIN}}'
+          TF_VAR_domain: ${{env.SUBDOMAIN}}
           TF_VAR_group_name: ${{ secrets.AK_GROUP_NAME }}
           TF_VAR_origin: origin-akamai.${{ secrets.FPJS_CI_DOMAIN }}
           TF_VAR_contact_email: ${{ secrets.NOTIFY_EMAIL_ADDRESS }}
@@ -130,7 +132,7 @@ jobs:
           # Wait 4 minutes between attempts
           attempt_delay: 240000
         env:
-          TEST_DOMAIN: 'https://${{needs.get-subdomain.outputs.SUBDOMAIN}}-terraform.${{secrets.FPJS_CI_DOMAIN}}'
+          TEST_DOMAIN: 'https://${{env.SUBDOMAIN}}'
           TEST_RESULT_DOMAIN: ${{secrets.TEST_RESULT_DOMAIN}}
           TEST_RESULT_PATH: ${{secrets.TEST_RESULT_PATH}}
           INTEGRATION_PATH: ${{secrets.INTEGRATION_PATH}}
