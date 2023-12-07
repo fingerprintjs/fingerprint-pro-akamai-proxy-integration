@@ -21,4 +21,3 @@ test-results
 **/terraform.tfvars
 **/rules/fingerprint-property-rules.json
 **/rules/fingerprint-property-variables.json
-**/.terraform.lock.hcl
