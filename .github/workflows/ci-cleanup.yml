@@ -5,25 +5,52 @@ on:
       - closed
 
 jobs:
-  cleanup:
-    if: github.event.pull_request.merged == true
+  get-branch-name:
     runs-on: ubuntu-20.04
+    name: Get branch name
+    outputs:
+      BRANCH_NAME: ${{ steps.extract-branch.outputs.BRANCH_NAME }}
     steps:
       - name: Extract Branch Name
         id: extract-branch
         run: |
           echo SUBDOMAIN=$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/[^a-zA-Z0-9]+/-/g and s/-+$//g' | tr '[:upper:]' '[:lower:]') >> $GITHUB_OUTPUT
+  cleanup:
+    needs:
+      - get-branch-name
+    runs-on: ubuntu-20.04
+    env:
+      SUBDOMAIN: ${{ needs.get-branch-name.outputs.BRANCH_NAME }}
+      TERRAFORM_SUBDOMAIN: ${{ needs.get-branch-name.outputs.BRANCH_NAME }}-terraform-test
+    steps:
       - name: Check If DNS Record Exists
         id: cloudflare-dns-check
         uses: fjogeleit/http-request-action@v1
         with:
-          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records?name=${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}&tags=owner:akamai-integration-ci'
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records?name=${{env.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}&tags=owner:akamai-integration-ci'
           method: 'GET'
           customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+
+      - name: Check If Terraform DNS Record Exists
+        id: cloudflare-dns-check-terraform
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records?name=${{env.TERRAFORM_SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}&tags=owner:akamai-integration-ci'
+          method: 'GET'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+
       - name: Delete Cloudflare DNS Record
         if: ${{ fromJson(steps.cloudflare-dns-check.outputs.response).result_info.total_count > 0 }}
         uses: fjogeleit/http-request-action@v1
         with:
           url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records/${{ fromJson(steps.cloudflare-dns-check.outputs.response).result[0].id }}'
+          method: 'DELETE'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+
+      - name: Delete Cloudflare Terraform DNS Record
+        if: ${{ fromJson(steps.cloudflare-dns-check-terraform.outputs.response).result_info.total_count > 0 }}
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records/${{ fromJson(steps.cloudflare-dns-check-terraform.outputs.response).result[0].id }}'
           method: 'DELETE'
           customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
