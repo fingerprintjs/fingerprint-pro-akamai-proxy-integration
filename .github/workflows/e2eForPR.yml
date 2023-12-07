@@ -82,6 +82,23 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Check If DNS Record Exists
+        id: cloudflare-dns-check
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records?name=${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
+          method: 'GET'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+
+      - name: Create Cloudflare DNS Record
+        if: ${{ fromJson(steps.cloudflare-dns-check.outputs.response).result_info.total_count < 1 }}
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records'
+          method: 'POST'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+          data: '{"content": "${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}.edgesuite.net", "name": "${{needs.get-subdomain.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}", "proxied": false, "type": "CNAME", "comment": "Akamai CI run for ${{needs.get-subdomain.outputs.SUBDOMAIN}}", "ttl": 3600, "tags": ["owner:akamai-integration-ci"]}'
+
       - name: Build
         run: yarn build --type terraform
 
@@ -124,3 +141,11 @@ jobs:
       - name: Destroy terraform
         working-directory: test/terraform
         run: terraform destroy -auto-approve
+
+      - name: Delete Cloudflare DNS Record
+        if: ${{ fromJson(steps.cloudflare-dns-check.outputs.response).result_info.total_count > 0 }}
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records/${{ fromJson(steps.cloudflare-dns-check.outputs.response).result[0].id }}'
+          method: 'DELETE'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
