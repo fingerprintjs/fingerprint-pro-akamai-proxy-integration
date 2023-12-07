@@ -122,6 +122,12 @@ jobs:
           terraform init
           terraform apply -auto-approve
 
+      - name: Wait for property
+        run: yarn ts-node scripts/waitForProperty.ts
+        env:
+          URL: 'https://${{env.SUBDOMAIN}}/${{secrets.INTEGRATION_PATH}}/status'
+          NODE_TLS_REJECT_UNAUTHORIZED: '0'
+
       - name: Install Playwright
         run: npx playwright install
 
