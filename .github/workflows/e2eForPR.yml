@@ -146,11 +146,6 @@ jobs:
           AGENT_PATH: ${{secrets.AGENT_PATH}}
           FPJS_API_KEY: ${{secrets.FPJS_API_KEY}}
 
-      - name: Destroy terraform
-        if: ${{ always() }}
-        working-directory: test/terraform
-        run: terraform destroy -auto-approve
-
       - name: Delete Cloudflare DNS Record
         if: ${{ always() && fromJson(steps.cloudflare-dns-check.outputs.response).result_info.total_count > 0 }}
         uses: fjogeleit/http-request-action@v1
@@ -158,3 +153,8 @@ jobs:
           url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records/${{ fromJson(steps.cloudflare-dns-check.outputs.response).result[0].id }}'
           method: 'DELETE'
           customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+
+      - name: Destroy terraform
+        if: ${{ always() }}
+        working-directory: test/terraform
+        run: terraform destroy -auto-approve
