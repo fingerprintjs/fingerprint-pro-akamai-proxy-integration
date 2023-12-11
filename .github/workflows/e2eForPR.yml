@@ -146,11 +146,20 @@ jobs:
           AGENT_PATH: ${{secrets.AGENT_PATH}}
           FPJS_API_KEY: ${{secrets.FPJS_API_KEY}}
 
-      - name: Delete Cloudflare DNS Record
-        if: ${{ always() && fromJson(steps.cloudflare-dns-check.outputs.response).result_info.total_count > 0 }}
+      - name: Get DNS Record
+        if: ${{ always() }}
+        id: get-cloudflare-dns-check
         uses: fjogeleit/http-request-action@v1
         with:
-          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records/${{ fromJson(steps.cloudflare-dns-check.outputs.response).result[0].id }}'
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records?name=${{env.SUBDOMAIN}}'
+          method: 'GET'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+
+      - name: Delete Cloudflare DNS Record
+        if: ${{ always() && fromJson(steps.get-cloudflare-dns-check.outputs.response).result_info.total_count > 0 }}
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records/${{ fromJson(steps.get-cloudflare-dns-check.outputs.response).result[0].id }}'
           method: 'DELETE'
           customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
 
