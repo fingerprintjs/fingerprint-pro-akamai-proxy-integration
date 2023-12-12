@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       SUBDOMAIN: ${{ needs.get-branch-name.outputs.BRANCH_NAME }}
-      TERRAFORM_SUBDOMAIN: ${{ needs.get-branch-name.outputs.BRANCH_NAME }}-tf-test
+      TERRAFORM_SUBDOMAIN: ${{ needs.get-branch-name.outputs.BRANCH_NAME }}-terraform
     steps:
       - name: Check If DNS Record Exists
         id: cloudflare-dns-check
