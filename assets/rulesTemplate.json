@@ -14,7 +14,7 @@
             "extractLocation": "QUERY_STRING",
             "queryParameterName": "region",
             "regex": "^(\\w+)$",
-            "replacement": "$0.api.fpjs.io",
+            "replacement": "$0.__ingress_url__",
             "caseSensitive": false,
             "globalSubstitution": true
           }
@@ -148,7 +148,7 @@
             "originSni": true,
             "httpPort": 80,
             "httpsPort": 443,
-            "hostname": "fpcdn.io",
+            "hostname": "__cdn_url__",
             "originCertificate": "",
             "ports": ""
           }
