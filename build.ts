@@ -52,7 +52,7 @@ export const patchBody = (_args?: PatchBodyArgs) => {
 }
 
 const terraform = () => {
-    const bodyContent = generateTerraformPropertyRules({
+    const { variablesBody, rulesBody } = generateTerraformPropertyRules({
         cdnUrl: args["--cdn-url"] ?? defaults.cdnUrl,
         ingressUrl: args["--ingress-url"] ?? defaults.ingressUrl,
     })
@@ -61,15 +61,7 @@ const terraform = () => {
 
     fs.mkdirSync(path.relative(process.cwd(), 'dist/terraform/json'), {recursive: true})
 
-    import('./assets/variables.json').then(res => {
-        const variablesContent = JSON.stringify(res.default, null, 2)
-        fs.writeFile(variablesPath, variablesContent, err => {
-            if (err) {
-                console.error(err)
-                process.exit(1)
-            }
-        })
-    }).catch(err => {
+    fs.writeFile(variablesPath, variablesBody, err => {
         if (err) {
             console.error(err)
             process.exit(1)
@@ -85,7 +77,7 @@ const terraform = () => {
         }
     })
 
-    fs.writeFile(bodyPath, bodyContent, err => {
+    fs.writeFile(bodyPath, rulesBody, err => {
         if (err) {
             console.error(err)
             process.exit(1)
