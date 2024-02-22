@@ -25,6 +25,11 @@ You are required to follow [conventional commits](https://www.conventionalcommit
 End-to-end tests are written in [playwright](https://github.com/microsoft/playwright) and located in the `e2e` folder.
 These tests are run automatically by the `e2e.yml` workflow on every PR automatically, you don't need to run them locally.
 
+### Changing API URLs
+
+You can use the `--ingress-url` and `--cdn-url` build flags to change URLs that the integration will use for making requests. 
+This should be only used for local development and not in production.
+
 ### How to release a new version
 
 The workflow `release.yml` is responsible for releasing a new version.
