@@ -10,6 +10,8 @@ const args = arg({
     '--agent-path': String,
     '--result-path': String,
     '--proxy-secret': String,
+    '--cdn-url': String,
+    '--ingress-url': String,
 })
 
 args['--type'] = args['--type'] ? args['--type'] : 'all'
@@ -18,7 +20,14 @@ export interface PatchBodyArgs {
     integrationPath: string,
     agentPath: string,
     resultPath: string,
-    proxySecret: string,
+    proxySecret: string
+    cdnUrl: string,
+    ingressUrl: string
+}
+
+const defaults = {
+    cdnUrl: 'fpcdn.io',
+    ingressUrl: 'api.fpjs.io'
 }
 
 export const patchBody = (_args?: PatchBodyArgs) => {
@@ -27,6 +36,8 @@ export const patchBody = (_args?: PatchBodyArgs) => {
         agentPath: args["--agent-path"] ?? _args?.agentPath,
         resultPath: args["--result-path"] ?? _args?.resultPath,
         proxySecret: args["--proxy-secret"] ?? _args?.proxySecret,
+        cdnUrl: args["--cdn-url"] ?? _args?.cdnUrl ?? defaults.cdnUrl,
+        ingressUrl: args["--ingress-url"] ?? _args?.ingressUrl ?? defaults.ingressUrl,
     })
 
     fs.mkdirSync(path.relative(process.cwd(), 'dist/patch-body'), {recursive: true})
@@ -41,21 +52,16 @@ export const patchBody = (_args?: PatchBodyArgs) => {
 }
 
 const terraform = () => {
-    const bodyContent = generateTerraformPropertyRules()
+    const { variablesBody, rulesBody } = generateTerraformPropertyRules({
+        cdnUrl: args["--cdn-url"] ?? defaults.cdnUrl,
+        ingressUrl: args["--ingress-url"] ?? defaults.ingressUrl,
+    })
     const bodyPath = path.relative(process.cwd(), 'dist/terraform/json/fingerprint-property-rules.json')
     const variablesPath = path.relative(process.cwd(), 'dist/terraform/json/fingerprint-property-variables.json')
 
     fs.mkdirSync(path.relative(process.cwd(), 'dist/terraform/json'), {recursive: true})
 
-    import('./assets/variables.json').then(res => {
-        const variablesContent = JSON.stringify(res.default, null, 2)
-        fs.writeFile(variablesPath, variablesContent, err => {
-            if (err) {
-                console.error(err)
-                process.exit(1)
-            }
-        })
-    }).catch(err => {
+    fs.writeFile(variablesPath, variablesBody, err => {
         if (err) {
             console.error(err)
             process.exit(1)
@@ -71,7 +77,7 @@ const terraform = () => {
         }
     })
 
-    fs.writeFile(bodyPath, bodyContent, err => {
+    fs.writeFile(bodyPath, rulesBody, err => {
         if (err) {
             console.error(err)
             process.exit(1)

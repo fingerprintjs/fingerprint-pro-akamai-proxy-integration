@@ -50,7 +50,7 @@
   },
   {
     "name": "PMUSER_FPJS_INGRESS_ENDPOINT",
-    "value": "api.fpjs.io",
+    "value": "__ingress_url__",
     "description": "Points to Fingerprint servers",
     "hidden": false,
     "sensitive": false
