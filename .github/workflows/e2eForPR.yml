@@ -23,9 +23,44 @@ jobs:
             if [[ ${changed_file} =~ ^build\.ts$ ]]; then
               cantPassWithoutTests=true
             fi
+            if [[ ${changed_file} =~ src\/mockTests\.ts$ ]]; then
+                cantPassWithoutTests=true
+            fi
+            if [[ ${changed_file} =~ .*ci\.yml$ ]]; then
+                cantPassWithoutTests=true
+            fi
           done
           echo $cantPassWithoutTests
           echo CANT_PASS_WITHOUT_TESTS=${cantPassWithoutTests} >> $GITHUB_OUTPUT
+  build-and-test-e2e-mock:
+    runs-on: ubuntu-20.04
+    name: Test e2e for PR using mock app
+    needs: check-changed-files
+    if: needs['check-changed-files'].outputs.CANT_PASS_WITHOUT_TESTS == 'true'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.node-version'
+      - name: Install dependencies
+        run: yarn install
+      - name: Install Playwright
+        run: npx playwright install
+      - name: Extract Branch Name
+        id: extract-branch
+        run: |
+          echo SUBDOMAIN=mock-$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/[^a-zA-Z0-9]+/-/g and s/-+$//g' | tr '[:upper:]' '[:lower:]') >> $GITHUB_OUTPUT
+      - name: Run test
+        run: yarn test:mock-e2e
+        env:
+          TEST_DOMAIN: 'https://${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
+          INTEGRATION_PATH: ${{secrets.INTEGRATION_PATH}}
+          RESULT_PATH: ${{secrets.RESULT_PATH}}
+          AGENT_PATH: ${{secrets.AGENT_PATH}}
+          API_URL: ${{secrets.MOCK_FPCDN}}
+
   build-and-test-e2e:
     runs-on: ubuntu-20.04
     name: Test e2e for PR
@@ -55,7 +90,7 @@ jobs:
           TEST_DOMAIN: 'https://${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
           TEST_RESULT_DOMAIN: ${{secrets.TEST_RESULT_DOMAIN}}
           TEST_RESULT_PATH: ${{secrets.TEST_RESULT_PATH}}
-          INTEGRATION_PATH: ${{secrets.INTEGRATION_PATH}}
-          RESULT_PATH: ${{secrets.RESULT_PATH}}
-          AGENT_PATH: ${{secrets.AGENT_PATH}}
+          INTEGRATION_PATH: worker
+          RESULT_PATH: pxresult
+          AGENT_PATH: pxdownload
           FPJS_API_KEY: ${{secrets.FPJS_API_KEY}}
