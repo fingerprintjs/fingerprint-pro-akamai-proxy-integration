@@ -62,6 +62,10 @@ const patchRemoveFingerprintRules = async (propertyId: string, version: string) 
         {
             op: "remove",
             path: "/rules/children/6",
+        },
+        {
+            op: "remove",
+            path: "/rules/children/7",
         }
     ])
 });
