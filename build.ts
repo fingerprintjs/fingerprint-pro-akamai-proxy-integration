@@ -98,7 +98,7 @@ if (!args['--type'] || (args["--type"] && !['all', ...flowKeys].includes(args['-
 }
 
 fs.rmSync(path.relative(process.cwd(), 'dist'), {recursive: true, force: true})
-
+console.log('trigger ci')
 switch (args['--type']) {
     default:
     case 'all':
