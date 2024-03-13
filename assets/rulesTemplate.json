@@ -301,7 +301,7 @@
                 "action": "MODIFY",
                 "standardModifyHeaderName": "OTHER",
                 "newHeaderValue": "{{user.PMUSER_FPJS_REQUEST_COOKIE}}",
-                "avoidDuplicateHeaders": true,
+                "avoidDuplicateHeaders": false,
                 "customHeaderName": "Cookie"
               }
             }
