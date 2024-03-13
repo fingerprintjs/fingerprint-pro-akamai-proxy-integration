@@ -4,6 +4,12 @@ import {ORIGIN_DOMAIN} from "./utils/constants";
 import rulePatch from '../assets/patch-body/patchBodyAddRule.json'
 import {e2eRules} from "./e2eRules";
 
+type PatchParameter = {
+    op: string;
+    value: {children: object[]};
+    path: string;
+}
+
 const getLatestVersion = async (propertyId: string) => {
     const {body} = await akamaiRequest({
         path: `/papi/v1/properties/${propertyId}/versions?contractId=${process.env.AK_CONTRACT_ID}&groupId=${process.env.AK_GROUP_ID}`,
@@ -62,10 +68,6 @@ const patchRemoveFingerprintRules = async (propertyId: string, version: string) 
         {
             op: "remove",
             path: "/rules/children/6",
-        },
-        {
-            op: "remove",
-            path: "/rules/children/7",
         }
     ])
 });
@@ -113,11 +115,9 @@ const activateVersion = async (propertyId: string, version: string) => {
     })
 }
 
-const createE2ERules = () => ({...rulePatch, value: e2eRules})
-
 import('../dist/patch-body/body.json').then((module) => {
-    const patchReqBody = module.default as object[];
-    patchReqBody.push(createE2ERules())
+    const patchReqBody = module.default as PatchParameter[];
+    patchReqBody[0].value.children.push(e2eRules)
 
     const handler = async () => {
         try {
