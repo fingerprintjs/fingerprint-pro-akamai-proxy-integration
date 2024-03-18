@@ -68,7 +68,7 @@ jobs:
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
         run: yarn ts-node scripts/createProperty.ts
       - name: Build Patch Body
-        run: yarn build --type patchBody --proxy-secret secret --integration-path worker --agent-path pxdownload --result-path pxresult --cdn-url ${{secrets.MOCK_FPCDN}} --ingress-url ${{secrets.MOCK_FPCDN}}
+        run: pnpm build --type patchBody --proxy-secret secret --integration-path ${{secrets.INTEGRATION_PATH}} --agent-path ${{secrets.AGENT_PATH}} --result-path ${{secrets.RESULT_PATH}} --cdn-url ${{secrets.MOCK_FPCDN}} --ingress-url ${{secrets.MOCK_FPCDN}}
       - name: Deploy Akamai Rules
         id: deploy-rules
         env:
@@ -145,7 +145,7 @@ jobs:
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
         run: pnpm ts-node scripts/createProperty.ts
       - name: Build Patch Body
-        run: pnpm build --type patchBody --proxy-secret ${{secrets.FPJS_PROXY_SECRET}} --integration-path worker --agent-path pxdownload --result-path pxresult
+        run: pnpm build --type patchBody --proxy-secret ${{secrets.FPJS_PROXY_SECRET}} --integration-path ${{secrets.INTEGRATION_PATH}} --agent-path ${{secrets.AGENT_PATH}} --result-path ${{secrets.RESULT_PATH}}
       - name: Deploy Akamai Rules
         id: deploy-rules
         env:

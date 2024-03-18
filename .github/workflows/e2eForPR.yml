@@ -90,7 +90,7 @@ jobs:
           TEST_DOMAIN: 'https://${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
           TEST_RESULT_DOMAIN: ${{secrets.TEST_RESULT_DOMAIN}}
           TEST_RESULT_PATH: ${{secrets.TEST_RESULT_PATH}}
-          INTEGRATION_PATH: worker
-          RESULT_PATH: pxresult
-          AGENT_PATH: pxdownload
+          INTEGRATION_PATH: ${{secrets.INTEGRATION_PATH}}
+          RESULT_PATH: ${{secrets.RESULT_PATH}}
+          AGENT_PATH: ${{secrets.AGENT_PATH}}
           FPJS_API_KEY: ${{secrets.FPJS_API_KEY}}
