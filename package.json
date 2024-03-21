@@ -15,6 +15,7 @@
     "lint": "echo \"linter is not implemented yet\"",
     "build": "ts-node build.ts",
     "test:e2e": "npx playwright test --workers=8 --max-failures=1",
+    "test:mock-e2e": "ts-node scripts/mockTests.ts",
     "prepare": "husky install"
   },
   "devDependencies": {
