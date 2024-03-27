@@ -13,13 +13,17 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: 'Install pnpm'
+        uses: pnpm/action-setup@129abb77bf5884e578fcaf1f37628e41622cc371
+        with:
+          version: 8
       - name: Install node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install
       - name: Extract Branch Name
         id: extract-branch
         run: |
@@ -51,7 +55,7 @@ jobs:
           AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
-        run: yarn ts-node scripts/checkPropertyCanBeCreated.ts
+        run: pnpm ts-node scripts/checkPropertyCanBeCreated.ts
       - name: Create Akamai Property
         if: steps.check-akamai-property.outcome == 'success'
         id: create-akamai-property
@@ -64,9 +68,9 @@ jobs:
           AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
-        run: yarn ts-node scripts/createProperty.ts
+        run: pnpm ts-node scripts/createProperty.ts
       - name: Build Patch Body
-        run: yarn build --type patchBody --proxy-secret ${{secrets.FPJS_PROXY_SECRET}} --integration-path worker --agent-path pxdownload --result-path pxresult
+        run: pnpm build --type patchBody --proxy-secret ${{secrets.FPJS_PROXY_SECRET}} --integration-path worker --agent-path pxdownload --result-path pxresult
       - name: Deploy Akamai Rules
         id: deploy-rules
         env:
@@ -80,4 +84,4 @@ jobs:
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
           TEST_EDGE_WORKER_ID: ${{secrets.TEST_EDGE_WORKER_ID}}
           NOTIFY_EMAIL_ADDRESS: ${{secrets.NOTIFY_EMAIL_ADDRESS}}
-        run: yarn ts-node scripts/deployRules.ts
+        run: pnpm ts-node scripts/deployRules.ts

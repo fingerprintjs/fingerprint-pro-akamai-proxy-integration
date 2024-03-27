@@ -20,7 +20,7 @@ test.describe('Proxy headers', () => {
         endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'POST',
       },
-      request,
+      request
     )
     const testUrl = new URL(env.testDomain)
     const testHost = testUrl.host

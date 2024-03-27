@@ -19,7 +19,7 @@ test.describe('Region finder', () => {
         endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'GET',
       },
-      request,
+      request
     )
     const ingressEndpoint = result.variables.find((t) => t.key === 'INGRESS_ENDPOINT')
     test.expect(ingressEndpoint.value).toBe('api.fpjs.io')
@@ -34,7 +34,7 @@ test.describe('Region finder', () => {
         endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'GET',
       },
-      request,
+      request
     )
     const ingressEndpoint = result.variables.find((t) => t.key === 'INGRESS_ENDPOINT')
     test.expect(ingressEndpoint.value).toBe('api.fpjs.io')
@@ -49,7 +49,7 @@ test.describe('Region finder', () => {
         endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'GET',
       },
-      request,
+      request
     )
     const ingressEndpoint = result.variables.find((t) => t.key === 'INGRESS_ENDPOINT')
     test.expect(ingressEndpoint.value).toBe('eu.api.fpjs.io')
@@ -64,7 +64,7 @@ test.describe('Region finder', () => {
         endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'GET',
       },
-      request,
+      request
     )
     const ingressEndpoint = result.variables.find((t) => t.key === 'INGRESS_ENDPOINT')
     test.expect(ingressEndpoint.value).toBe('ap.api.fpjs.io')

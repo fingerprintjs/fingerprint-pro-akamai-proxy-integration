@@ -10,7 +10,7 @@ interface Arguments {
 export const getTestResult = async (args: Arguments, request: APIRequestContext) => {
   const resultEndpoint = `${env.testResultDomain}/${env.testResultPath}`
   const response = await request.get(
-    `${resultEndpoint}?testPath=${args.endpoint}&testMethod=${args.method}&testId=${args.testId}`,
+    `${resultEndpoint}?testPath=${args.endpoint}&testMethod=${args.method}&testId=${args.testId}`
   )
   return response.json()
 }

@@ -19,7 +19,7 @@ test.describe('Agent Config Finder', () => {
         endpoint: `/${env.integrationPath}/${env.agentPath}`,
         method: 'GET',
       },
-      request,
+      request
     )
     const apiKey = result.variables.find((t) => t.key === 'PUBLIC_API_KEY')
     const version = result.variables.find((t) => t.key === 'AGENT_VERSION')

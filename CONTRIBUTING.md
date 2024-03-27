@@ -2,7 +2,7 @@
 
 ## Working with code
 
-We prefer using [yarn](https://yarnpkg.com/) for installing dependencies and running scripts.
+We prefer using [pnpm](https://pnpm.io/) for installing dependencies and running scripts.
 
 
 For proposing changes, use the standard [pull request approach](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request). It's recommended to discuss fixes or new functionality in the Issues, first.
@@ -12,7 +12,7 @@ For proposing changes, use the standard [pull request approach](https://docs.git
 
 
 ### How to build
-* After cloning the repository, run `yarn install` to install dependencies.
+* After cloning the repository, run `pnpm install` to install dependencies.
 
 * To build property rules please see the `How to build property rules` section in [README.md](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration#how-to-build-property-rules)
 

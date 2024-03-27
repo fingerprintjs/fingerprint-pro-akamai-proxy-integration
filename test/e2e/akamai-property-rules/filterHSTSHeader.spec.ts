@@ -19,7 +19,7 @@ test.describe('HSTS Headers', () => {
         endpoint: `/${env.integrationPath}/${env.agentPath}`,
         method: 'GET',
       },
-      request,
+      request
     )
     test.expect(result.request.headers['strict-transport-security']).toBe(undefined)
   })
