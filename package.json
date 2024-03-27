@@ -29,6 +29,7 @@
     "@playwright/test": "^1.42.1",
     "@types/node": "^20.11.30",
     "akamai-edgegrid": "^3.4.4",
+    "axios": "^1.6.8",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "dotenv": "^16.4.5",
