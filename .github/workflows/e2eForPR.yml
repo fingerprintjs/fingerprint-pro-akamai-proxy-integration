@@ -32,14 +32,17 @@ jobs:
     needs: check-changed-files
     if: needs['check-changed-files'].outputs.CANT_PASS_WITHOUT_TESTS == 'true'
     steps:
-      - uses: actions/checkout@v3
-
+      - uses: actions/checkout@v4
+      - name: 'Install pnpm'
+        uses: pnpm/action-setup@129abb77bf5884e578fcaf1f37628e41622cc371
+        with:
+          version: 8
       - name: Install node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install
       - name: Install Playwright
         run: npx playwright install
       - name: Extract Branch Name
@@ -47,7 +50,7 @@ jobs:
         run: |
           echo SUBDOMAIN=$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/[^a-zA-Z0-9]+/-/g and s/-+$//g' | tr '[:upper:]' '[:lower:]') >> $GITHUB_OUTPUT
       - name: Run test
-        run:  yarn test:e2e
+        run:  pnpm test:e2e
         env:
           TEST_DOMAIN: 'https://${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
           TEST_RESULT_DOMAIN: ${{secrets.TEST_RESULT_DOMAIN}}

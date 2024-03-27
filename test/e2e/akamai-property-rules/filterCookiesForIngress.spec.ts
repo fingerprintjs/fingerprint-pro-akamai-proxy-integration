@@ -21,7 +21,7 @@ test.describe('Request Cookies filtered when POST request made to Result endpoin
         endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'POST',
       },
-      request,
+      request
     )
     test.expect(result.request.headers['cookie']).toBe(undefined)
   })
@@ -49,7 +49,7 @@ test.describe('Request Cookies filtered when POST request made to Result endpoin
         endpoint: `/${env.integrationPath}/${env.resultPath}`,
         method: 'POST',
       },
-      request,
+      request
     )
     const requestCookie = result.request.headers['cookie'].join('')
     test.expect(requestCookie.includes('hello=')).toBe(false)
