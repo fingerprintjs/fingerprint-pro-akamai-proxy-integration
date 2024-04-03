@@ -13,9 +13,6 @@ devDependencies:
   '@commitlint/cli':
     specifier: ^17.6.5
     version: 17.8.1
-  '@commitlint/config-conventional':
-    specifier: ^17.4.4
-    version: 17.8.1
   '@fingerprintjs/commit-lint-dx-team':
     specifier: ^0.0.2
     version: 0.0.2
