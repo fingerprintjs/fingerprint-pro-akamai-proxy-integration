@@ -21,7 +21,7 @@ test.describe('Agent Request Cookies', () => {
         endpoint: `/${env.integrationPath}/${env.agentPath}`,
         method: 'GET',
       },
-      request,
+      request
     )
     test.expect(result.request.headers['cookie']).toBe(undefined)
   })

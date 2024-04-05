@@ -12,21 +12,30 @@
   "scripts": {
     "test": "echo \"there are no tests planned\"",
     "test:dts": "echo \"there are no typechecks planned\"",
-    "lint": "echo \"linter is not implemented yet\"",
+    "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
+    "lint:fix": "pnpm lint --fix",
     "build": "ts-node build.ts",
-    "test:e2e": "npx playwright test --workers=8 --max-failures=1",
+    "test:e2e": "pnpm playwright test --workers=8 --max-failures=1",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",
-    "@commitlint/config-conventional": "^17.4.4",
-    "@playwright/test": "^1.39.0",
-    "akamai-edgegrid": "^3.4.3",
+    "@fingerprintjs/commit-lint-dx-team": "^0.0.2",
+    "@fingerprintjs/conventional-changelog-dx-team": "^0.1.0",
+    "@fingerprintjs/eslint-config-dx-team": "^0.1.0",
+    "@fingerprintjs/prettier-config-dx-team": "^0.1.0",
+    "@fingerprintjs/tsconfig-dx-team": "^0.0.2",
+    "@playwright/test": "^1.42.1",
+    "@types/node": "^20.11.30",
+    "akamai-edgegrid": "^3.4.4",
+    "axios": "^1.6.8",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
-    "dotenv": "^16.3.1",
-    "husky": "^8.0.0",
-    "typescript": "^5.2.2"
+    "dotenv": "^16.4.5",
+    "husky": "^9.0.11",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.3"
   },
   "dependencies": {
     "arg": "^5.0.2"
