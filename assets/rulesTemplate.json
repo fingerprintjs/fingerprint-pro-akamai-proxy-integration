@@ -329,14 +329,17 @@
             "forwardHostHeader": "ORIGIN_HOSTNAME",
             "cacheKeyHostname": "ORIGIN_HOSTNAME",
             "compress": true,
-            "enableTrueClientIp": false,
+            "enableTrueClientIp": true,
             "verificationMode": "THIRD_PARTY",
             "originSni": true,
             "httpPort": 80,
             "httpsPort": 443,
             "hostname": "{{user.PMUSER_FPJS_INGRESS_ENDPOINT}}",
             "originCertificate": "",
-            "ports": ""
+            "ports": "",
+            "ipVersion": "IPV4",
+            "trueClientIpHeader": "FPJS-Proxy-Client-IP",
+            "trueClientIpClientSetting": false
           }
         },
         {
@@ -347,16 +350,6 @@
             "keepQueryString": true,
             "matchRegex": "\\/__integration_path__\\/__result_path__(.*)",
             "targetRegex": "/?ii=fingerprint-pro-akamai/{{user.PMUSER_FPJS_INTEGRATION_VERSION}}/ingress&{{builtin.AK_QUERY}}"
-          }
-        },
-        {
-          "name": "modifyIncomingRequestHeader",
-          "options": {
-            "action": "MODIFY",
-            "standardModifyHeaderName": "OTHER",
-            "newHeaderValue": "{{builtin.AK_CLIENT_REAL_IP}}",
-            "avoidDuplicateHeaders": true,
-            "customHeaderName": "FPJS-Proxy-Client-IP"
           }
         }
       ],
