@@ -83,7 +83,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Install Playwright
-        run: npx playwright install
+        run: pnpm exec playwright install
       - name: Extract Branch Name
         id: extract-branch
         run: |
