@@ -23,7 +23,7 @@ jobs:
             if [[ ${changed_file} =~ ^build\.ts$ ]]; then
               cantPassWithoutTests=true
             fi
-            if [[ ${changed_file} =~ src\/mockTests\.ts$ ]]; then
+            if [[ ${changed_file} =~ scripts\/mockTests\.ts$ ]]; then
                 cantPassWithoutTests=true
             fi
             if [[ ${changed_file} =~ .*ci\.yml$ ]]; then
