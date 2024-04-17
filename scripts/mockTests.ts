@@ -1,4 +1,5 @@
 import { execSync } from 'child_process'
+import pkg from '../package.json'
 
 function getEnv(name: string) {
   const value = process.env[name]
@@ -23,7 +24,7 @@ async function main() {
   console.info(`Running mock e2e tests for`, host)
 
   execSync(
-    `npm exec -y "git+https://github.com/fingerprintjs/dx-team-mock-for-proxy-integrations-e2e-tests.git" -- --api-url="https://${apiUrl}" --host="${host}" --cdn-proxy-path="${agentPath}" --ingress-proxy-path="${resultPath}"`,
+    `npm exec -y "git+https://github.com/fingerprintjs/dx-team-mock-for-proxy-integrations-e2e-tests.git" -- --api-url="https://${apiUrl}" --host="${host}" --cdn-proxy-path="${agentPath}" --ingress-proxy-path="${resultPath}" --traffic-name=fingerprint-pro-akamai --integration-version=${pkg.version}`,
     {
       stdio: 'inherit',
     }
