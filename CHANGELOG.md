@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/compare/v0.2.0...v0.2.1) (2024-04-22)
+
+
+### Bug Fixes
+
+* ingress api handler forwarding incorrect ip address ([76e2a77](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/76e2a770b9d312f84731346c0becd297761fb589))
+
 ## [0.2.0](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/compare/v0.1.0...v0.2.0) (2024-03-21)
 
 
