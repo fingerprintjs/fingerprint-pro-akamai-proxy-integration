@@ -9,7 +9,6 @@ on:
       - 'build.ts'
       - 'scripts/mockTests.ts'
       - '.github/workflows/ci.yml'
-
 jobs:
   ci-mock:
     runs-on: ubuntu-20.04
