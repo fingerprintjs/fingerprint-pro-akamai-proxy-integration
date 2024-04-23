@@ -3,11 +3,9 @@ import pkg from '../package.json'
 
 function getEnv(name: string) {
   const value = process.env[name]
-
   if (!value) {
     throw new Error(`${name} is not set`)
   }
-
   return value
 }
 
@@ -29,7 +27,9 @@ async function main() {
   console.info(`Running mock e2e tests for`, host)
 
   execSync(
-    `npm exec -y "git+https://github.com/fingerprintjs/dx-team-mock-for-proxy-integrations-e2e-tests.git" -- --api-url="https://${apiUrl}" --cdn-proxy-url="${agentUrl.toString()}" --ingress-proxy-url="${resultUrl.toString()}" --traffic-name=fingerprint-pro-akamai --integration-version=${pkg.version}`,
+    `npm exec -y "git+https://github.com/fingerprintjs/dx-team-mock-for-proxy-integrations-e2e-tests.git" -- --api-url="https://${apiUrl}" --cdn-proxy-url="${agentUrl.toString()}" --ingress-proxy-url="${resultUrl.toString()}" --traffic-name=fingerprint-pro-akamai --integration-version=${
+      pkg.version
+    }`,
     {
       stdio: 'inherit',
     }
