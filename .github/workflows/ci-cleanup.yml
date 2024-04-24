@@ -7,6 +7,7 @@ on:
 jobs:
   cleanup-mock:
     runs-on: ubuntu-20.04
+    if: github.event.pull_request.merged == true
     steps:
       - name: Extract Branch Name
         id: extract-branch
@@ -28,6 +29,7 @@ jobs:
           customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
 
   cleanup:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-20.04
     steps:
       - name: Extract Branch Name
