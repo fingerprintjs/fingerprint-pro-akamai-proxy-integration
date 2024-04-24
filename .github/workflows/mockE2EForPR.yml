@@ -23,25 +23,29 @@ jobs:
             if [[ ${changed_file} =~ ^build\.ts$ ]]; then
               cantPassWithoutTests=true
             fi
+            if [[ ${changed_file} =~ scripts\/mockTests\.ts$ ]]; then
+                cantPassWithoutTests=true
+            fi
             if [[ ${changed_file} =~ .*ci\.yml$ ]]; then
                 cantPassWithoutTests=true
             fi
           done
           echo $cantPassWithoutTests
           echo CANT_PASS_WITHOUT_TESTS=${cantPassWithoutTests} >> $GITHUB_OUTPUT
-  build-and-test-e2e:
+  build-and-test-e2e-mock:
     runs-on: ubuntu-20.04
-    name: Test e2e for PR
+    name: Test e2e for PR using mock app
     needs: check-changed-files
     if: needs['check-changed-files'].outputs.CANT_PASS_WITHOUT_TESTS == 'true'
     steps:
+      - uses: actions/checkout@v3
       - uses: actions/checkout@v4
       - name: 'Install pnpm'
         uses: pnpm/action-setup@129abb77bf5884e578fcaf1f37628e41622cc371
         with:
           version: 8
       - name: Install node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version-file: '.node-version'
       - name: Install dependencies
@@ -51,14 +55,12 @@ jobs:
       - name: Extract Branch Name
         id: extract-branch
         run: |
-          echo SUBDOMAIN=$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/[^a-zA-Z0-9]+/-/g and s/-+$//g' | tr '[:upper:]' '[:lower:]') >> $GITHUB_OUTPUT
+          echo SUBDOMAIN=mock-$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | perl -pe 's/[^a-zA-Z0-9]+/-/g and s/-+$//g' | tr '[:upper:]' '[:lower:]') >> $GITHUB_OUTPUT
       - name: Run test
-        run:  pnpm test:e2e
+        run: pnpm test:mock-e2e
         env:
           TEST_DOMAIN: 'https://${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}'
-          TEST_RESULT_DOMAIN: ${{secrets.TEST_RESULT_DOMAIN}}
-          TEST_RESULT_PATH: ${{secrets.TEST_RESULT_PATH}}
           INTEGRATION_PATH: ${{secrets.INTEGRATION_PATH}}
           RESULT_PATH: ${{secrets.RESULT_PATH}}
           AGENT_PATH: ${{secrets.AGENT_PATH}}
-          FPJS_API_KEY: ${{secrets.FPJS_API_KEY}}
+          API_URL: ${{secrets.MOCK_FPCDN}}
