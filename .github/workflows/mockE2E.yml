@@ -1,0 +1,33 @@
+name: Test e2e for PR
+
+on:
+  schedule:
+    - cron: '30 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  build-and-test-e2e-mock:
+    runs-on: ubuntu-20.04
+    name: Test e2e for PR using mock app
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Install pnpm'
+        uses: pnpm/action-setup@129abb77bf5884e578fcaf1f37628e41622cc371
+        with:
+          version: 8
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.node-version'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Install Playwright
+        run: pnpm exec playwright install
+      - name: Run test
+        run: pnpm test:mock-e2e
+        env:
+          TEST_DOMAIN: 'https://${{secrets.FPJS_AKAMAI_MOCK_TEST_DOMAIN}}'
+          INTEGRATION_PATH: ${{secrets.INTEGRATION_PATH}}
+          RESULT_PATH: ${{secrets.RESULT_PATH}}
+          AGENT_PATH: ${{secrets.AGENT_PATH}}
+          API_URL: ${{secrets.MOCK_FPCDN}}
