@@ -1,4 +1,4 @@
-name: Test e2e for PR
+name: Daily E2E Test
 
 on:
   schedule:
