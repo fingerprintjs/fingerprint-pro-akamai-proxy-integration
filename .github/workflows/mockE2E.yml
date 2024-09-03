@@ -1,4 +1,4 @@
-name: Test e2e for PR
+name: Daily E2E Test
 
 on:
   schedule:
@@ -31,3 +31,12 @@ jobs:
           RESULT_PATH: ${{secrets.RESULT_PATH}}
           AGENT_PATH: ${{secrets.AGENT_PATH}}
           API_URL: ${{secrets.MOCK_FPCDN}}
+  report-status:
+    needs: build-and-test-e2e-mock
+    if: always()
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/report-workflow-status.yml@v1
+    with:
+      notification_title: 'Akamai E2E Test: {status_message}'
+      job_status: ${{ needs.build-and-test-e2e-mock.result }}
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
