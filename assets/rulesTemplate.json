@@ -24,12 +24,13 @@
         {
           "name": "queryStringParameter",
           "options": {
-            "matchOperator": "IS_NOT_ONE_OF",
+            "matchOperator": "IS_ONE_OF",
             "matchWildcardName": false,
             "matchCaseSensitiveName": true,
             "parameterName": "region",
             "values": [
-              "us"
+              "eu",
+              "ap"
             ],
             "matchWildcardValue": false,
             "matchCaseSensitiveValue": true,
