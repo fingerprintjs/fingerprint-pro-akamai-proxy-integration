@@ -1,3 +1,11 @@
+## [0.2.2](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/compare/v0.2.1...v0.2.2) (2024-09-12)
+
+
+### Bug Fixes
+
+* prevent invalid regions to be parsed ([b372434](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/b3724341bba1bee128ee8c5136c517836cf957c2))
+* update rule template for ip version ([8ea2352](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/8ea2352327e403eef3ee0b40318337db109fa483))
+
 ## [0.2.1](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/compare/v0.2.0...v0.2.1) (2024-04-22)
 
 
