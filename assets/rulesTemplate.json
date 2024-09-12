@@ -24,12 +24,13 @@
         {
           "name": "queryStringParameter",
           "options": {
-            "matchOperator": "IS_NOT_ONE_OF",
+            "matchOperator": "IS_ONE_OF",
             "matchWildcardName": false,
             "matchCaseSensitiveName": true,
             "parameterName": "region",
             "values": [
-              "us"
+              "eu",
+              "ap"
             ],
             "matchWildcardValue": false,
             "matchCaseSensitiveValue": true,
@@ -150,7 +151,9 @@
             "httpsPort": 443,
             "hostname": "__cdn_url__",
             "originCertificate": "",
-            "ports": ""
+            "ports": "",
+            "ipVersion": "IPV4",
+            "minTlsVersion": "DYNAMIC"
           }
         },
         {
@@ -339,7 +342,8 @@
             "ports": "",
             "ipVersion": "IPV4",
             "trueClientIpHeader": "FPJS-Proxy-Client-IP",
-            "trueClientIpClientSetting": false
+            "trueClientIpClientSetting": false,
+            "minTlsVersion": "DYNAMIC"
           }
         },
         {
@@ -405,7 +409,9 @@
             "httpsPort": 443,
             "hostname": "{{user.PMUSER_FPJS_INGRESS_ENDPOINT}}",
             "originCertificate": "",
-            "ports": ""
+            "ports": "",
+            "minTlsVersion": "DYNAMIC",
+            "ipVersion": "IPV4"
           }
         },
         {
