@@ -151,7 +151,9 @@
             "httpsPort": 443,
             "hostname": "__cdn_url__",
             "originCertificate": "",
-            "ports": ""
+            "ports": "",
+            "ipVersion": "IPV4",
+            "minTlsVersion": "DYNAMIC"
           }
         },
         {
@@ -340,7 +342,8 @@
             "ports": "",
             "ipVersion": "IPV4",
             "trueClientIpHeader": "FPJS-Proxy-Client-IP",
-            "trueClientIpClientSetting": false
+            "trueClientIpClientSetting": false,
+            "minTlsVersion": "DYNAMIC"
           }
         },
         {
@@ -406,7 +409,9 @@
             "httpsPort": 443,
             "hostname": "{{user.PMUSER_FPJS_INGRESS_ENDPOINT}}",
             "originCertificate": "",
-            "ports": ""
+            "ports": "",
+            "minTlsVersion": "DYNAMIC",
+            "ipVersion": "IPV4"
           }
         },
         {
