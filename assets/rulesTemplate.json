@@ -157,6 +157,12 @@
           }
         },
         {
+          "name": "originIpAcl",
+          "options": {
+            "enable": true
+          }
+        },
+        {
           "name": "rewriteUrl",
           "options": {
             "behavior": "REGEX_REPLACE",
@@ -347,6 +353,12 @@
           }
         },
         {
+          "name": "originIpAcl",
+          "options": {
+            "enable": true
+          }
+        },
+        {
           "name": "rewriteUrl",
           "options": {
             "behavior": "REGEX_REPLACE",
@@ -412,6 +424,12 @@
             "ports": "",
             "minTlsVersion": "DYNAMIC",
             "ipVersion": "DUALSTACK"
+          }
+        },
+        {
+          "name": "originIpAcl",
+          "options": {
+            "enable": true
           }
         },
         {
