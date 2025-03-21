@@ -149,7 +149,7 @@
             "originSni": true,
             "httpPort": 80,
             "httpsPort": 443,
-            "hostname": "__cdn_url__",
+            "hostname": "{{user.PMUSER_FPJS_PROCDN_ENDPOINT}}",
             "originCertificate": "",
             "ports": "",
             "ipVersion": "IPV4",
@@ -560,6 +560,15 @@
         "transform": "NONE",
         "variableName": "PMUSER_FPJS_PROXY_SECRET",
         "variableValue": "__proxy_secret__"
+      }
+    },
+    {
+      "name": "setVariable",
+      "options": {
+        "valueSource": "EXPRESSION",
+        "transform": "NONE",
+        "variableName": "PMUSER_FPJS_PROCDN_ENDPOINT",
+        "variableValue": "__cdn_url__"
       }
     },
     {
