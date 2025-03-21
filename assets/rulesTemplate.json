@@ -563,15 +563,6 @@
       }
     },
     {
-      "name": "setVariable",
-      "options": {
-        "valueSource": "EXPRESSION",
-        "transform": "NONE",
-        "variableName": "PMUSER_FPJS_PROCDN_ENDPOINT",
-        "variableValue": "__cdn_url__"
-      }
-    },
-    {
       "name": "brotli",
       "options": {
         "enabled": true

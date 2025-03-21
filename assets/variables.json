@@ -56,6 +56,13 @@
     "sensitive": false
   },
   {
+    "name": "PMUSER_FPJS_PROCDN_ENDPOINT",
+    "value": "__procdn_url__",
+    "description": "Points to Fingerprint ProCDN servers",
+    "hidden": false,
+    "sensitive": false
+  },
+  {
     "name": "PMUSER_FPJS_PROXY_SECRET",
     "value": "",
     "description": "Generated via Fingerprint Dashboard",
