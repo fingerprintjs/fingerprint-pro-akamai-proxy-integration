@@ -152,8 +152,14 @@
             "hostname": "__cdn_url__",
             "originCertificate": "",
             "ports": "",
-            "ipVersion": "IPV4",
+            "ipVersion": "DUALSTACK",
             "minTlsVersion": "DYNAMIC"
+          }
+        },
+        {
+          "name": "originIpAcl",
+          "options": {
+            "enable": true
           }
         },
         {
@@ -340,10 +346,16 @@
             "hostname": "{{user.PMUSER_FPJS_INGRESS_ENDPOINT}}",
             "originCertificate": "",
             "ports": "",
-            "ipVersion": "IPV4",
+            "ipVersion": "DUALSTACK",
             "trueClientIpHeader": "FPJS-Proxy-Client-IP",
             "trueClientIpClientSetting": false,
             "minTlsVersion": "DYNAMIC"
+          }
+        },
+        {
+          "name": "originIpAcl",
+          "options": {
+            "enable": true
           }
         },
         {
@@ -411,7 +423,13 @@
             "originCertificate": "",
             "ports": "",
             "minTlsVersion": "DYNAMIC",
-            "ipVersion": "IPV4"
+            "ipVersion": "DUALSTACK"
+          }
+        },
+        {
+          "name": "originIpAcl",
+          "options": {
+            "enable": true
           }
         },
         {

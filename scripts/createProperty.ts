@@ -21,7 +21,7 @@ const createEdgeHostname = async () => {
     path: `/papi/v1/edgehostnames?contractId=${process.env.AK_CONTRACT_ID}&groupId=${process.env.AK_GROUP_ID}`,
     method: 'POST',
     body: JSON.stringify({
-      ipVersionBehavior: 'IPV4',
+      ipVersionBehavior: 'IPV6_COMPLIANCE',
       domainPrefix: CI_DOMAIN,
       domainSuffix: `edgesuite.net`,
       productId: `Site_Accel`,
