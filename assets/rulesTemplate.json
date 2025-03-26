@@ -149,7 +149,7 @@
             "originSni": true,
             "httpPort": 80,
             "httpsPort": 443,
-            "hostname": "__cdn_url__",
+            "hostname": "{{user.PMUSER_FPJS_PROCDN_ENDPOINT}}",
             "originCertificate": "",
             "ports": "",
             "ipVersion": "DUALSTACK",
