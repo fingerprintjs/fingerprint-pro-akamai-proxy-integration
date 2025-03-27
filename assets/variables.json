@@ -59,7 +59,7 @@
     "name": "PMUSER_FPJS_PROXY_SECRET",
     "value": "",
     "description": "Generated via Fingerprint Dashboard",
-    "hidden": true,
-    "sensitive": false
+    "hidden": false,
+    "sensitive": true
   }
 ]
