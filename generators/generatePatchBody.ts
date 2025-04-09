@@ -16,7 +16,7 @@ export default function generatePatchBody({
   integrationPath = 'integration',
   agentPath = 'proxyagent',
   resultPath = 'proxyresult',
-  proxySecret = '',
+  proxySecret = 'secret',
   ingressUrl,
   cdnUrl,
 }: PatchBodyOptions) {
