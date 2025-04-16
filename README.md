@@ -141,6 +141,8 @@ You can clone this repository and build the property rules locally into a single
    * Use the same values you would use in [Step 2](#how-to-install-with-terraform) if you were installing with Terraform.
    * The command generates a `dist/patch-body/body.json` file. This file includes all rules and property variables necessary for the integration.
 3. Use the [Patch a property's rule tree](https://techdocs.akamai.com/property-mgr/reference/patch-property-version-rules) endpoint of the Akamai Property Manager API to apply the generated JSON to your Akamai property.
+
+For detailed instructions please see the [Deploy Akamai Integration using Property Manager API](https://dev.fingerprint.com/docs/deploy-akamai-proxy-integration-via-papi) documentation.
   
 If you have any questions, reach out to our [support team](https://fingerprint.com/support). 
 
