@@ -5,7 +5,7 @@ on:
 
 jobs:
   check-changed-files:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     name: Check changed files
     outputs:
       CANT_PASS_WITHOUT_TESTS: ${{ steps.decision.outputs.CANT_PASS_WITHOUT_TESTS }}
@@ -33,7 +33,7 @@ jobs:
           echo $cantPassWithoutTests
           echo CANT_PASS_WITHOUT_TESTS=${cantPassWithoutTests} >> $GITHUB_OUTPUT
   build-and-test-e2e-mock:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     name: Test e2e for PR using mock app
     needs: check-changed-files
     if: needs['check-changed-files'].outputs.CANT_PASS_WITHOUT_TESTS == 'true'
