@@ -116,7 +116,7 @@ This is a quick overview of the installation setup. For detailed step-by-step in
     });
     ```
 
-See the [Akamai proxy integration guide](https://dev.fingerprint.com/docs/akamai-proxy-integration#step-21--add-variable-blocks-to-your-rules-template) in our documentation for more details. 
+See the [Akamai proxy integration guide](https://dev.fingerprint.com/docs/deploy-akamai-proxy-integration-via-terraform#step-3-add-variable-blocks-to-your-rules-template) in our documentation for more details. 
 
 ### Building property rules for Terraform locally
 
