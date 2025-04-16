@@ -6,7 +6,7 @@ on:
 
 jobs:
   cleanup-mock:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     steps:
       - name: Extract Branch Name
@@ -30,7 +30,7 @@ jobs:
 
   cleanup:
     if: github.event.pull_request.merged == true
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Extract Branch Name
         id: extract-branch
