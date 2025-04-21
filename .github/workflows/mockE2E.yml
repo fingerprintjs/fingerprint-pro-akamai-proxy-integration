@@ -21,8 +21,6 @@ jobs:
           node-version-file: '.node-version'
       - name: Install dependencies
         run: pnpm install
-      - name: Install Playwright
-        run: pnpm exec playwright install
       - name: Run test
         run: pnpm test:mock-e2e
         env:

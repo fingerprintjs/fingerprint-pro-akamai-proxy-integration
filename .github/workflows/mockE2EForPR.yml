@@ -50,8 +50,6 @@ jobs:
           node-version-file: '.node-version'
       - name: Install dependencies
         run: pnpm install
-      - name: Install Playwright
-        run: pnpm exec playwright install
       - name: Extract Branch Name
         id: extract-branch
         run: |
