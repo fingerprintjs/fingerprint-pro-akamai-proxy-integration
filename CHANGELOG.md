@@ -1,3 +1,14 @@
+## [1.0.0](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/compare/v0.3.0...v1.0.0) (2025-04-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* **release:** Integration out of beta
+
+### Miscellaneous Chores
+
+* **release:** remove beta labels ([75b534e](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/75b534ee648ff11e18593982ed5a0892b5ec5bd1))
+
 ## [0.3.0](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/compare/v0.2.2...v0.3.0) (2025-04-09)
 
 
