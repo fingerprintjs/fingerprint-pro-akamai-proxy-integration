@@ -15,7 +15,7 @@
 
 # Fingerprint Pro Akamai Proxy Integration
 
-[Fingerprint](https://fingerprint.com) is a device intelligence platform offering 99.5% accurate visitor identification.
+[Fingerprint](https://fingerprint.com) is a device intelligence platform offering industry-leading accuracy.
 
 Fingerprint Akamai Proxy Integration is responsible for proxying identification and agent-download requests between your website and Fingerprint through your Akamai infrastructure. The integration consists of a set of property rules you need to add to your Akamai property configuration. The property rules template is available in this repository.
 
