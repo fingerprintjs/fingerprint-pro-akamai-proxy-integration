@@ -6,6 +6,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  set_datadog_team:
+    name: 'Set Datadog team'
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/set-datadog-team.yml@v1
+    secrets:
+      DD_API_KEY: ${{ secrets.INTEGRATIONS_DATADOG_API_KEY }}
+
   build-and-test-e2e-mock:
     runs-on: ubuntu-latest
     name: Test e2e for PR using mock app
@@ -29,12 +35,3 @@ jobs:
           RESULT_PATH: ${{secrets.RESULT_PATH}}
           AGENT_PATH: ${{secrets.AGENT_PATH}}
           API_URL: ${{secrets.MOCK_FPCDN}}
-  report-status:
-    needs: build-and-test-e2e-mock
-    if: always()
-    uses: fingerprintjs/dx-team-toolkit/.github/workflows/report-workflow-status.yml@v1
-    with:
-      notification_title: 'Akamai E2E Test: {status_message}'
-      job_status: ${{ needs.build-and-test-e2e-mock.result }}
-    secrets:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
