@@ -477,7 +477,8 @@
             "matchCaseSensitive": false,
             "normalize": false,
             "values": [
-              "/__integration_path__/__result_path__/*"
+              "/__integration_path__/__result_path__/*",
+              "/__integration_path__/__result_path__"
             ]
           }
         }
