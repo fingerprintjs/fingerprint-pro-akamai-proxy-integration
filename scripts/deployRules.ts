@@ -42,7 +42,7 @@ const patchDefaultRuleOrigin = async (propertyId: string, version: string) =>
         body: JSON.stringify([
             {
                 op: 'replace',
-                path: '/rules/children/0/behaviors/0/options/customValidCnValues',
+                path: '/rules/behaviors/0/options/customValidCnValues',
                 value: [
                     "{{Forward Host Header}}",
                     "{{Origin Hostname}}"
@@ -50,17 +50,17 @@ const patchDefaultRuleOrigin = async (propertyId: string, version: string) =>
             },
             {
                 op: 'replace',
-                path: '/rules/children/0/behaviors/0/options/verificationMode',
+                path: '/rules/behaviors/0/options/verificationMode',
                 value: "CUSTOM"
             },
             {
                 op: 'replace',
-                path: '/rules/children/0/behaviors/0/options/originCertsToHonor',
+                path: '/rules/behaviors/0/options/originCertsToHonor',
                 value: "STANDARD_CERTIFICATE_AUTHORITIES"
             },
             {
                 op: 'replace',
-                path: '/rules/children/0/behaviors/0/options/standardCertificateAuthorities',
+                path: '/rules/behaviors/0/options/standardCertificateAuthorities',
                 value: [
                     "THIRD_PARTY_AMAZON",
                     "akamai-permissive"
