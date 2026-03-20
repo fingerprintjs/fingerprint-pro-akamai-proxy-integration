@@ -41,7 +41,7 @@ const patchDefaultRuleOrigin = async (propertyId: string, version: string) =>
         },
         body: JSON.stringify([
             {
-                op: 'replace',
+                op: 'add',
                 path: '/rules/behaviors/0/options/customValidCnValues',
                 value: [
                     "{{Forward Host Header}}",
@@ -54,12 +54,12 @@ const patchDefaultRuleOrigin = async (propertyId: string, version: string) =>
                 value: "CUSTOM"
             },
             {
-                op: 'replace',
+                op: 'add',
                 path: '/rules/behaviors/0/options/originCertsToHonor',
                 value: "STANDARD_CERTIFICATE_AUTHORITIES"
             },
             {
-                op: 'replace',
+                op: 'add',
                 path: '/rules/behaviors/0/options/standardCertificateAuthorities',
                 value: [
                     "THIRD_PARTY_AMAZON",
