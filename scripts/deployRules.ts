@@ -65,6 +65,10 @@ const patchDefaultRuleOrigin = async (propertyId: string, version: string) =>
                     "THIRD_PARTY_AMAZON",
                     "akamai-permissive"
                 ]
+            },
+            {
+                op: 'remove',
+                path: '/rules/behaviors/1',
             }
         ])
     })
