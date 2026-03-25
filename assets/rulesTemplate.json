@@ -145,7 +145,7 @@
             "cacheKeyHostname": "ORIGIN_HOSTNAME",
             "compress": true,
             "enableTrueClientIp": false,
-            "verificationMode": "THIRD_PARTY",
+            "verificationMode": "CUSTOM",
             "originSni": true,
             "httpPort": 80,
             "httpsPort": 443,
@@ -153,7 +153,16 @@
             "originCertificate": "",
             "ports": "",
             "ipVersion": "DUALSTACK",
-            "minTlsVersion": "DYNAMIC"
+            "minTlsVersion": "DYNAMIC",
+            "customValidCnValues": [
+              "{{Origin Hostname}}",
+              "{{Forward Host Header}}"
+            ],
+            "originCertsToHonor": "STANDARD_CERTIFICATE_AUTHORITIES",
+            "standardCertificateAuthorities": [
+              "akamai-permissive",
+              "THIRD_PARTY_AMAZON"
+            ]
           }
         },
         {
@@ -339,7 +348,7 @@
             "cacheKeyHostname": "ORIGIN_HOSTNAME",
             "compress": true,
             "enableTrueClientIp": true,
-            "verificationMode": "THIRD_PARTY",
+            "verificationMode": "CUSTOM",
             "originSni": true,
             "httpPort": 80,
             "httpsPort": 443,
@@ -349,7 +358,16 @@
             "ipVersion": "DUALSTACK",
             "trueClientIpHeader": "FPJS-Proxy-Client-IP",
             "trueClientIpClientSetting": false,
-            "minTlsVersion": "DYNAMIC"
+            "minTlsVersion": "DYNAMIC",
+            "customValidCnValues": [
+              "{{Origin Hostname}}",
+              "{{Forward Host Header}}"
+            ],
+            "originCertsToHonor": "STANDARD_CERTIFICATE_AUTHORITIES",
+            "standardCertificateAuthorities": [
+              "akamai-permissive",
+              "THIRD_PARTY_AMAZON"
+            ]
           }
         },
         {
@@ -415,7 +433,7 @@
             "cacheKeyHostname": "ORIGIN_HOSTNAME",
             "compress": true,
             "enableTrueClientIp": false,
-            "verificationMode": "THIRD_PARTY",
+            "verificationMode": "CUSTOM",
             "originSni": true,
             "httpPort": 80,
             "httpsPort": 443,
@@ -423,7 +441,16 @@
             "originCertificate": "",
             "ports": "",
             "minTlsVersion": "DYNAMIC",
-            "ipVersion": "DUALSTACK"
+            "ipVersion": "DUALSTACK",
+            "customValidCnValues": [
+              "{{Origin Hostname}}",
+              "{{Forward Host Header}}"
+            ],
+            "originCertsToHonor": "STANDARD_CERTIFICATE_AUTHORITIES",
+            "standardCertificateAuthorities": [
+              "akamai-permissive",
+              "THIRD_PARTY_AMAZON"
+            ]
           }
         },
         {
