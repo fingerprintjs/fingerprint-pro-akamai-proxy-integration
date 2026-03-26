@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/compare/v1.0.0...v1.0.1) (2026-03-26)
+
+
+### Bug Fixes
+
+* supernet error due to ssl mismatch ([0d0c448](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/0d0c44872502439057c24bc1199be0ac711b1128))
+
 ## [1.0.0](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/compare/v0.3.0...v1.0.0) (2025-04-28)
 
 
