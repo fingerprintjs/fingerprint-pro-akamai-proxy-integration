@@ -109,6 +109,41 @@ const patchEdgeHostname = async (propertyId: string) => {
   })
 }
 
+const patchDefaultRuleOrigin = async (propertyId: string) =>
+  akamaiRequest({
+    path: `/papi/v1/properties/${propertyId}/versions/1/rules?contractId=${process.env.AK_CONTRACT_ID}&groupId=${process.env.AK_GROUP_ID}`,
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json-patch+json',
+    },
+    body: JSON.stringify([
+      {
+        op: 'add',
+        path: '/rules/behaviors/0/options/customValidCnValues',
+        value: ['{{Forward Host Header}}', '{{Origin Hostname}}'],
+      },
+      {
+        op: 'replace',
+        path: '/rules/behaviors/0/options/verificationMode',
+        value: 'CUSTOM',
+      },
+      {
+        op: 'add',
+        path: '/rules/behaviors/0/options/originCertsToHonor',
+        value: 'STANDARD_CERTIFICATE_AUTHORITIES',
+      },
+      {
+        op: 'add',
+        path: '/rules/behaviors/0/options/standardCertificateAuthorities',
+        value: ['THIRD_PARTY_AMAZON', 'akamai-permissive'],
+      },
+      {
+        op: 'remove',
+        path: '/rules/behaviors/1',
+      },
+    ]),
+  })
+
 const handler = async () => {
   try {
     const propertyResponse = await getProperty()
@@ -123,6 +158,7 @@ const handler = async () => {
     await patchEdgeHostname(propertyId)
     const cpcodeId = await createCPCode()
     await patchCpcode(propertyId, cpcodeId)
+    await patchDefaultRuleOrigin(propertyId)
   } catch (e: any) {
     console.error(e.error?.response?.data)
     console.error(e)
