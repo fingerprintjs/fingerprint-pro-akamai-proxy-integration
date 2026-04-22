@@ -42,80 +42,6 @@
       "comments": ""
     },
     {
-      "name": "Agent Config Parser",
-      "children": [],
-      "behaviors": [
-        {
-          "name": "setVariable",
-          "options": {
-            "valueSource": "EXTRACT",
-            "transform": "NONE",
-            "variableName": "PMUSER_FPJS_PUBLIC_API_KEY",
-            "extractLocation": "QUERY_STRING",
-            "queryParameterName": "apiKey"
-          }
-        },
-        {
-          "name": "setVariable",
-          "options": {
-            "valueSource": "EXTRACT",
-            "transform": "NONE",
-            "variableName": "PMUSER_FPJS_AGENT_VERSION",
-            "extractLocation": "QUERY_STRING",
-            "queryParameterName": "version"
-          }
-        },
-        {
-          "name": "setVariable",
-          "options": {
-            "valueSource": "EXPRESSION",
-            "transform": "NONE",
-            "variableName": "PMUSER_FPJS_AGENT_REQ_PATH",
-            "variableValue": "/v{{user.PMUSER_FPJS_AGENT_VERSION}}/{{user.PMUSER_FPJS_PUBLIC_API_KEY}}"
-          }
-        },
-        {
-          "name": "setVariable",
-          "options": {
-            "valueSource": "EXTRACT",
-            "transform": "NONE",
-            "variableName": "PMUSER_FPJS_AGENT_LOADER_VERSION",
-            "extractLocation": "QUERY_STRING",
-            "queryParameterName": "loaderVersion"
-          }
-        }
-      ],
-      "criteria": [],
-      "criteriaMustSatisfy": "all",
-      "comments": ""
-    },
-    {
-      "name": "Agent Config For Loader Version",
-      "children": [],
-      "behaviors": [
-        {
-          "name": "setVariable",
-          "options": {
-            "valueSource": "EXPRESSION",
-            "transform": "NONE",
-            "variableName": "PMUSER_FPJS_AGENT_REQ_PATH",
-            "variableValue": "{{user.PMUSER_FPJS_AGENT_REQ_PATH}}/loader_v{{user.PMUSER_FPJS_AGENT_LOADER_VERSION}}.js"
-          }
-        }
-      ],
-      "criteria": [
-        {
-          "name": "matchVariable",
-          "options": {
-            "matchOperator": "IS_NOT_EMPTY",
-            "variableName": "PMUSER_FPJS_AGENT_LOADER_VERSION"
-          }
-        }
-      ],
-      "criteriaMustSatisfy": "all",
-      "comments": ""
-    },
-    {
       "name": "Origin for Agent",
       "children": [
         {
@@ -134,6 +60,65 @@
           "criteria": [],
           "criteriaMustSatisfy": "all",
           "comments": ""
+        },
+        {
+          "name": "Agent v3 Route",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXTRACT",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_PUBLIC_API_KEY",
+                "extractLocation": "QUERY_STRING",
+                "queryParameterName": "apiKey"
+              }
+            },
+            {
+              "name": "rewriteUrl",
+              "options": {
+                "behavior": "REWRITE",
+                "targetUrl": "/web/v3/{{user.PMUSER_FPJS_PUBLIC_API_KEY}}?{{builtin.AK_QUERY}}"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "path",
+              "options": {
+                "matchOperator": "DOES_NOT_MATCH_ONE_OF",
+                "matchCaseSensitive": false,
+                "normalize": false,
+                "values": [
+                  "/integration/agent/*"
+                ]
+              }
+            },
+            {
+              "name": "queryStringParameter",
+              "options": {
+                "matchOperator": "EXISTS",
+                "matchWildcardName": false,
+                "matchCaseSensitiveName": true,
+                "parameterName": "apiKey"
+              }
+            },
+            {
+              "name": "path",
+              "options": {
+                "matchOperator": "MATCHES_ONE_OF",
+                "matchCaseSensitive": false,
+                "normalize": false,
+                "values": [
+                  "/integration/agent",
+                  "/integration/agent/"
+                ]
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": ""
         }
       ],
       "behaviors": [
@@ -149,7 +134,7 @@
             "originSni": true,
             "httpPort": 80,
             "httpsPort": 443,
-            "hostname": "{{user.PMUSER_FPJS_PROCDN_ENDPOINT}}",
+            "hostname": "{{user.PMUSER_FPJS_INGRESS_ENDPOINT}}",
             "originCertificate": "",
             "ports": "",
             "ipVersion": "DUALSTACK",
@@ -174,11 +159,11 @@
         {
           "name": "rewriteUrl",
           "options": {
-            "behavior": "REGEX_REPLACE",
+            "behavior": "REPLACE",
             "matchMultiple": false,
             "keepQueryString": true,
-            "matchRegex": ".*",
-            "targetRegex": "{{user.PMUSER_FPJS_AGENT_REQ_PATH}}?ii=fingerprint-pro-akamai/{{user.PMUSER_FPJS_INTEGRATION_VERSION}}/procdn&{{builtin.AK_QUERY}}"
+            "match": "/__integration_path__/__agent_path__/",
+            "targetPath": "/"
           }
         },
         {
@@ -228,7 +213,8 @@
             "matchCaseSensitive": false,
             "normalize": false,
             "values": [
-              "/__integration_path__/__agent_path__"
+              "/__integration_path__/__agent_path__",
+              "/__integration_path__/__agent_path__/*"
             ]
           }
         }

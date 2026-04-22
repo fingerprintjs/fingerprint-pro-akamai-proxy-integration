@@ -10,7 +10,6 @@ interface PatchBodyOptions {
   resultPath?: string
   proxySecret?: string
   ingressUrl: string
-  cdnUrl: string
 }
 export default function generatePatchBody({
   integrationPath = 'integration',
@@ -18,7 +17,6 @@ export default function generatePatchBody({
   resultPath = 'proxyresult',
   proxySecret = '',
   ingressUrl,
-  cdnUrl,
 }: PatchBodyOptions) {
   const body: unknown[] = [{ ...rulePatch, value: rulesTemplate }]
   for (const variable of variables) {
@@ -34,7 +32,6 @@ export default function generatePatchBody({
   bodyString = bodyString.replace(/__result_path__/g, resultPath)
   bodyString = bodyString.replace(/__proxy_secret__/g, proxySecret)
   bodyString = bodyString.replace(/__ingress_url__/g, ingressUrl)
-  bodyString = bodyString.replace(/__cdn_url__/g, cdnUrl)
   bodyString = bodyString.replace(/__integration_version__/g, packageJSON.version)
 
   return bodyString

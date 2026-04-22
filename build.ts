@@ -10,7 +10,6 @@ const args = arg({
   '--agent-path': String,
   '--result-path': String,
   '--proxy-secret': String,
-  '--cdn-url': String,
   '--ingress-url': String,
 })
 
@@ -21,12 +20,10 @@ export interface PatchBodyArgs {
   agentPath: string
   resultPath: string
   proxySecret: string
-  cdnUrl: string
   ingressUrl: string
 }
 
 const defaults = {
-  cdnUrl: 'fpcdn.io',
   ingressUrl: 'api.fpjs.io',
 }
 
@@ -38,7 +35,6 @@ export const patchBody = (_args?: PatchBodyArgs) => {
     agentPath: args['--agent-path'] ?? _args?.agentPath,
     resultPath: args['--result-path'] ?? _args?.resultPath,
     proxySecret: args['--proxy-secret'] ?? _args?.proxySecret,
-    cdnUrl: args['--cdn-url'] ?? _args?.cdnUrl ?? defaults.cdnUrl,
     ingressUrl: args['--ingress-url'] ?? _args?.ingressUrl ?? defaults.ingressUrl,
   })
 
@@ -56,7 +52,6 @@ export const patchBody = (_args?: PatchBodyArgs) => {
 
 const terraform = () => {
   const { variablesBody, rulesBody } = generateTerraformPropertyRules({
-    cdnUrl: args['--cdn-url'] ?? defaults.cdnUrl,
     ingressUrl: args['--ingress-url'] ?? defaults.ingressUrl,
   })
 
