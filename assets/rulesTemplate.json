@@ -91,7 +91,7 @@
                 "matchCaseSensitive": false,
                 "normalize": false,
                 "values": [
-                  "/integration/agent/*"
+                  "/__integration_path__/__agent_path__/*"
                 ]
               }
             },
@@ -111,8 +111,8 @@
                 "matchCaseSensitive": false,
                 "normalize": false,
                 "values": [
-                  "/integration/agent",
-                  "/integration/agent/"
+                  "/__integration_path__/__agent_path__",
+                  "/__integration_path__/__agent_path__/"
                 ]
               }
             }
