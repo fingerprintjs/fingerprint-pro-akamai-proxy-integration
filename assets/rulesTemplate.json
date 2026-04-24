@@ -42,22 +42,189 @@
       "comments": ""
     },
     {
+      "name": "Remove Cookies",
+      "children": [],
+      "behaviors": [
+        {
+          "name": "modifyIncomingRequestHeader",
+          "options": {
+            "action": "DELETE",
+            "standardDeleteHeaderName": "OTHER",
+            "customHeaderName": "Cookie"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "requestMethod",
+          "options": {
+            "matchOperator": "IS_NOT",
+            "value": "POST"
+          }
+        }
+      ],
+      "criteriaMustSatisfy": "all",
+      "comments": ""
+    },
+    {
+      "name": "Filter Cookies except _iidt",
+      "children": [],
+      "behaviors": [
+        {
+          "name": "setVariable",
+          "options": {
+            "valueSource": "EXTRACT",
+            "transform": "SUBSTITUTE",
+            "variableName": "PMUSER_FPJS_REQUEST_COOKIE",
+            "extractLocation": "CLIENT_REQUEST_HEADER",
+            "headerName": "Cookie",
+            "caseSensitive": false,
+            "regex": ".*(_iidt=[^;]+).*",
+            "replacement": "$1",
+            "globalSubstitution": true
+          }
+        },
+        {
+          "name": "modifyIncomingRequestHeader",
+          "options": {
+            "action": "MODIFY",
+            "standardModifyHeaderName": "OTHER",
+            "newHeaderValue": "{{user.PMUSER_FPJS_REQUEST_COOKIE}}",
+            "avoidDuplicateHeaders": false,
+            "customHeaderName": "Cookie"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "requestCookie",
+          "options": {
+            "matchOperator": "EXISTS",
+            "matchWildcardName": false,
+            "matchCaseSensitiveName": true,
+            "cookieName": "_iidt"
+          }
+        },
+        {
+          "name": "requestMethod",
+          "options": {
+            "matchOperator": "IS",
+            "value": "POST"
+          }
+        }
+      ],
+      "criteriaMustSatisfy": "all",
+      "comments": ""
+    },
+    {
+      "name": "Filter HSTS Header",
+      "children": [],
+      "behaviors": [
+        {
+          "name": "modifyOutgoingResponseHeader",
+          "options": {
+            "action": "DELETE",
+            "standardDeleteHeaderName": "OTHER",
+            "customHeaderName": "Strict-Transport-Security"
+          }
+        }
+      ],
+      "criteria": [],
+      "criteriaMustSatisfy": "all",
+      "comments": ""
+    },
+    {
+      "name": "Proxy Headers",
+      "children": [],
+      "behaviors": [
+        {
+          "name": "modifyIncomingRequestHeader",
+          "options": {
+            "action": "MODIFY",
+            "standardModifyHeaderName": "OTHER",
+            "newHeaderValue": "{{user.PMUSER_FPJS_PROXY_SECRET}}",
+            "avoidDuplicateHeaders": true,
+            "customHeaderName": "FPJS-Proxy-Secret"
+          }
+        },
+        {
+          "name": "modifyIncomingRequestHeader",
+          "options": {
+            "action": "MODIFY",
+            "standardModifyHeaderName": "OTHER",
+            "newHeaderValue": "{{builtin.AK_HOST}}",
+            "avoidDuplicateHeaders": true,
+            "customHeaderName": "FPJS-Proxy-Forwarded-Host"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "requestMethod",
+          "options": {
+            "matchOperator": "IS",
+            "value": "POST"
+          }
+        }
+      ],
+      "criteriaMustSatisfy": "all",
+      "comments": ""
+    },
+    {
       "name": "Origin for Agent",
       "children": [
         {
-          "name": "Remove Cookies for Agent",
+          "name": "Agent v3 Route (Loader Version)",
           "children": [],
           "behaviors": [
             {
-              "name": "modifyIncomingRequestHeader",
+              "name": "setVariable",
               "options": {
-                "action": "DELETE",
-                "standardDeleteHeaderName": "OTHER",
-                "customHeaderName": "Cookie"
+                "valueSource": "EXTRACT",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_PUBLIC_API_KEY",
+                "extractLocation": "QUERY_STRING",
+                "queryParameterName": "apiKey"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXTRACT",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_AGENT_LOADER_VERSION",
+                "extractLocation": "QUERY_STRING",
+                "queryParameterName": "loaderVersion"
+              }
+            },
+            {
+              "name": "rewriteUrl",
+              "options": {
+                "behavior": "REWRITE",
+                "targetUrl": "/web/v3/{{user.PMUSER_FPJS_PUBLIC_API_KEY}}/loader_v{{user.PMUSER_FPJS_AGENT_LOADER_VERSION}}.js?{{builtin.AK_QUERY}}"
               }
             }
           ],
-          "criteria": [],
+          "criteria": [
+            {
+              "name": "queryStringParameter",
+              "options": {
+                "matchOperator": "EXISTS",
+                "matchWildcardName": false,
+                "matchCaseSensitiveName": true,
+                "parameterName": "apiKey"
+              }
+            },
+            {
+              "name": "queryStringParameter",
+              "options": {
+                "matchOperator": "EXISTS",
+                "matchWildcardName": false,
+                "matchCaseSensitiveName": true,
+                "parameterName": "loaderVersion"
+              }
+            }
+          ],
           "criteriaMustSatisfy": "all",
           "comments": ""
         },
@@ -85,17 +252,6 @@
           ],
           "criteria": [
             {
-              "name": "path",
-              "options": {
-                "matchOperator": "DOES_NOT_MATCH_ONE_OF",
-                "matchCaseSensitive": false,
-                "normalize": false,
-                "values": [
-                  "/__integration_path__/__agent_path__/*"
-                ]
-              }
-            },
-            {
               "name": "queryStringParameter",
               "options": {
                 "matchOperator": "EXISTS",
@@ -105,15 +261,12 @@
               }
             },
             {
-              "name": "path",
+              "name": "queryStringParameter",
               "options": {
-                "matchOperator": "MATCHES_ONE_OF",
-                "matchCaseSensitive": false,
-                "normalize": false,
-                "values": [
-                  "/__integration_path__/__agent_path__",
-                  "/__integration_path__/__agent_path__/"
-                ]
+                "matchOperator": "DOES_NOT_EXIST",
+                "matchWildcardName": false,
+                "matchCaseSensitiveName": true,
+                "parameterName": "loaderVersion"
               }
             }
           ],
@@ -224,107 +377,7 @@
     },
     {
       "name": "Origin for Ingress",
-      "children": [
-        {
-          "name": "Proxy Headers",
-          "children": [],
-          "behaviors": [
-            {
-              "name": "modifyIncomingRequestHeader",
-              "options": {
-                "action": "MODIFY",
-                "standardModifyHeaderName": "OTHER",
-                "newHeaderValue": "{{user.PMUSER_FPJS_PROXY_SECRET}}",
-                "avoidDuplicateHeaders": true,
-                "customHeaderName": "FPJS-Proxy-Secret"
-              }
-            },
-            {
-              "name": "modifyIncomingRequestHeader",
-              "options": {
-                "action": "MODIFY",
-                "standardModifyHeaderName": "OTHER",
-                "newHeaderValue": "{{builtin.AK_HOST}}",
-                "avoidDuplicateHeaders": true,
-                "customHeaderName": "FPJS-Proxy-Forwarded-Host"
-              }
-            }
-          ],
-          "criteria": [],
-          "criteriaMustSatisfy": "all",
-          "comments": ""
-        },
-        {
-          "name": "Remove Cookies if no _iidt",
-          "children": [],
-          "behaviors": [
-            {
-              "name": "modifyIncomingRequestHeader",
-              "options": {
-                "action": "DELETE",
-                "standardDeleteHeaderName": "OTHER",
-                "customHeaderName": "Cookie"
-              }
-            }
-          ],
-          "criteria": [
-            {
-              "name": "requestCookie",
-              "options": {
-                "matchOperator": "DOES_NOT_EXIST",
-                "matchWildcardName": false,
-                "matchCaseSensitiveName": true,
-                "cookieName": "_iidt"
-              }
-            }
-          ],
-          "criteriaMustSatisfy": "all",
-          "comments": ""
-        },
-        {
-          "name": "Filter Cookies except _iidt",
-          "children": [],
-          "behaviors": [
-            {
-              "name": "setVariable",
-              "options": {
-                "valueSource": "EXTRACT",
-                "transform": "SUBSTITUTE",
-                "variableName": "PMUSER_FPJS_REQUEST_COOKIE",
-                "extractLocation": "CLIENT_REQUEST_HEADER",
-                "headerName": "Cookie",
-                "caseSensitive": false,
-                "regex": ".*(_iidt=[^;]+).*",
-                "replacement": "$1",
-                "globalSubstitution": true
-              }
-            },
-            {
-              "name": "modifyIncomingRequestHeader",
-              "options": {
-                "action": "MODIFY",
-                "standardModifyHeaderName": "OTHER",
-                "newHeaderValue": "{{user.PMUSER_FPJS_REQUEST_COOKIE}}",
-                "avoidDuplicateHeaders": false,
-                "customHeaderName": "Cookie"
-              }
-            }
-          ],
-          "criteria": [
-            {
-              "name": "requestCookie",
-              "options": {
-                "matchOperator": "EXISTS",
-                "matchWildcardName": false,
-                "matchCaseSensitiveName": true,
-                "cookieName": "_iidt"
-              }
-            }
-          ],
-          "criteriaMustSatisfy": "all",
-          "comments": ""
-        }
-      ],
+      "children": [],
       "behaviors": [
         {
           "name": "origin",
@@ -391,25 +444,7 @@
     },
     {
       "name": "Origin for Browser Cache",
-      "children": [
-        {
-          "name": "Remove Cookies for Browser Cache",
-          "children": [],
-          "behaviors": [
-            {
-              "name": "modifyIncomingRequestHeader",
-              "options": {
-                "action": "DELETE",
-                "standardDeleteHeaderName": "OTHER",
-                "customHeaderName": "Cookie"
-              }
-            }
-          ],
-          "criteria": [],
-          "criteriaMustSatisfy": "all",
-          "comments": ""
-        }
-      ],
+      "children": [],
       "behaviors": [
         {
           "name": "origin",
@@ -557,15 +592,81 @@
       "comments": ""
     },
     {
-      "name": "Filter HSTS Header",
+      "name": "v4 Origin",
       "children": [],
       "behaviors": [
         {
-          "name": "modifyOutgoingResponseHeader",
+          "name": "origin",
           "options": {
-            "action": "DELETE",
-            "standardDeleteHeaderName": "OTHER",
-            "customHeaderName": "Strict-Transport-Security"
+            "originType": "CUSTOMER",
+            "forwardHostHeader": "ORIGIN_HOSTNAME",
+            "cacheKeyHostname": "ORIGIN_HOSTNAME",
+            "ipVersion": "DUALSTACK",
+            "compress": true,
+            "enableTrueClientIp": true,
+            "verificationMode": "CUSTOM",
+            "originSni": true,
+            "httpPort": 80,
+            "httpsPort": 443,
+            "minTlsVersion": "DYNAMIC",
+            "hostname": "{{user.PMUSER_FPJS_INGRESS_ENDPOINT}}",
+            "originCertificate": "",
+            "ports": "",
+            "customValidCnValues": [
+              "{{Origin Hostname}}",
+              "{{Forward Host Header}}"
+            ],
+            "originCertsToHonor": "STANDARD_CERTIFICATE_AUTHORITIES",
+            "standardCertificateAuthorities": [
+              "akamai-permissive",
+              "THIRD_PARTY_AMAZON"
+            ],
+            "trueClientIpHeader": "FPJS-Proxy-Client-IP",
+            "trueClientIpClientSetting": false
+          }
+        },
+        {
+          "name": "originIpAcl",
+          "options": {
+            "enable": true
+          }
+        },
+        {
+          "name": "allowTransferEncoding",
+          "options": {
+            "enabled": true
+          }
+        },
+        {
+          "name": "brotli",
+          "options": {
+            "enabled": true
+          }
+        },
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "CACHE_CONTROL_AND_EXPIRES",
+            "mustRevalidate": false,
+            "defaultTtl": "0s",
+            "cacheControlDirectives": "",
+            "enhancedRfcSupport": true,
+            "honorPrivate": true,
+            "honorMustRevalidate": true,
+            "cacheabilitySettings": "",
+            "honorNoStore": true,
+            "honorNoCache": true,
+            "expirationSettings": "",
+            "honorMaxAge": true,
+            "honorSMaxage": true,
+            "revalidationSettings": "",
+            "honorProxyRevalidate": true
+          }
+        },
+        {
+          "name": "downstreamCache",
+          "options": {
+            "behavior": "TUNNEL_ORIGIN"
           }
         }
       ],
@@ -603,6 +704,16 @@
       "name": "allowTransferEncoding",
       "options": {
         "enabled": true
+      }
+    },
+    {
+      "name": "rewriteUrl",
+      "options": {
+        "behavior": "REGEX_REPLACE",
+        "matchMultiple": false,
+        "keepQueryString": true,
+        "matchRegex": "\\/__integration_path__[\\/]?(.*)",
+        "targetRegex": "/$1"
       }
     }
   ],
