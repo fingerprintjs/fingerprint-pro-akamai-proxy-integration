@@ -79,7 +79,7 @@
             "extractLocation": "CLIENT_REQUEST_HEADER",
             "headerName": "Cookie",
             "caseSensitive": false,
-            "regex": ".*(_iidt=[^;]+).*",
+            "regex": "^.*?(_iidt=[^;]*).*$|^.*$",
             "replacement": "$1",
             "globalSubstitution": true
           }
@@ -96,15 +96,6 @@
         }
       ],
       "criteria": [
-        {
-          "name": "requestCookie",
-          "options": {
-            "matchOperator": "EXISTS",
-            "matchWildcardName": false,
-            "matchCaseSensitiveName": true,
-            "cookieName": "_iidt"
-          }
-        },
         {
           "name": "requestMethod",
           "options": {
