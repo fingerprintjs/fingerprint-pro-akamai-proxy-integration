@@ -67,8 +67,8 @@ This is a quick overview of the installation setup. For detailed step-by-step in
     ```
 
 3. Go to this repository [latest releases](https://github.com/fingerprintjs/fingerprint-pro-akamai-integration-property-rules/releases/latest) and download these two JSON files:
-   * `terraform/fingerprint-property-rules.json`
-   * `terraform/fingerprint-property-variables.json`
+   * `terraform-fingerprint-property-rules.json`
+   * `terraform-fingerprint-property-variables.json`
 4. Add the files to the `rules` directory of your Terraform project.
 5. Reference the files inside your `rules/main.json` file:
 
@@ -83,10 +83,10 @@ This is a quick overview of the installation setup. For detailed step-by-step in
         "children": [
           //...
           // Add the downloaded rules file as a child
-          "#include:fingerprint-property-rules.json" 
+          "#include:terraform-fingerprint-property-rules.json" 
         ],
         // Add the downloaded variables file (or merge it with existing variables file)
-        "variables": "#include:fingerprint-property-variables.json"
+        "variables": "#include:terraform-fingerprint-property-variables.json"
         // ...
       }
     }
@@ -120,8 +120,8 @@ If you prefer, you can clone this repository and build the property rules and va
 1. Run `pnpm install`.
 2. Run `pnpm build --type terraform`. It will generate the following files you can use in your Terraform configuration as described above.
 
-  - `dist/terraform/json/fingerprint.json`
-  - `dist/terraform/json/variables.json`
+  - `dist/terraform/terraform-fingerprint-property-rules.json`
+  - `dist/terraform/terraform-fingerprint-property-variables.json`
   - `dist/terraform/example.tf`
 
 The JSON files are equivalent to the JSON files available in the [latest releases](https://github.com/fingerprintjs/fingerprint-pro-akamai-integration-property-rules/releases/latest).
