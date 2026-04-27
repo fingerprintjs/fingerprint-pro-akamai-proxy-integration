@@ -162,6 +162,33 @@
       "comments": ""
     },
     {
+      "name": "Traffic Monitoring",
+      "children": [],
+      "behaviors": [
+        {
+          "name": "rewriteUrl",
+          "options": {
+            "behavior": "REGEX_REPLACE",
+            "matchRegex": "^(?:/__integration_path__(?:/__result_path__)?)?(?:/([^?]*))?\\??.*$",
+            "targetRegex": "/$1?ii=fingerprint-pro-akamai/{{user.PMUSER_FPJS_INTEGRATION_VERSION}}/ingress&{{builtin.AK_QUERY}}",
+            "matchMultiple": false,
+            "keepQueryString": true
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "requestMethod",
+          "options": {
+            "matchOperator": "IS",
+            "value": "POST"
+          }
+        }
+      ],
+      "criteriaMustSatisfy": "all",
+      "comments": ""
+    },
+    {
       "name": "Origin for Agent",
       "children": [
         {
@@ -404,16 +431,6 @@
           "name": "originIpAcl",
           "options": {
             "enable": true
-          }
-        },
-        {
-          "name": "rewriteUrl",
-          "options": {
-            "behavior": "REGEX_REPLACE",
-            "matchMultiple": false,
-            "keepQueryString": true,
-            "matchRegex": "\\/__integration_path__\\/__result_path__(.*)",
-            "targetRegex": "/?ii=fingerprint-pro-akamai/{{user.PMUSER_FPJS_INTEGRATION_VERSION}}/ingress&{{builtin.AK_QUERY}}"
           }
         }
       ],
