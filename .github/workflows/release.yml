@@ -1,12 +1,23 @@
 name: Release
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  release-workflow:
-    uses: fingerprintjs/dx-team-toolkit/.github/workflows/release-typescript-project.yml@v1
+  release:
+    name: 'Build project, run CI checks and publish new release'
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/release-sdk-changesets.yml@v1
     with:
       appId: ${{ vars.APP_ID }}
+      runnerAppId: ${{ vars.RUNNER_APP_ID }}
+      version-command: pnpm exec changeset version
+      publish-command: pnpm exec changeset publish
+      language: node
+      language-version: 18
+      prepare-command: pnpm build
+      github-release-files: "dist/terraform/terraform-*.json"
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      RUNNER_APP_PRIVATE_KEY: ${{ secrets.RUNNER_APP_PRIVATE_KEY }}

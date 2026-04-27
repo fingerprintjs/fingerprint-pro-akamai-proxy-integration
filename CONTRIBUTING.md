@@ -30,6 +30,6 @@ These tests are run automatically by the `e2e.yml` workflow on every PR automati
 You can use the `--ingress-url` and `--cdn-url` build flags to change URLs that the integration will use for making requests. 
 This should be only used for local development and not in production.
 
-### How to release a new version
+### How to publish
 
-The workflow `release.yml` is responsible for releasing a new version.
+We use [changesets](https://github.com/changesets/changesets) for handling release notes. If there are relevant changes, please add them to changeset via `pnpm exec changeset`. You need to run `pnpm install` before doing so.
