@@ -15,7 +15,7 @@ jobs:
       version-command: pnpm exec changeset version
       publish-command: pnpm exec changeset publish
       language: node
-      language-version: 24
+      language-version: 18
       prepare-command: pnpm build
       github-release-files: "dist/terraform/terraform-*.json"
     secrets:
