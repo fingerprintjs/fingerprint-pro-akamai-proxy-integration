@@ -28,13 +28,6 @@
     "sensitive": false
   },
   {
-    "name": "PMUSER_FPJS_AGENT_REQ_PATH",
-    "value": "",
-    "description": "Points to Pro CDN servers",
-    "hidden": false,
-    "sensitive": false
-  },
-  {
     "name": "PMUSER_FPJS_AGENT_VERSION",
     "value": "3",
     "description": "Corresponds to Pro Agent version, parsed from the query string",
@@ -52,13 +45,6 @@
     "name": "PMUSER_FPJS_INGRESS_ENDPOINT",
     "value": "__ingress_url__",
     "description": "Points to Fingerprint servers",
-    "hidden": false,
-    "sensitive": false
-  },
-  {
-    "name": "PMUSER_FPJS_PROCDN_ENDPOINT",
-    "value": "__cdn_url__",
-    "description": "Points to Fingerprint ProCDN servers",
     "hidden": false,
     "sensitive": false
   },

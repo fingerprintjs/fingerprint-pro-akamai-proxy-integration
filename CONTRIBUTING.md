@@ -27,7 +27,7 @@ These tests are run automatically by the `e2e.yml` workflow on every PR automati
 
 ### Changing API URLs
 
-You can use the `--ingress-url` and `--cdn-url` build flags to change URLs that the integration will use for making requests. 
+You can use the `--ingress-url` build flag to change URLs that the integration will use for making requests. 
 This should be only used for local development and not in production.
 
 ### How to publish
