@@ -1,3 +1,9 @@
+## 1.1.0-rc.0
+
+### Minor Changes
+
+- Add support for Warden API v4 with v3 backwards compatibility ([917fa9b](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/917fa9ba8cd20844650abfa275e01c800f3ba40e))
+
 ## 1.0.1
 
 ### Patch Changes
@@ -11,6 +17,7 @@
 - **release:** Integration out of beta
 
 ### Patch Changes
+
 - **release:** remove beta labels ([75b534e](https://github.com/fingerprintjs/fingerprint-pro-akamai-proxy-integration/commit/75b534ee648ff11e18593982ed5a0892b5ec5bd1))
 
 ## 0.3.0

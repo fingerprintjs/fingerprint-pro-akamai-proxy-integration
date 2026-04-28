@@ -4,5 +4,7 @@
   "initialVersions": {
     "fingerprint-pro-akamai-proxy-integration": "1.0.1"
   },
-  "changesets": []
+  "changesets": [
+    "sixty-chefs-talk"
+  ]
 }
