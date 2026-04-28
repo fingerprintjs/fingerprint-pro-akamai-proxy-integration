@@ -2,21 +2,17 @@
   "name": "Fingerprint",
   "children": [
     {
-      "name": "Ingress Endpoint Parser",
+      "name": "Region Handler",
       "children": [],
       "behaviors": [
         {
           "name": "setVariable",
           "options": {
             "valueSource": "EXTRACT",
-            "transform": "SUBSTITUTE",
-            "variableName": "PMUSER_FPJS_INGRESS_ENDPOINT",
+            "transform": "NONE",
+            "variableName": "PMUSER_FP_REGION",
             "extractLocation": "QUERY_STRING",
-            "queryParameterName": "region",
-            "regex": "^(\\w+)$",
-            "replacement": "$0.__ingress_url__",
-            "caseSensitive": false,
-            "globalSubstitution": true
+            "queryParameterName": "region"
           }
         }
       ],
@@ -24,17 +20,54 @@
         {
           "name": "queryStringParameter",
           "options": {
-            "matchOperator": "IS_ONE_OF",
+            "matchOperator": "EXISTS",
             "matchWildcardName": false,
             "matchCaseSensitiveName": true,
-            "parameterName": "region",
-            "values": [
-              "eu",
-              "ap"
-            ],
+            "parameterName": "region"
+          }
+        },
+        {
+          "name": "queryStringParameter",
+          "options": {
+            "matchOperator": "IS_NOT_ONE_OF",
+            "matchWildcardName": false,
+            "matchCaseSensitiveName": true,
             "matchWildcardValue": false,
             "matchCaseSensitiveValue": true,
-            "escapeValue": false
+            "escapeValue": false,
+            "parameterName": "region",
+            "values": [
+              "us"
+            ]
+          }
+        }
+      ],
+      "criteriaMustSatisfy": "all",
+      "comments": ""
+    },
+    {
+      "name": "Ingress Endpoint Parser",
+      "children": [],
+      "behaviors": [
+        {
+          "name": "setVariable",
+          "options": {
+            "valueSource": "EXPRESSION",
+            "transform": "NONE",
+            "variableName": "PMUSER_FPJS_INGRESS_ENDPOINT",
+            "variableValue": "{{user.PMUSER_FP_REGION}}.__ingress_url__"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "matchVariable",
+          "options": {
+            "matchOperator": "IS_NOT",
+            "matchWildcardName": false,
+            "matchCaseSensitiveName": true,
+            "variableName": "PMUSER_FP_REGION",
+            "variableExpression": "us"
           }
         }
       ],
