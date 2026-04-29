@@ -70,6 +70,14 @@ jobs:
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
         run: pnpm ts-node scripts/createProperty.ts
+      - name: Create Cloudflare TXT Record for Domain Validation
+        if: steps.create-akamai-property.outputs.HOSTNAME_VALIDATION_TOKEN != ''
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records'
+          method: 'POST'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+          data: '{"content": "${{steps.create-akamai-property.outputs.HOSTNAME_VALIDATION_TOKEN}}", "name": "${{steps.create-akamai-property.outputs.TXT_RECORD_HOST}}.${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}", "proxied": false, "type": "TXT", "comment": "Akamai domain validation for ${{steps.extract-branch.outputs.SUBDOMAIN}}", "ttl": 3600, "tags": ["owner:akamai-integration-ci"]}'
       - name: Build Patch Body
         run: pnpm build --type patchBody --proxy-secret '${{secrets.FPJS_PROXY_SECRET}}' --integration-path ${{secrets.INTEGRATION_PATH}} --agent-path ${{secrets.AGENT_PATH}} --result-path ${{secrets.RESULT_PATH}}
       - name: Deploy Akamai Rules
@@ -146,6 +154,14 @@ jobs:
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
         run: pnpm ts-node scripts/createProperty.ts
+      - name: Create Cloudflare TXT Record for Domain Validation
+        if: steps.create-akamai-property.outputs.HOSTNAME_VALIDATION_TOKEN != ''
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/dns_records'
+          method: 'POST'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.CF_AUTH_TOKEN }}"}'
+          data: '{"content": "${{steps.create-akamai-property.outputs.HOSTNAME_VALIDATION_TOKEN}}", "name": "${{steps.create-akamai-property.outputs.TXT_RECORD_HOST}}.${{steps.extract-branch.outputs.SUBDOMAIN}}.${{secrets.FPJS_CI_DOMAIN}}", "proxied": false, "type": "TXT", "comment": "Akamai domain validation for ${{steps.extract-branch.outputs.SUBDOMAIN}}", "ttl": 3600, "tags": ["owner:akamai-integration-ci"]}'
       - name: Build Patch Body
         run: pnpm build --type patchBody --proxy-secret secret --integration-path ${{secrets.INTEGRATION_PATH}} --agent-path ${{secrets.AGENT_PATH}} --result-path ${{secrets.RESULT_PATH}} --ingress-url ${{secrets.MOCK_FPCDN}}
       - name: Deploy Akamai Rules

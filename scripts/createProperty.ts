@@ -1,3 +1,4 @@
+import { appendFile } from 'fs/promises'
 import { akamaiRequest } from './utils/akamaiRequest'
 import { getProperty } from './utils/getProperty'
 import { CI_DOMAIN } from './utils/constants'
@@ -94,7 +95,11 @@ const findEdgeHostname = async () => {
 }
 
 const patchEdgeHostname = async (propertyId: string) => {
-  await akamaiRequest({
+  const {
+    body: {
+      hostnames: { items: hostnames },
+    },
+  } = await akamaiRequest({
     path: `/papi/v1/properties/${propertyId}/versions/1/hostnames`,
     method: 'PATCH',
     body: JSON.stringify({
@@ -107,6 +112,26 @@ const patchEdgeHostname = async (propertyId: string) => {
       ],
     }),
   })
+
+  const hostname = hostnames.find((h) => h.cnameFrom === CI_DOMAIN)
+  return hostname?.domainOwnershipVerification?.validationTxt
+}
+
+const outputValidationTxt = async (validationTxt: { hostname: string; challengeToken: string }) => {
+  const txtRecord = `${validationTxt.hostname}. TXT ${validationTxt.challengeToken}`
+  const txtRecordHost = validationTxt.hostname.replace(`.${CI_DOMAIN}`, '')
+  if (process.env.GITHUB_OUTPUT) {
+    await appendFile(
+      process.env.GITHUB_OUTPUT,
+      `TXT_RECORD=${txtRecord}\nTXT_RECORD_HOST=${txtRecordHost}\nHOSTNAME_VALIDATION_TOKEN=${validationTxt.challengeToken}\n`
+    )
+  } else {
+    console.log('=== Domain Ownership Verification ===')
+    console.log(`Host:  ${validationTxt.hostname}`)
+    console.log(`Type:  TXT`)
+    console.log(`Value: ${txtRecord}`)
+    console.log('=====================================')
+  }
 }
 
 const patchDefaultRuleOrigin = async (propertyId: string) =>
@@ -155,7 +180,10 @@ const handler = async () => {
     if (!hostname) {
       await createEdgeHostname()
     }
-    await patchEdgeHostname(propertyId)
+    const validationTxt = await patchEdgeHostname(propertyId)
+    if (validationTxt) {
+      await outputValidationTxt(validationTxt)
+    }
     const cpcodeId = await createCPCode()
     await patchCpcode(propertyId, cpcodeId)
     await patchDefaultRuleOrigin(propertyId)
