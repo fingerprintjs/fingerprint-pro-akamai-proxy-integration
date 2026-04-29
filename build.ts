@@ -4,6 +4,8 @@ import fs from 'fs'
 import path from 'path'
 import generateTerraformPropertyRules from './generators/generateTerraformPropertyRules'
 
+console.log('testing ci')
+
 const args = arg({
   '--type': String,
   '--integration-path': String,
