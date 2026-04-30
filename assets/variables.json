@@ -54,5 +54,12 @@
     "description": "Generated via Fingerprint Dashboard",
     "hidden": false,
     "sensitive": true
+  },
+  {
+    "name": "PMUSER_FP_REGION",
+    "value": "us",
+    "description": "Points to region used for request routing",
+    "hidden": false,
+    "sensitive": false
   }
 ]

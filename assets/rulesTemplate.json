@@ -2,6 +2,89 @@
   "name": "Fingerprint",
   "children": [
     {
+      "name": "Region Handler",
+      "children": [
+        {
+          "name": "Extract region from query parameter",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXTRACT",
+                "transform": "NONE",
+                "variableName": "PMUSER_FP_REGION",
+                "extractLocation": "QUERY_STRING",
+                "queryParameterName": "region"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "queryStringParameter",
+              "options": {
+                "matchOperator": "EXISTS",
+                "matchWildcardName": false,
+                "matchCaseSensitiveName": true,
+                "parameterName": "region"
+              }
+            },
+            {
+              "name": "queryStringParameter",
+              "options": {
+                "matchOperator": "IS_ONE_OF",
+                "matchWildcardName": false,
+                "matchCaseSensitiveName": true,
+                "matchWildcardValue": false,
+                "matchCaseSensitiveValue": true,
+                "escapeValue": false,
+                "parameterName": "region",
+                "values": [
+                  "eu",
+                  "ap"
+                ]
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": ""
+        },
+        {
+          "name": "Set ingress region by extracted region",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_INGRESS_ENDPOINT",
+                "variableValue": "{{user.PMUSER_FP_REGION}}.__ingress_url__"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "matchVariable",
+              "options": {
+                "matchOperator": "IS_NOT",
+                "variableName": "PMUSER_FP_REGION",
+                "variableExpression": "us",
+                "matchWildcard": false,
+                "matchCaseSensitive": true
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": ""
+        }
+      ],
+      "behaviors": [],
+      "criteria": [],
+      "criteriaMustSatisfy": "all",
+      "comments": ""
+    },
+    {
       "name": "Remove integration path",
       "children": [],
       "behaviors": [
@@ -17,46 +100,6 @@
         }
       ],
       "criteria": [],
-      "criteriaMustSatisfy": "all",
-      "comments": ""
-    },
-    {
-      "name": "Ingress Endpoint Parser",
-      "children": [],
-      "behaviors": [
-        {
-          "name": "setVariable",
-          "options": {
-            "valueSource": "EXTRACT",
-            "transform": "SUBSTITUTE",
-            "variableName": "PMUSER_FPJS_INGRESS_ENDPOINT",
-            "extractLocation": "QUERY_STRING",
-            "queryParameterName": "region",
-            "regex": "^(\\w+)$",
-            "replacement": "$0.__ingress_url__",
-            "caseSensitive": false,
-            "globalSubstitution": true
-          }
-        }
-      ],
-      "criteria": [
-        {
-          "name": "queryStringParameter",
-          "options": {
-            "matchOperator": "IS_ONE_OF",
-            "matchWildcardName": false,
-            "matchCaseSensitiveName": true,
-            "parameterName": "region",
-            "values": [
-              "eu",
-              "ap"
-            ],
-            "matchWildcardValue": false,
-            "matchCaseSensitiveValue": true,
-            "escapeValue": false
-          }
-        }
-      ],
       "criteriaMustSatisfy": "all",
       "comments": ""
     },
