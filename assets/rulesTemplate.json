@@ -29,7 +29,7 @@
         {
           "name": "queryStringParameter",
           "options": {
-            "matchOperator": "IS_NOT_ONE_OF",
+            "matchOperator": "IS_ONE_OF",
             "matchWildcardName": false,
             "matchCaseSensitiveName": true,
             "matchWildcardValue": false,
@@ -37,7 +37,8 @@
             "escapeValue": false,
             "parameterName": "region",
             "values": [
-              "us"
+              "eu",
+              "ap"
             ]
           }
         }
