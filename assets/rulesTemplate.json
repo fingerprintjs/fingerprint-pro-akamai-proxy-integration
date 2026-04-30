@@ -3,75 +3,103 @@
   "children": [
     {
       "name": "Region Handler",
-      "children": [],
-      "behaviors": [
+      "children": [
         {
-          "name": "setVariable",
-          "options": {
-            "valueSource": "EXTRACT",
-            "transform": "NONE",
-            "variableName": "PMUSER_FP_REGION",
-            "extractLocation": "QUERY_STRING",
-            "queryParameterName": "region"
-          }
-        }
-      ],
-      "criteria": [
-        {
-          "name": "queryStringParameter",
-          "options": {
-            "matchOperator": "EXISTS",
-            "matchWildcardName": false,
-            "matchCaseSensitiveName": true,
-            "parameterName": "region"
-          }
+          "name": "Extract region from query parameter",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXTRACT",
+                "transform": "NONE",
+                "variableName": "PMUSER_FP_REGION",
+                "extractLocation": "QUERY_STRING",
+                "queryParameterName": "region"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "queryStringParameter",
+              "options": {
+                "matchOperator": "EXISTS",
+                "matchWildcardName": false,
+                "matchCaseSensitiveName": true,
+                "parameterName": "region"
+              }
+            },
+            {
+              "name": "queryStringParameter",
+              "options": {
+                "matchOperator": "IS_ONE_OF",
+                "matchWildcardName": false,
+                "matchCaseSensitiveName": true,
+                "matchWildcardValue": false,
+                "matchCaseSensitiveValue": true,
+                "escapeValue": false,
+                "parameterName": "region",
+                "values": [
+                  "eu",
+                  "ap"
+                ]
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": ""
         },
         {
-          "name": "queryStringParameter",
-          "options": {
-            "matchOperator": "IS_ONE_OF",
-            "matchWildcardName": false,
-            "matchCaseSensitiveName": true,
-            "matchWildcardValue": false,
-            "matchCaseSensitiveValue": true,
-            "escapeValue": false,
-            "parameterName": "region",
-            "values": [
-              "eu",
-              "ap"
-            ]
-          }
+          "name": "Set ingress region by extracted region",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "valueSource": "EXPRESSION",
+                "transform": "NONE",
+                "variableName": "PMUSER_FPJS_INGRESS_ENDPOINT",
+                "variableValue": "{{user.PMUSER_FP_REGION}}.__ingress_url__"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "matchVariable",
+              "options": {
+                "matchOperator": "IS_NOT",
+                "variableName": "PMUSER_FP_REGION",
+                "variableExpression": "us",
+                "matchWildcard": false,
+                "matchCaseSensitive": true
+              }
+            }
+          ],
+          "criteriaMustSatisfy": "all",
+          "comments": ""
         }
       ],
+      "behaviors": [],
+      "criteria": [],
       "criteriaMustSatisfy": "all",
       "comments": ""
     },
     {
-      "name": "Ingress Endpoint Parser",
+      "name": "Remove integration path",
       "children": [],
       "behaviors": [
         {
-          "name": "setVariable",
+          "name": "rewriteUrl",
           "options": {
-            "valueSource": "EXPRESSION",
-            "transform": "NONE",
-            "variableName": "PMUSER_FPJS_INGRESS_ENDPOINT",
-            "variableValue": "{{user.PMUSER_FP_REGION}}.__ingress_url__"
+            "behavior": "REGEX_REPLACE",
+            "matchMultiple": false,
+            "keepQueryString": true,
+            "matchRegex": "\\/__integration_path__[\\/]?(.*)",
+            "targetRegex": "/$1"
           }
         }
       ],
-      "criteria": [
-        {
-          "name": "matchVariable",
-          "options": {
-            "matchOperator": "IS_NOT",
-            "matchWildcardName": false,
-            "matchCaseSensitiveName": true,
-            "variableName": "PMUSER_FP_REGION",
-            "variableExpression": "us"
-          }
-        }
-      ],
+      "criteria": [],
       "criteriaMustSatisfy": "all",
       "comments": ""
     },
@@ -486,7 +514,27 @@
     },
     {
       "name": "Origin for Browser Cache",
-      "children": [],
+      "children": [
+        {
+          "name": "Remove result path",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "rewriteUrl",
+              "options": {
+                "behavior": "REGEX_REPLACE",
+                "matchMultiple": false,
+                "keepQueryString": true,
+                "matchRegex": "\\/__integration_path__\\/__result_path__(.*)",
+                "targetRegex": "$1"
+              }
+            }
+          ],
+          "criteria": [],
+          "criteriaMustSatisfy": "all",
+          "comments": ""
+        }
+      ],
       "behaviors": [
         {
           "name": "origin",
@@ -520,16 +568,6 @@
           "name": "originIpAcl",
           "options": {
             "enable": true
-          }
-        },
-        {
-          "name": "rewriteUrl",
-          "options": {
-            "behavior": "REGEX_REPLACE",
-            "matchMultiple": false,
-            "keepQueryString": true,
-            "matchRegex": "\\/__integration_path__\\/__result_path__(.*)",
-            "targetRegex": "$1"
           }
         },
         {
@@ -746,16 +784,6 @@
       "name": "allowTransferEncoding",
       "options": {
         "enabled": true
-      }
-    },
-    {
-      "name": "rewriteUrl",
-      "options": {
-        "behavior": "REGEX_REPLACE",
-        "matchMultiple": false,
-        "keepQueryString": true,
-        "matchRegex": "\\/__integration_path__[\\/]?(.*)",
-        "targetRegex": "/$1"
       }
     }
   ],
