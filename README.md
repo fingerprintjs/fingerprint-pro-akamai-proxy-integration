@@ -18,6 +18,8 @@
 [Fingerprint](https://fingerprint.com) is a device intelligence platform offering industry-leading accuracy.
 
 Fingerprint Akamai Proxy Integration is responsible for proxying identification and agent-download requests between your website and Fingerprint through your Akamai infrastructure. The integration consists of a set of property rules you need to add to your Akamai property configuration. The property rules template is available in this repository.
+> [!IMPORTANT]
+> This integration currently supports v3 of the Fingerprint JavaScript agent. Support for JavaScript agent v4 is coming soon. See the [v3 to v4 migration guide](https://docs.fingerprint.com/reference/migrating-from-v3-to-v4) for more information.
 
 ## 🚧 Requirements and expectations
 
