@@ -2,6 +2,25 @@
   "name": "Fingerprint",
   "children": [
     {
+      "name": "Remove integration path",
+      "children": [],
+      "behaviors": [
+        {
+          "name": "rewriteUrl",
+          "options": {
+            "behavior": "REGEX_REPLACE",
+            "matchMultiple": false,
+            "keepQueryString": true,
+            "matchRegex": "\\/__integration_path__[\\/]?(.*)",
+            "targetRegex": "/$1"
+          }
+        }
+      ],
+      "criteria": [],
+      "criteriaMustSatisfy": "all",
+      "comments": ""
+    },
+    {
       "name": "Ingress Endpoint Parser",
       "children": [],
       "behaviors": [
@@ -452,7 +471,27 @@
     },
     {
       "name": "Origin for Browser Cache",
-      "children": [],
+      "children": [
+        {
+          "name": "Remove result path",
+          "children": [],
+          "behaviors": [
+            {
+              "name": "rewriteUrl",
+              "options": {
+                "behavior": "REGEX_REPLACE",
+                "matchMultiple": false,
+                "keepQueryString": true,
+                "matchRegex": "\\/__integration_path__\\/__result_path__(.*)",
+                "targetRegex": "$1"
+              }
+            }
+          ],
+          "criteria": [],
+          "criteriaMustSatisfy": "all",
+          "comments": ""
+        }
+      ],
       "behaviors": [
         {
           "name": "origin",
@@ -486,16 +525,6 @@
           "name": "originIpAcl",
           "options": {
             "enable": true
-          }
-        },
-        {
-          "name": "rewriteUrl",
-          "options": {
-            "behavior": "REGEX_REPLACE",
-            "matchMultiple": false,
-            "keepQueryString": true,
-            "matchRegex": "\\/__integration_path__\\/__result_path__(.*)",
-            "targetRegex": "$1"
           }
         },
         {
@@ -712,16 +741,6 @@
       "name": "allowTransferEncoding",
       "options": {
         "enabled": true
-      }
-    },
-    {
-      "name": "rewriteUrl",
-      "options": {
-        "behavior": "REGEX_REPLACE",
-        "matchMultiple": false,
-        "keepQueryString": true,
-        "matchRegex": "\\/__integration_path__[\\/]?(.*)",
-        "targetRegex": "/$1"
       }
     }
   ],
