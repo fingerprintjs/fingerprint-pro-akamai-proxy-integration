@@ -30,7 +30,7 @@
     "@fingerprintjs/prettier-config-dx-team": "^0.1.0",
     "@fingerprintjs/tsconfig-dx-team": "^0.0.2",
     "@playwright/test": "^1.42.1",
-    "@types/node": "^20.11.30",
+    "@types/node": "^24",
     "akamai-edgegrid": "^3.4.4",
     "axios": "^1.6.8",
     "commitizen": "^4.3.0",
