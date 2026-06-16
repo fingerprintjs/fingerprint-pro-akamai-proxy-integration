@@ -7,7 +7,7 @@ const createProperty = async () => {
     path: `/papi/v1/properties?contractId=${process.env.AK_CONTRACT_ID}&groupId=${process.env.AK_GROUP_ID}`,
     method: 'POST',
     body: JSON.stringify({
-      productId: 'Site_Accel',
+      productId: 'Fresca',
       propertyName: CI_DOMAIN,
       ruleFormat: 'latest',
     }),
@@ -24,7 +24,7 @@ const createEdgeHostname = async () => {
       ipVersionBehavior: 'IPV6_COMPLIANCE',
       domainPrefix: CI_DOMAIN,
       domainSuffix: `edgesuite.net`,
-      productId: `Site_Accel`,
+      productId: `Fresca`,
     }),
   })
 
@@ -39,7 +39,7 @@ const createCPCode = async () => {
       method: 'POST',
       body: JSON.stringify({
         cpcodeName: CI_DOMAIN,
-        productId: `Site_Accel`,
+        productId: `Fresca`,
       }),
     })
   }

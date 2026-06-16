@@ -1,7 +1,6 @@
 import { akamaiRequest } from './utils/akamaiRequest'
 import { getProperty } from './utils/getProperty'
 import { ORIGIN_DOMAIN } from './utils/constants'
-import { e2eRules } from './e2eRules'
 
 type PatchParameter = {
   op: string
@@ -117,7 +116,6 @@ const activateVersion = async (propertyId: string, version: string) => {
 
 import('../dist/patch-body/body.json').then((module) => {
   const patchReqBody = module.default as PatchParameter[]
-  patchReqBody[0].value.children.push(e2eRules)
 
   const handler = async () => {
     try {
