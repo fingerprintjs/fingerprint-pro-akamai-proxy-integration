@@ -5,15 +5,17 @@
   "author": "FingerprintJS, Inc (https://fingerprint.com)",
   "license": "MIT",
   "private": true,
+  "packageManager": "pnpm@11.1.0",
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "type": "module",
   "scripts": {
     "test": "echo \"there are no tests planned\"",
     "test:dts": "echo \"there are no typechecks planned\"",
-    "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
+    "lint": "eslint --ext .js,.ts --ignore-pattern .gitignore .",
     "lint:fix": "pnpm lint --fix",
     "build": "ts-node build.ts",
     "test:e2e": "pnpm playwright test --workers=8 --max-failures=1",
@@ -22,24 +24,25 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
-    "@commitlint/cli": "^17.6.5",
+    "@commitlint/cli": "^21.1.0",
     "@fingerprintjs/changesets-changelog-format": "^0.2.0",
-    "@fingerprintjs/commit-lint-dx-team": "^0.0.2",
-    "@fingerprintjs/conventional-changelog-dx-team": "^0.1.0",
-    "@fingerprintjs/eslint-config-dx-team": "^0.1.0",
-    "@fingerprintjs/prettier-config-dx-team": "^0.1.0",
+    "@fingerprintjs/commit-lint-dx-team": "^0.1.0",
+    "@fingerprintjs/conventional-changelog-dx-team": "^0.2.0",
+    "@fingerprintjs/eslint-config-dx-team": "^2.0.0",
+    "@fingerprintjs/prettier-config-dx-team": "^0.3.0",
     "@fingerprintjs/tsconfig-dx-team": "^0.0.2",
-    "@playwright/test": "^1.42.1",
-    "@types/node": "^24",
-    "akamai-edgegrid": "^3.4.4",
-    "axios": "^1.6.8",
-    "commitizen": "^4.3.0",
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.0.1",
+    "akamai-edgegrid": "^4.0.3",
+    "axios": "^1.18.1",
+    "commitizen": "^4.3.2",
     "cz-conventional-changelog": "^3.3.0",
-    "dotenv": "^16.4.5",
-    "husky": "^9.0.11",
+    "dotenv": "^17.4.2",
+    "eslint": "^10.5.0",
+    "husky": "^9.1.7",
     "ts-node": "^10.9.2",
-    "tslib": "^2.6.2",
-    "typescript": "^5.4.3"
+    "tslib": "^2.8.1",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "arg": "^5.0.2"

@@ -28,7 +28,11 @@ Fingerprint Akamai Proxy Integration is responsible for proxying identification 
 > [!WARNING]
 > **Tested property types**
 >
-> This integration has been tested with the [Dynamic Site Accelerator (DSA)][akamai-dsa] Akamai property type only. [Ion][akamai-ion] (Standard / Premier) and API Acceleration (AA) have not been formally tested. These property types might work because Akamai's Property Manager exposes the same rule tree across them, but compatibility is not guaranteed. Validate the integration in a staging property before activating it in production. Contact [support][support] if you encounter issues.
+> This integration supports the following property types:
+> * [Dynamic Site Accelerator (DSA)][akamai-dsa]
+> * [ION][akamai-ion] (Standard and Premier)
+> You can technically use any property type supported by Akamai Property Manager API. However, we do not guarantee that the integration will work with all property types. Try to activate in staging first to verify that it works with your property type.
+> Please reach out to our [support team][support] if you need support for a different property type.
 
 ## How to install with Terraform
 
