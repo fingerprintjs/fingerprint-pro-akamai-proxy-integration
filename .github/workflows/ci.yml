@@ -56,7 +56,7 @@ jobs:
           AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
-        run: pnpm ts-node scripts/checkPropertyCanBeCreated.ts
+        run: pnpm check-property
       - name: Create Akamai Property
         if: steps.check-akamai-property.outcome == 'success'
         id: create-akamai-property
@@ -69,7 +69,7 @@ jobs:
           AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
-        run: pnpm ts-node scripts/createProperty.ts
+        run: pnpm create-property
       - name: Build Patch Body
         run: pnpm build --type patchBody --proxy-secret '${{secrets.FPJS_PROXY_SECRET}}' --integration-path ${{secrets.INTEGRATION_PATH}} --agent-path ${{secrets.AGENT_PATH}} --result-path ${{secrets.RESULT_PATH}}
       - name: Deploy Akamai Rules
@@ -84,7 +84,7 @@ jobs:
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
           NOTIFY_EMAIL_ADDRESS: ${{secrets.NOTIFY_EMAIL_ADDRESS}}
-        run: pnpm ts-node scripts/deployRules.ts
+        run: pnpm deploy-rules
   ci-mock: # This is the Deployer for mock-warden e2e tests, it's not a duplicate
     runs-on: ubuntu-latest
     steps:
@@ -131,7 +131,7 @@ jobs:
           AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
-        run: pnpm ts-node scripts/checkPropertyCanBeCreated.ts
+        run: pnpm check-property
       - name: Create Akamai Property
         if: steps.check-akamai-property.outcome == 'success'
         id: create-akamai-property
@@ -144,7 +144,7 @@ jobs:
           AK_GROUP_ID: '${{secrets.AK_GROUP_ID}}'
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
-        run: pnpm ts-node scripts/createProperty.ts
+        run: pnpm create-property
       - name: Build Patch Body
         run: pnpm build --type patchBody --proxy-secret secret --integration-path ${{secrets.INTEGRATION_PATH}} --agent-path ${{secrets.AGENT_PATH}} --result-path ${{secrets.RESULT_PATH}} --ingress-url ${{secrets.MOCK_FPCDN}}
       - name: Deploy Akamai Rules
@@ -159,4 +159,4 @@ jobs:
           AK_CONTRACT_ID: '${{secrets.AK_CONTRACT_ID}}'
           FPJS_CI_DOMAIN: '${{secrets.FPJS_CI_DOMAIN}}'
           NOTIFY_EMAIL_ADDRESS: ${{secrets.NOTIFY_EMAIL_ADDRESS}}
-        run: pnpm ts-node scripts/deployRules.ts
+        run: pnpm deploy-rules

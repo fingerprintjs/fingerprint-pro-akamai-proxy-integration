@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Clear Redundant Properties from Akamai
-        run: pnpm ts-node scripts/clearProperties.ts
+        run: pnpm clear-properties
         env:
           AK_HOST: '${{secrets.AK_HOST}}'
           AK_CLIENT_TOKEN: '${{secrets.AK_CLIENT_TOKEN}}'
