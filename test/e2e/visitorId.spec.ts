@@ -1,5 +1,5 @@
 import { env } from './utils/env'
-import { test } from 'playwright/test'
+import { test } from '@playwright/test'
 import { waitFor } from './utils/waitFor'
 import { areVisitorIdAndRequestIdValid } from './utils/requestIdVisitorIdValidator'
 
