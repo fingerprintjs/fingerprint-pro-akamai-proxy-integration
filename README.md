@@ -26,7 +26,7 @@ Fingerprint Akamai Proxy Integration is responsible for proxying identification 
 * **Manual updates occasionally required**: The underlying data contract in the identification logic can change to keep up with browser updates. Using the Akamai Proxy Integration might require occasional manual updates on your side. Ignoring these updates will lead to lower accuracy or service disruption.
 
 > [!WARNING]
-> **Support Akamai Property Types**
+> **Supported Akamai Property Types**
 >
 > This integration supports the following property types:
 > * [Dynamic Site Accelerator (DSA)][akamai-dsa]
