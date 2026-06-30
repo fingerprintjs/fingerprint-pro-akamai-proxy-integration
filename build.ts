@@ -1,8 +1,8 @@
 import arg from 'arg'
-import generatePatchBody from './generators/generatePatchBody'
+import generatePatchBody from './generators/generatePatchBody.js'
 import fs from 'fs'
 import path from 'path'
-import generateTerraformPropertyRules from './generators/generateTerraformPropertyRules'
+import generateTerraformPropertyRules from './generators/generateTerraformPropertyRules.js'
 
 const args = arg({
   '--type': String,

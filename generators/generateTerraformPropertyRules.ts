@@ -1,6 +1,6 @@
-import rulesTemplate from '../assets/rulesTemplate.json'
-import variablesTemplate from '../assets/variables.json'
-import packageJSON from '../package.json'
+import rulesTemplate from '../assets/rulesTemplate.json' with { type: 'json' }
+import variablesTemplate from '../assets/variables.json' with { type: 'json' }
+import packageJSON from '../package.json' with { type: 'json' }
 
 interface TerraformOptions {
   ingressUrl: string

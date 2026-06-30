@@ -17,9 +17,9 @@
     "test:dts": "echo \"there are no typechecks planned\"",
     "lint": "eslint --ext .js,.ts .",
     "lint:fix": "pnpm lint --fix",
-    "build": "ts-node build.ts",
+    "build": "node --loader ts-node/esm build.ts",
     "test:e2e": "pnpm playwright test --workers=8 --max-failures=1",
-    "test:mock-e2e": "ts-node scripts/mockTests.ts",
+    "test:mock-e2e": "node --loader ts-node/esm scripts/mockTests.ts",
     "prepare": "husky install"
   },
   "devDependencies": {
