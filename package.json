@@ -17,9 +17,13 @@
     "test:dts": "echo \"there are no typechecks planned\"",
     "lint": "eslint --ext .js,.ts .",
     "lint:fix": "pnpm lint --fix",
-    "build": "node --loader ts-node/esm build.ts",
+    "build": "node --experimental-specifier-resolution=node --loader ts-node/esm build.ts",
     "test:e2e": "pnpm playwright test --workers=8 --max-failures=1",
-    "test:mock-e2e": "node --loader ts-node/esm scripts/mockTests.ts",
+    "test:mock-e2e": "node --experimental-specifier-resolution=node --loader ts-node/esm scripts/mockTests.ts",
+    "deploy-rules": "node --experimental-specifier-resolution=node --loader ts-node/esm scripts/deployRules.ts",
+    "create-property": "node --experimental-specifier-resolution=node --loader ts-node/esm scripts/createProperty.ts",
+    "clear-properties": "node --experimental-specifier-resolution=node --loader ts-node/esm scripts/clearProperties.ts",
+    "check-property": "node --experimental-specifier-resolution=node --loader ts-node/esm scripts/checkPropertyCanBeCreated.ts",
     "prepare": "husky install"
   },
   "devDependencies": {

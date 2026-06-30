@@ -2,7 +2,7 @@
   "extends": "@fingerprintjs/tsconfig-dx-team/tsconfig.json",
   "compilerOptions": {
     "module": "ESNext",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
     "noImplicitAny": false,
     "rootDir": ".",
     "strict": true,
