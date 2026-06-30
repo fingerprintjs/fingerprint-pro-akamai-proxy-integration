@@ -1,7 +1,8 @@
 import { execSync } from 'child_process'
 import { readFileSync } from 'fs'
+import {join} from "node:path";
 
-const pkg = JSON.parse(readFileSync('./package.json', 'utf8'))
+const pkg = JSON.parse(readFileSync(join(process.cwd(), 'package.json'), 'utf8'))
 
 function getEnv(name: string) {
   const value = process.env[name]
