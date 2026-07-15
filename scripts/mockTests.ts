@@ -1,6 +1,6 @@
 import { execSync } from 'child_process'
 import { readFileSync } from 'fs'
-import {join} from "node:path";
+import { join } from 'node:path'
 
 const pkg = JSON.parse(readFileSync(join(process.cwd(), 'package.json'), 'utf8'))
 
