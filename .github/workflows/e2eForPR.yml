@@ -35,7 +35,7 @@ jobs:
     needs: check-changed-files
     if: needs['check-changed-files'].outputs.CANT_PASS_WITHOUT_TESTS == 'true'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: 'Install pnpm'
         uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
       - name: Install node
