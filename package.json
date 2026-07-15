@@ -15,7 +15,7 @@
   "scripts": {
     "test": "echo \"there are no tests planned\"",
     "test:dts": "echo \"there are no typechecks planned\"",
-    "lint": "eslint --ext .js,.ts .",
+    "lint": "eslint --max-warnings 0 .",
     "lint:fix": "pnpm lint --fix",
     "build": "node --experimental-specifier-resolution=node --loader ts-node/esm build.ts",
     "test:e2e": "pnpm playwright test --workers=8 --max-failures=1",
