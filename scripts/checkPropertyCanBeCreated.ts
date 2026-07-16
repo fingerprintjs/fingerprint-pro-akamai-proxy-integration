@@ -1,4 +1,4 @@
-import { getProperty } from './utils/getProperty'
+import { getProperty } from './utils/getProperty.ts'
 
 const handler = async () => {
   try {

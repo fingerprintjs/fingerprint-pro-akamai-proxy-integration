@@ -1,7 +1,7 @@
-import { env } from './utils/env'
+import { env } from './utils/env.ts'
 import { test } from '@playwright/test'
-import { waitFor } from './utils/waitFor'
-import { areVisitorIdAndRequestIdValid } from './utils/requestIdVisitorIdValidator'
+import { waitFor } from './utils/waitFor.ts'
+import { areVisitorIdAndRequestIdValid } from './utils/requestIdVisitorIdValidator.ts'
 
 const rootEndpoint = `${env.testDomain}`
 

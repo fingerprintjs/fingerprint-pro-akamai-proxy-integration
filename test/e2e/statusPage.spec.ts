@@ -1,5 +1,5 @@
 import { test } from '@playwright/test'
-import { env } from './utils/env'
+import { env } from './utils/env.ts'
 
 const statusEndpoint = `${env.testDomain}/${env.integrationPath}/status`
 

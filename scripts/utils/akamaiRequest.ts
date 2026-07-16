@@ -1,4 +1,4 @@
-import { eg } from './edgeGrid'
+import { eg } from './edgeGrid.ts'
 import { AxiosResponse } from 'axios'
 
 type AkamaiResponse<ResponseBody extends any | any[] = any> = {
