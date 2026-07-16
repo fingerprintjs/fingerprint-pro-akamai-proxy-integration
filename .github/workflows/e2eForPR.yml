@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Check changed files
     outputs:
-      any_changed: ${{ steps.files.outputs.any_changed }}
+      any_changed: ${{ steps.files.outputs.test_any_changed }}
     steps:
       - uses: actions/checkout@v7
         with:
