@@ -26,11 +26,9 @@ Fingerprint Akamai Proxy Integration is responsible for proxying identification 
 * **Manual updates occasionally required**: The underlying data contract in the identification logic can change to keep up with browser updates. Using the Akamai Proxy Integration might require occasional manual updates on your side. Ignoring these updates will lead to lower accuracy or service disruption.
 
 > [!WARNING]
-> **Supported Akamai Property Types**
+> **Tested property types**
 >
-> This integration supports the [Ion][akamai-ion] (Standard and Premier) property type.
-> You can technically use any property type supported by Akamai Property Manager API. However, we do not guarantee that the integration will work with all property types. Try to activate in staging first to verify that it works with your property type.
-> Please reach out to our [support team][support] if you need support for a different property type.
+> This integration has been tested with the [Dynamic Site Accelerator (DSA)][akamai-dsa] Akamai property type only. [Ion][akamai-ion] (Standard / Premier) and API Acceleration (AA) have not been formally tested. These property types might work because Akamai's Property Manager exposes the same rule tree across them, but compatibility is not guaranteed. Validate the integration in a staging property before activating it in production. Contact [support][support] if you encounter issues.
 
 ## How to install with Terraform
 
@@ -139,6 +137,7 @@ If you have any questions, reach out to our [support team][support].
 
 This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
 
+[akamai-dsa]: https://techdocs.akamai.com/start/docs/setup-dynamic-site-accelerator
 [akamai-guide]: https://docs.fingerprint.com/docs/akamai-proxy-integration
 [akamai-guide-deploy-via-papi]: https://docs.fingerprint.com/docs/deploy-akamai-proxy-integration-via-papi
 [akamai-guide-step-3]: https://docs.fingerprint.com/docs/deploy-akamai-proxy-integration-via-terraform#step-3-add-variable-blocks-to-your-rules-template
