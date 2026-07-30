@@ -1,18 +1,18 @@
 {
   "extends": "@fingerprintjs/tsconfig-dx-team/tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     "noImplicitAny": false,
     "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "sourceMap": false,
     "resolveJsonModule": true,
-    "exactOptionalPropertyTypes": false
-  },
-  "ts-node": {
-    "experimentalSpecifierResolution": "node"
+    "exactOptionalPropertyTypes": false,
+    "types": ["node"]
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"]

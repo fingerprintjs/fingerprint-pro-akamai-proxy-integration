@@ -22,8 +22,8 @@ You are required to follow [conventional commits](https://www.conventionalcommit
 
 ### How to test
 
-End-to-end tests are written in [playwright](https://github.com/microsoft/playwright) and located in the `e2e` folder.
-These tests are run automatically by the `e2e.yml` workflow on every PR automatically, you don't need to run them locally.
+End-to-end tests are written in [playwright](https://github.com/microsoft/playwright) and located in the `test/e2e` folder.
+These tests are run automatically by the `e2eForPR.yml` workflow on every PR automatically, you don't need to run them locally.
 
 ### Changing API URLs
 

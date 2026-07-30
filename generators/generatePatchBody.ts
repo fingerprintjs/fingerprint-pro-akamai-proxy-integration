@@ -1,8 +1,8 @@
-import rulesTemplate from '../assets/rulesTemplate.json'
-import rulePatch from '../assets/patch-body/patchBodyAddRule.json'
-import variablePatch from '../assets/patch-body/patchBodyAddVariable.json'
-import variables from '../assets/variables.json'
-import packageJSON from '../package.json'
+import rulesTemplate from '../assets/rulesTemplate.json' with { type: 'json' }
+import rulePatch from '../assets/patch-body/patchBodyAddRule.json' with { type: 'json' }
+import variablePatch from '../assets/patch-body/patchBodyAddVariable.json' with { type: 'json' }
+import variables from '../assets/variables.json' with { type: 'json' }
+import packageJSON from '../package.json' with { type: 'json' }
 
 interface PatchBodyOptions {
   integrationPath?: string

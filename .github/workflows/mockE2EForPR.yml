@@ -4,48 +4,36 @@ on:
   pull_request:
 
 jobs:
-  check-changed-files:
+  check_changed_files:
     runs-on: ubuntu-latest
     name: Check changed files
     outputs:
-      CANT_PASS_WITHOUT_TESTS: ${{ steps.decision.outputs.CANT_PASS_WITHOUT_TESTS }}
+      any_changed: ${{ steps.files.outputs.test_any_changed }}
     steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - id: files
-        uses: jitterbit/get-changed-files@b17fbb00bdc0c0f63fcf166580804b4d2cdc2a42
-      - name: Make decision based on changed files
-        id: decision
-        run: |
-          cantPassWithoutTests=false
-          for changed_file in ${{ steps.files.outputs.all }}; do
-            if [[ ${changed_file} =~ ^(assets|generators)\/.+$ ]]; then
-              cantPassWithoutTests=true
-            fi
-            if [[ ${changed_file} =~ ^build\.ts$ ]]; then
-              cantPassWithoutTests=true
-            fi
-            if [[ ${changed_file} =~ scripts\/mockTests\.ts$ ]]; then
-                cantPassWithoutTests=true
-            fi
-            if [[ ${changed_file} =~ .*ci\.yml$ ]]; then
-                cantPassWithoutTests=true
-            fi
-          done
-          echo $cantPassWithoutTests
-          echo CANT_PASS_WITHOUT_TESTS=${cantPassWithoutTests} >> $GITHUB_OUTPUT
+        uses: step-security/changed-files@2e07db73e5ccdb319b9a6c7766bd46d39d304bad # v47
+        with:
+          files_yaml: |
+            test:
+              - assets/**
+              - generators/**
+              - build.ts
+              - scripts/mockTests.ts
+              - "**/*ci.yml"
   build-and-test-e2e-mock:
     runs-on: ubuntu-latest
     name: Test e2e for PR using mock app
-    needs: check-changed-files
-    if: needs['check-changed-files'].outputs.CANT_PASS_WITHOUT_TESTS == 'true'
+    needs: check_changed_files
+    if: needs.check_changed_files.outputs.any_changed == 'true'
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: 'Install pnpm'
-        uses: pnpm/action-setup@129abb77bf5884e578fcaf1f37628e41622cc371
-        with:
-          version: 8
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
       - name: Install node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.node-version'
       - name: Install dependencies

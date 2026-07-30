@@ -1,6 +1,6 @@
-import { akamaiRequest } from './utils/akamaiRequest'
-import { getProperty } from './utils/getProperty'
-import { ORIGIN_DOMAIN } from './utils/constants'
+import { akamaiRequest } from './utils/akamaiRequest.ts'
+import { getProperty } from './utils/getProperty.ts'
+import { ORIGIN_DOMAIN } from './utils/constants.ts'
 
 type PatchParameter = {
   op: string
@@ -114,7 +114,7 @@ const activateVersion = async (propertyId: string, version: string) => {
   })
 }
 
-import('../dist/patch-body/body.json').then((module) => {
+import('../dist/patch-body/body.json', { with: { type: 'json' } }).then((module) => {
   const patchReqBody = module.default as PatchParameter[]
 
   const handler = async () => {

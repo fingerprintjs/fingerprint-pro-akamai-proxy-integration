@@ -1,4 +1,4 @@
-import { akamaiRequest } from './utils/akamaiRequest'
+import { akamaiRequest } from './utils/akamaiRequest.ts'
 
 const filterProperties = async () => {
   const {

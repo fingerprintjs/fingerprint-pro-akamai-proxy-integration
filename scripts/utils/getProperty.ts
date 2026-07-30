@@ -1,5 +1,5 @@
-import { akamaiRequest } from './akamaiRequest'
-import { CI_DOMAIN } from './constants'
+import { akamaiRequest } from './akamaiRequest.ts'
+import { CI_DOMAIN } from './constants.ts'
 
 export const getProperty = async () => {
   const {
