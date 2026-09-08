@@ -44,7 +44,7 @@ variable "fpjs_agent_path" {
 variable "fpjs_result_path" {
   type = string
   # Default provided to minimize setup for APIv4, which no longer uses this path.
-  # Kept required-less (rather than removed) for APIv3 backwards compatibility.
+  # Kept optional (rather than removed) for APIv3 backwards compatibility.
   default = "deprecated-result"
   validation {
     condition = can(regex("(^$|^[a-zA-Z0-9-]+$)", var.fpjs_result_path))
