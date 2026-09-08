@@ -75,8 +75,10 @@ This is a quick overview of the installation setup. For detailed step-by-step in
     }
     ```
 
-    > ⚠️ **Note:**
-    > `fpjs_agent_path` and `fpjs_result_path` must be present in the variable block above, but their values are no longer used by APIv4 setups — any placeholder like `"deprecated-agent"` / `"deprecated-result"` works. They're kept only for backwards compatibility with APIv3. If you're still on APIv3, set `fpjs_agent_path` and `fpjs_result_path` to your own real path values instead of the placeholders.
+> [!NOTE]
+> `fpjs_agent_path` and `fpjs_result_path` are required, but their values no longer matter — this integration doesn't route based on them anymore. Terraform will still fail if these variables aren't defined.
+>
+> You can leave them set to `"deprecated-agent"` and `"deprecated-result"` as shown above, or replace them with your own random strings if you'd rather not use a predictable value, for the same reason as `fpjs_integration_path`: predictable path segments are easier for ad blockers and automated scanners to detect.
 
 3. Go to this repository [latest releases][latest-releases] and download these two JSON files:
    * `terraform-fingerprint-property-rules.json`
