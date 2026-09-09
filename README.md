@@ -58,12 +58,25 @@ This is a quick overview of the installation setup. For detailed step-by-step in
             type = "string"
           }
           variables {
+            name  = "fpjs_agent_path"
+            value = "deprecated-agent" # APIv3 only; unused on APIv4 — see note below
+            type = "string"
+          }
+          variables {
+            name  = "fpjs_result_path"
+            value = "deprecated-result" # APIv3 only; unused on APIv4 — see note below
+            type = "string"
+          }
+          variables {
             name  = "fpjs_proxy_secret"
             value = "YOUR_PROXY_SECRET_HERE" # Use the proxy secret from the previous step
             type = "string"
           }
     }
     ```
+
+> [!NOTE]
+> `fpjs_agent_path` and `fpjs_result_path` only affect APIv3 routing. Because the integration supports both APIv3 and APIv4, you must define them even if you plan to use APIv4 only — `terraform plan` fails with a missing-key error if either is absent. On APIv4 the values are arbitrary; you can leave them set to `"deprecated-agent"` and `"deprecated-result"` as shown above.
 
 3. Go to this repository [latest releases][latest-releases] and download these two JSON files:
    * `terraform-fingerprint-property-rules.json`
